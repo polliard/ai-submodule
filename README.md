@@ -13,7 +13,7 @@ Reusable AI instructions, prompts, personas, and templates designed to be added 
 ## Adding to a Project
 
 ```bash
-git submodule add <YOUR_REMOTE_URL> .ai
+git submodule add git@github.com:SET-Apps/ai-submodule.git .ai
 git commit -m "Add .ai submodule"
 ```
 
