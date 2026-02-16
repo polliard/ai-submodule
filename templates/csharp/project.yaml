@@ -1,0 +1,54 @@
+# C# / .NET Project Configuration
+# Copy to .ai/project.yaml and customize.
+
+name: "my-dotnet-project"
+language: "csharp"
+framework: "aspnetcore"      # aspnetcore, minimal-api, blazor, console, maui
+
+personas:
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  # - compliance_governance/security-auditor.md
+  # - operations_reliability/sre.md
+
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - security-review.md
+  # - production-readiness-review.md
+
+conventions:
+  testing:
+    framework: "xunit"
+    assertions: "fluentassertions"
+    mocking: "nsubstitute"         # nsubstitute, moq
+    naming: "MethodName_Scenario_Expected"
+    coverage_target: 80
+    integration: "webapplicationfactory"
+  style:
+    max_line_length: 120
+    indent: "spaces"
+    indent_size: 4
+    nullable: true
+    file_scoped_namespaces: true
+    primary_constructors: true
+  architecture:
+    pattern: "clean"               # clean, vertical-slices, minimal
+    error_handling: "result"       # result (ErrorOr/FluentResults), exceptions
+    api_errors: "problemdetails"
+  tooling:
+    formatter: "dotnet format"
+    analyzers: "latest-recommended"
+    central_package_management: true
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"
+    pr_template: true
+
+instructions: |
+  - Target .NET 8+ with nullable reference types enabled
+  - Use Directory.Build.props for shared build configuration
+  - Use Directory.Packages.props for central package management
+  - API projects use ProblemDetails for error responses

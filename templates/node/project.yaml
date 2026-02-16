@@ -1,0 +1,53 @@
+# Node.js / TypeScript Project Configuration
+# Copy to .ai/project.yaml and customize.
+
+name: "my-node-project"
+language: "typescript"
+framework: "express"             # express, fastify, hono, nestjs
+
+personas:
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  # - compliance_governance/security-auditor.md
+  # - operations_reliability/sre.md
+
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - security-review.md
+  # - production-readiness-review.md
+
+conventions:
+  testing:
+    framework: "vitest"            # vitest, jest, node:test
+    naming: "describe/it"
+    mocking: "msw"                 # msw for HTTP, vi.mock sparingly
+    coverage_target: 80
+  style:
+    max_line_length: 100
+    indent: "spaces"
+    indent_size: 2
+    linter: "eslint"               # eslint flat config
+    formatter: "prettier"
+    module_system: "esm"           # esm (type: module), cjs
+  architecture:
+    structure: "feature-based"     # feature-based, layer-based
+    validation: "zod"              # zod, joi, ajv
+    error_handling: "custom-classes"
+  tooling:
+    package_manager: "pnpm"        # pnpm, npm
+    runtime: "node22"              # node22, node20
+    dev_runner: "tsx"              # tsx, ts-node
+    build: "tsup"                  # tsup, tsc, unbuild
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"
+    pr_template: true
+
+instructions: |
+  - ESM by default (type: module in package.json)
+  - Use node: protocol prefix for built-in modules
+  - Use pnpm install --frozen-lockfile in CI
+  - Validate environment variables at startup with Zod

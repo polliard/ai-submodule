@@ -1,0 +1,23 @@
+# AI Configuration
+
+# Version of this configuration (for sync tracking)
+version: "1.0.0"
+
+# Default templates to apply
+defaults:
+  instructions: true
+  architecture: true
+  prompts: true
+
+# Tool-specific symlinks to create
+symlinks:
+  - source: instructions.md
+    targets:
+      - .github/copilot-instructions.md
+      - CLAUDE.md
+      - .cursorrules
+
+# Gitignore patterns for .ai/
+gitignore:
+  - context.md
+  - "*.local.md"

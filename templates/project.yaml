@@ -1,0 +1,46 @@
+# Project AI Configuration
+# Copy this to .ai/project.yaml in your project root and customize.
+
+# Project metadata
+name: "my-project"
+language: "typescript"       # Primary language: typescript, python, go, csharp, etc.
+framework: "express"         # Primary framework (optional)
+
+# Which personas are relevant for this project
+personas:
+  # List persona files to activate (paths relative to .ai/personas/)
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  # - operations_reliability/sre.md
+  # - compliance_governance/security-auditor.md
+
+# Which round tables are relevant
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - security-review.md
+  # - production-readiness-review.md
+
+# Project-specific conventions
+conventions:
+  testing:
+    framework: "jest"          # jest, pytest, xunit, go test, etc.
+    coverage_target: 80
+    naming: "describe/it"      # describe/it, test_, Test*, etc.
+  style:
+    max_line_length: 100
+    indent: "spaces"
+    indent_size: 2
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"  # conventional, gitmoji, freeform
+    pr_template: true
+
+# Project-specific instructions (appended to base instructions.md)
+instructions: |
+  - This project uses a monorepo structure with packages in /packages
+  - All API routes are in /src/routes
+  - Database migrations are in /db/migrations
+  - Environment variables are documented in .env.example

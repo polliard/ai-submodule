@@ -1,0 +1,56 @@
+# React / TypeScript Project Configuration
+# Copy to .ai/project.yaml and customize.
+
+name: "my-react-project"
+language: "typescript"
+framework: "react"               # react, nextjs, remix, react-router
+
+personas:
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  - domain_specific/frontend-engineer.md
+  - compliance_governance/accessibility-engineer.md
+  # - operations_reliability/sre.md
+
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - performance-review.md
+  # - security-review.md
+
+conventions:
+  testing:
+    framework: "vitest"            # vitest, jest
+    component_testing: "react-testing-library"
+    api_mocking: "msw"
+    naming: "describe/it"
+    coverage_target: 80
+  style:
+    max_line_length: 100
+    indent: "spaces"
+    indent_size: 2
+    linter: "eslint"
+    formatter: "prettier"
+    styling: "tailwind"            # tailwind, css-modules, vanilla-extract
+  architecture:
+    structure: "feature-based"
+    state_management: "zustand"    # zustand, jotai, redux-toolkit
+    server_state: "tanstack-query"
+    form_handling: "react-hook-form"
+    validation: "zod"
+  tooling:
+    package_manager: "pnpm"
+    build: "vite"                  # vite, next, turbopack
+    component_library: "radix"     # radix, headless-ui, react-aria
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"
+    pr_template: true
+
+instructions: |
+  - Functional components only; no class components
+  - Feature-based folder structure with co-located tests
+  - Use semantic HTML and accessible component libraries (Radix, React Aria)
+  - Validate all external data with Zod schemas

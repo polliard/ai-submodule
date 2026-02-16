@@ -1,0 +1,45 @@
+# Go Project Configuration
+# Copy to .ai/project.yaml and customize.
+
+name: "my-go-project"
+language: "go"
+framework: ""                    # chi, gin, echo, stdlib (net/http)
+
+personas:
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  # - compliance_governance/security-auditor.md
+  # - operations_reliability/sre.md
+
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - security-review.md
+  # - production-readiness-review.md
+
+conventions:
+  testing:
+    framework: "go test"
+    assertions: "stdlib"           # stdlib, testify
+    naming: "TestFunctionName_Scenario"
+    pattern: "table-driven"
+    coverage_target: 80
+  style:
+    formatter: "gofmt"
+    linter: "golangci-lint"
+    indent: "tabs"
+  architecture:
+    layout: "standard"             # standard (cmd/internal/pkg), flat
+    error_handling: "wrap"         # sentinel errors + fmt.Errorf %w wrapping
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"
+    pr_template: true
+
+instructions: |
+  - Use cmd/ for entry points, internal/ for private packages
+  - Run golangci-lint and go vet in CI
+  - Commit go.sum to version control
+  - Run go mod tidy before committing

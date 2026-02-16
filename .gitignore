@@ -1,0 +1,7 @@
+# Local overrides
+context.md
+*.local.md
+*.local.json
+
+# OS files
+.DS_Store

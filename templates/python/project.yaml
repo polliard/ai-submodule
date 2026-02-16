@@ -1,0 +1,51 @@
+# Python Project Configuration
+# Copy to .ai/project.yaml and customize.
+
+name: "my-python-project"
+language: "python"
+framework: ""                    # fastapi, django, flask, cli
+
+personas:
+  - code_quality/code-reviewer.md
+  - code_quality/adversarial-reviewer.md
+  - engineering/test-engineer.md
+  - engineering/performance-engineer.md
+  # - compliance_governance/security-auditor.md
+  # - operations_reliability/sre.md
+
+round_tables:
+  - code-review.md
+  - architecture-review.md
+  # - security-review.md
+  # - production-readiness-review.md
+
+conventions:
+  testing:
+    framework: "pytest"
+    naming: "test_*"
+    coverage_target: 80
+    async: "pytest-asyncio"
+  style:
+    max_line_length: 100           # ruff default is 88; 100 is common override
+    indent: "spaces"
+    indent_size: 4
+    linter: "ruff"
+    formatter: "ruff format"
+    type_checker: "mypy"           # mypy, pyright
+  architecture:
+    layout: "src"                  # src layout with pyproject.toml
+    validation: "pydantic"
+    error_handling: "custom-exceptions"
+  tooling:
+    package_manager: "uv"          # uv, poetry, pip-tools
+    min_python: "3.11"
+  git:
+    branch_pattern: "feature/{ticket}-{description}"
+    commit_style: "conventional"
+    pr_template: true
+
+instructions: |
+  - Use src/ layout with pyproject.toml as single source of truth
+  - Enable mypy strict mode
+  - Use ruff for all linting and formatting
+  - Validate external input with Pydantic
