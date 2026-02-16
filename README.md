@@ -10,6 +10,32 @@ Reusable AI instructions, prompts, personas, and templates designed to be added 
 - **personas/** — Specialized AI personas for different roles and review types
 - **templates/** — Language/framework-specific project scaffolding (Go, Python, Node, React, C#)
 
+## Why a Git Submodule?
+
+There are several ways to share configuration across repos. A git submodule is the best fit here.
+
+### Alternatives considered
+
+| Approach | Drawback |
+|---|---|
+| **Copy-paste** | Drifts immediately. No way to propagate updates across 10+ repos. You end up with N slightly different versions of the same instructions. |
+| **Package manager** (npm, pip, etc.) | Adds a runtime dependency and build step for static text files. Requires a registry, versioning toolchain, and a language-specific ecosystem — overkill for markdown and YAML. |
+| **Monorepo / shared folder** | Forces all projects into one repo or requires a separate sync script. Doesn't work when repos live in different orgs or on different hosts. |
+| **Template repo** | Good for bootstrapping, but one-time only. Changes to the template don't flow to repos that were created from it. |
+| **Symlinks to a local path** | Machine-specific. Breaks for every other developer who doesn't have the same filesystem layout. |
+| **Git subtree** | Merges history into the host repo, making it harder to cleanly update or remove. Subtree splits are error-prone and confusing for contributors. |
+
+### Why submodules win for this use case
+
+- **Version-pinned**: Each project locks to a specific commit. You update deliberately, not accidentally.
+- **Single source of truth**: Fix a prompt or add a persona once, pull it into every project with one command.
+- **No toolchain required**: Works with bare git — no package manager, no CI plugin, no custom scripts.
+- **Clean separation**: The `.ai/` directory is its own repo with its own history. It doesn't pollute the host project's log, and removing it is a clean operation.
+- **Works everywhere**: Any git host, any language, any CI system. No ecosystem lock-in.
+- **Project-level overrides**: Local files (gitignored) let each project customize without forking the shared config.
+
+The main tradeoff is that submodules require contributors to run `git submodule update` (or clone with `--recurse-submodules`). This is a well-understood git workflow and the commands are documented below.
+
 ## Adding to a Project
 
 ```bash
