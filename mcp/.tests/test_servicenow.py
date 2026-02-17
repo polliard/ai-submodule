@@ -5,8 +5,9 @@ Run with: pytest test_servicenow.py -v
 
 Requires environment variables:
     SERVICENOW_INSTANCE - ServiceNow instance URL
-    SERVICENOW_USERNAME - ServiceNow username
-    SERVICENOW_PASSWORD - ServiceNow password
+
+Authentication:
+    Uses browser-based SSO - a browser window will open for authentication.
 """
 
 import os
@@ -17,7 +18,7 @@ from mcp_client import MCPClient, MCPError
 
 pytestmark = [
     pytest.mark.requires_server("servicenow"),
-    pytest.mark.requires_env("SERVICENOW_INSTANCE", "SERVICENOW_USERNAME", "SERVICENOW_PASSWORD"),
+    pytest.mark.requires_env("SERVICENOW_INSTANCE"),
 ]
 
 
@@ -54,6 +55,7 @@ class TestServiceNowProtocol:
         tool_names = {t["name"] for t in tools}
 
         expected_tools = {
+            "snow_configure",
             "snow_cmdb_query",
             "snow_cmdb_get",
             "snow_incident_query",
@@ -260,3 +262,38 @@ class TestServiceNowErrorHandling:
 
         # Should return not found message
         assert "content" in result
+
+
+class TestServiceNowIntegration:
+    """Integration tests that hit real ServiceNow instance."""
+
+    @pytest.mark.timeout(900)  # 15 minute timeout for SSO authentication
+    def test_query_business_applications(self, servicenow_client):
+        """Query business applications from jmfe.service-now.com - must return data."""
+        servicenow_client.initialize()
+
+        # Configure to use jmfe instance
+        config_result = servicenow_client.call_tool("snow_configure", {
+            "instance": "jmfe.service-now.com"
+        })
+        assert "content" in config_result
+
+        # Query business applications (cmdb_ci_business_app table)
+        result = servicenow_client.call_tool("snow_cmdb_query", {
+            "class": "cmdb_ci_business_app",
+            "limit": 50
+        })
+
+        assert "content" in result
+        assert len(result["content"]) > 0
+
+        # Parse the JSON response
+        import json
+        content_text = result["content"][0]["text"]
+        data = json.loads(content_text)
+
+        # Must have at least 1 business application
+        assert isinstance(data, list), "Expected list of business applications"
+        assert len(data) > 0, "Expected at least 1 business application, got 0"
+
+        print(f"Found {len(data)} business applications")

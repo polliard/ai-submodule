@@ -4,10 +4,14 @@ Pytest configuration and shared fixtures for MCP server tests.
 
 import os
 import shutil
+import sys
 import pytest
 
 from mcp_client import MCPClient, check_server_available
 
+
+# Get the venv path for servicenow-mcp
+_VENV_BIN = os.path.join(os.path.dirname(__file__), ".venv", "bin")
 
 # Server configurations
 SERVERS = {
@@ -16,11 +20,10 @@ SERVERS = {
         "env": None,
     },
     "servicenow": {
-        "command": ["servicenow-mcp", "serve"],
+        # Use venv's servicenow-mcp to ensure we get the latest installed version
+        "command": [os.path.join(_VENV_BIN, "servicenow-mcp"), "serve"],
         "env": {
             "SERVICENOW_INSTANCE": os.environ.get("SERVICENOW_INSTANCE", ""),
-            "SERVICENOW_USERNAME": os.environ.get("SERVICENOW_USERNAME", ""),
-            "SERVICENOW_PASSWORD": os.environ.get("SERVICENOW_PASSWORD", ""),
         },
     },
 }

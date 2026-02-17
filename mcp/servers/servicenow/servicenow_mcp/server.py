@@ -5,6 +5,7 @@ Implements Model Context Protocol over stdio using web scraping.
 """
 
 import json
+import os
 import sys
 from typing import Any, Dict, List, Optional
 
@@ -18,6 +19,20 @@ SERVER_VERSION = "0.1.0"
 
 # Tool definitions
 TOOLS = [
+    {
+        "name": "snow_configure",
+        "description": "Configure ServiceNow instance. Call this before other snow_* tools. SSO login is handled via browser - a window will open for you to authenticate.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "instance": {
+                    "type": "string",
+                    "description": "ServiceNow instance (e.g., mycompany.service-now.com)"
+                }
+            },
+            "required": ["instance"]
+        }
+    },
     {
         "name": "snow_incident_query",
         "description": "Query incidents with filters. Returns list of incidents matching criteria.",
@@ -212,11 +227,42 @@ TOOLS = [
                 },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum results (default: 20)"
+                    "description": "Maximum results (default: 50)"
                 }
             },
             "required": ["query"]
         }
+    }
+]
+
+# Prompts
+PROMPTS = [
+    {
+        "name": "configure",
+        "description": "Configure ServiceNow connection with SSO authentication",
+        "arguments": [
+            {
+                "name": "instance",
+                "description": "ServiceNow instance (e.g., mycompany.service-now.com)",
+                "required": True
+            }
+        ]
+    },
+    {
+        "name": "incident_triage",
+        "description": "Analyze and triage incidents",
+        "arguments": [
+            {
+                "name": "priority",
+                "description": "Priority level (1-5)",
+                "required": False
+            }
+        ]
+    },
+    {
+        "name": "change_review",
+        "description": "Review pending change requests",
+        "arguments": []
     }
 ]
 
@@ -227,11 +273,12 @@ class MCPServer:
     def __init__(self):
         self.scraper: Optional[ServiceNowScraper] = None
         self._initialized = False
+        self._instance: Optional[str] = None
 
     def _get_scraper(self) -> ServiceNowScraper:
         """Get or create scraper instance."""
         if self.scraper is None:
-            self.scraper = ServiceNowScraper()
+            self.scraper = ServiceNowScraper(instance=self._instance)
         return self.scraper
 
     def handle_initialize(self, params: Dict) -> Dict:
@@ -240,13 +287,65 @@ class MCPServer:
         return {
             "protocolVersion": PROTOCOL_VERSION,
             "capabilities": {
-                "tools": {"listChanged": True}
+                "tools": {"listChanged": True},
+                "prompts": {"listChanged": True}
             },
             "serverInfo": {
                 "name": SERVER_NAME,
                 "version": SERVER_VERSION
             }
         }
+
+    def handle_prompts_list(self, params: Dict) -> Dict:
+        """Handle prompts/list request."""
+        return {"prompts": PROMPTS}
+
+    def handle_prompts_get(self, params: Dict) -> Dict:
+        """Handle prompts/get request."""
+        name = params.get("name", "")
+        arguments = params.get("arguments", {})
+
+        if name == "configure":
+            instance = arguments.get("instance", "your-instance.service-now.com")
+            return {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": {
+                            "type": "text",
+                            "text": f"Configure ServiceNow connection to {instance}. Use SSO authentication - a browser window will open for you to complete the login."
+                        }
+                    }
+                ]
+            }
+        elif name == "incident_triage":
+            priority = arguments.get("priority", "")
+            priority_filter = f" with priority {priority}" if priority else ""
+            return {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": {
+                            "type": "text",
+                            "text": f"Query open incidents{priority_filter} and provide triage recommendations. For each incident, assess urgency and suggest next steps."
+                        }
+                    }
+                ]
+            }
+        elif name == "change_review":
+            return {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": {
+                            "type": "text",
+                            "text": "Review pending change requests. Analyze each for risk, completeness, and provide approval recommendations."
+                        }
+                    }
+                ]
+            }
+        else:
+            raise ValueError(f"Unknown prompt: {name}")
 
     def handle_tools_list(self, params: Dict) -> Dict:
         """Handle tools/list request."""
@@ -274,6 +373,9 @@ class MCPServer:
 
     def _execute_tool(self, name: str, args: Dict) -> Any:
         """Execute a tool by name."""
+        if name == "snow_configure":
+            return self._configure(args)
+
         scraper = self._get_scraper()
 
         if name == "snow_incident_query":
@@ -314,10 +416,32 @@ class MCPServer:
         elif name == "snow_kb_search":
             return scraper.search_knowledge(
                 args["query"],
-                args.get("limit", 20)
+                args.get("limit", 50)
             )
         else:
             raise ValueError(f"Unknown tool: {name}")
+
+    def _configure(self, args: Dict) -> Dict:
+        """Configure ServiceNow instance."""
+        instance = args.get("instance", "")
+        if not instance:
+            raise ValueError("instance is required")
+
+        # Close existing scraper if instance changed
+        if self.scraper and self._instance != instance:
+            self.scraper.close()
+            self.scraper = None
+
+        self._instance = instance
+
+        # Test connection by getting scraper (triggers SSO if needed)
+        scraper = self._get_scraper()
+
+        return {
+            "status": "configured",
+            "instance": instance,
+            "message": f"Connected to {instance}. SSO session active."
+        }
 
     def _incident_query(self, scraper: ServiceNowScraper, args: Dict) -> List[Dict]:
         """Build and execute incident query."""
@@ -371,6 +495,10 @@ class MCPServer:
                 result = self.handle_tools_list(params)
             elif method == "tools/call":
                 result = self.handle_tools_call(params)
+            elif method == "prompts/list":
+                result = self.handle_prompts_list(params)
+            elif method == "prompts/get":
+                result = self.handle_prompts_get(params)
             else:
                 return {
                     "jsonrpc": "2.0",
@@ -434,17 +562,57 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="ServiceNow MCP Server")
-    parser.add_argument("command", choices=["serve"], help="Command to run")
+    parser.add_argument("command", choices=["serve", "login"], help="Command to run")
+    parser.add_argument("--instance", help="ServiceNow instance")
+    parser.add_argument("--no-preauth", action="store_true",
+                        help="Skip pre-authentication check (handle SSO on-demand)")
     parser.add_argument("--debug", action="store_true", help="Enable debug output")
 
     args = parser.parse_args()
 
     if args.command == "serve":
+        instance = args.instance or os.environ.get("SERVICENOW_INSTANCE", "")
+
+        # Pre-authenticate if no valid session exists (default behavior)
+        if instance and not args.no_preauth:
+            scraper = ServiceNowScraper(instance=instance, headless=False)
+            try:
+                if not scraper._is_session_valid():
+                    print(f"\nNo valid session for {instance}. Starting pre-authentication...")
+                    print("Complete SSO in the browser, then press ENTER.\n")
+                    scraper.login_interactive()
+                    print("\nSession saved! Starting MCP server...\n")
+            except Exception as e:
+                print(f"\nPre-authentication failed: {e}")
+                print("Starting server anyway - will prompt for SSO on first query.\n")
+            finally:
+                scraper.close()
+
         server = MCPServer()
         try:
             server.run()
         finally:
             server.close()
+
+    elif args.command == "login":
+        # Standalone login - authenticate and save session for later use
+        instance = args.instance or os.environ.get("SERVICENOW_INSTANCE", "")
+        if not instance:
+            print("Error: --instance required or set SERVICENOW_INSTANCE")
+            sys.exit(1)
+
+        print(f"\nLogging into {instance}...")
+        print("Complete SSO in the browser. Session will be saved for reuse.\n")
+
+        scraper = ServiceNowScraper(instance=instance, headless=False)
+        try:
+            scraper.login_interactive()
+            print("\nSession saved! You can now run MCP queries without re-authenticating.")
+        except Exception as e:
+            print(f"\nLogin failed: {e}")
+            sys.exit(1)
+        finally:
+            scraper.close()
 
 
 if __name__ == "__main__":

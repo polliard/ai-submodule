@@ -57,6 +57,9 @@ Quick reference for all available personas and when to use them.
 | Security Auditor | `compliance_governance/security-auditor.md` | Security assessment — injection, auth, secrets, insecure defaults |
 | Compliance Officer | `compliance_governance/compliance-officer.md` | Regulatory — GDPR, SOC2, HIPAA, PCI-DSS, audit readiness |
 | Accessibility Engineer | `compliance_governance/accessibility-engineer.md` | Accessibility — WCAG, screen readers, keyboard navigation |
+| Red Team Engineer | `compliance_governance/red-team-engineer.md` | Offensive security — attack paths, exploitation chains, kill chain analysis |
+| Blue Team Engineer | `compliance_governance/blue-team-engineer.md` | Defensive security — detection coverage, response readiness, hardening |
+| Purple Team Engineer | `compliance_governance/purple-team-engineer.md` | Collaborative security — attack-defense alignment, TTP mapping, posture validation |
 
 ## Process & People
 
@@ -94,3 +97,4 @@ Multi-perspective reviews where several personas collaborate. See `round_tables/
 | Technical Debt Review | `round_tables/technical-debt-review.md` | Refactor Specialist, Systems Architect, Test Engineer, Tech Lead, Minimalist Engineer |
 | Migration Review | `round_tables/migration-review.md` | Migration Specialist, Data Architect, SRE, Failure Engineer, Tech Lead |
 | Incident Post-Mortem | `round_tables/incident-post-mortem.md` | Incident Commander, SRE, Systems Architect, Failure Engineer, Observability Engineer |
+| Adversarial Security Panel | `round_tables/adversarial-security-panel.md` | Red Team Engineer, Blue Team Engineer, Purple Team Engineer, Security Auditor, Adversarial Reviewer |

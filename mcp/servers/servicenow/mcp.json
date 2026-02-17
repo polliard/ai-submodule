@@ -1,0 +1,278 @@
+{
+    "name": "servicenow",
+    "version": "0.1.0",
+    "description": "ServiceNow MCP server with SSO authentication via web scraping",
+    "protocol_version": "2024-11-05",
+    "transport": "stdio",
+    "command": "servicenow-mcp",
+    "args": [
+        "serve"
+    ],
+    "env_required": [
+        "SERVICENOW_INSTANCE"
+    ],
+    "capabilities": {
+        "tools": true,
+        "prompts": true
+    },
+    "tools": [
+        {
+            "name": "snow_configure",
+            "description": "Configure ServiceNow instance. Call this before other snow_* tools. SSO login is handled via browser.",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "instance": {
+                        "type": "string",
+                        "description": "ServiceNow instance (e.g., mycompany.service-now.com)"
+                    }
+                },
+                "required": [
+                    "instance"
+                ]
+            }
+        },
+        {
+            "name": "snow_incident_query",
+            "description": "Query incidents with filters",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Encoded query (e.g., 'priority=1^state!=7')"
+                    },
+                    "assignment_group": {
+                        "type": "string",
+                        "description": "Filter by assignment group name"
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "new",
+                            "in_progress",
+                            "on_hold",
+                            "resolved",
+                            "closed"
+                        ]
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                }
+            }
+        },
+        {
+            "name": "snow_incident_get",
+            "description": "Get incident details by number or sys_id",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "identifier": {
+                        "type": "string",
+                        "description": "Incident number (INC0012345) or sys_id"
+                    }
+                },
+                "required": [
+                    "identifier"
+                ]
+            }
+        },
+        {
+            "name": "snow_change_query",
+            "description": "Query change requests with filters",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "standard",
+                            "normal",
+                            "emergency"
+                        ]
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                }
+            }
+        },
+        {
+            "name": "snow_change_get",
+            "description": "Get change request details by number or sys_id",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "identifier": {
+                        "type": "string",
+                        "description": "Change number (CHG0012345) or sys_id"
+                    }
+                },
+                "required": [
+                    "identifier"
+                ]
+            }
+        },
+        {
+            "name": "snow_cmdb_query",
+            "description": "Query CMDB configuration items",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "class": {
+                        "type": "string",
+                        "description": "CI class (cmdb_ci, cmdb_ci_server, etc.)"
+                    },
+                    "query": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                },
+                "required": [
+                    "class"
+                ]
+            }
+        },
+        {
+            "name": "snow_cmdb_get",
+            "description": "Get CI details by name or sys_id",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "identifier": {
+                        "type": "string",
+                        "description": "CI name or sys_id"
+                    },
+                    "class": {
+                        "type": "string",
+                        "description": "CI class (optional)"
+                    }
+                },
+                "required": [
+                    "identifier"
+                ]
+            }
+        },
+        {
+            "name": "snow_user_query",
+            "description": "Query ServiceNow users",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                }
+            }
+        },
+        {
+            "name": "snow_group_query",
+            "description": "Query ServiceNow groups",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                }
+            }
+        },
+        {
+            "name": "snow_table_query",
+            "description": "Query any ServiceNow table by name",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "table": {
+                        "type": "string",
+                        "description": "Table name"
+                    },
+                    "query": {
+                        "type": "string"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum records (default: 50)"
+                    }
+                },
+                "required": [
+                    "table"
+                ]
+            }
+        },
+        {
+            "name": "snow_kb_search",
+            "description": "Search the ServiceNow knowledge base",
+            "inputSchema": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Search text"
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum results (default: 50)"
+                    }
+                },
+                "required": [
+                    "query"
+                ]
+            }
+        }
+    ],
+    "prompts": [
+        {
+            "name": "configure",
+            "description": "Configure ServiceNow connection with SSO authentication",
+            "arguments": [
+                {
+                    "name": "instance",
+                    "description": "ServiceNow instance",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "incident_triage",
+            "description": "Analyze and triage incidents",
+            "arguments": [
+                {
+                    "name": "priority",
+                    "description": "Priority level (1-5)",
+                    "required": false
+                }
+            ]
+        },
+        {
+            "name": "change_review",
+            "description": "Review pending change requests",
+            "arguments": []
+        }
+    ]
+}

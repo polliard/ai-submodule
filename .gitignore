@@ -5,3 +5,7 @@ context.md
 
 # OS files
 .DS_Store
+
+### START: ignored/.pytest_cache/
+.pytest_cache/
+### END: ignored/.pytest_cache/

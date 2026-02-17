@@ -40,8 +40,10 @@ if command -v servicenow-mcp &>/dev/null; then
     echo
     echo "Required environment variables:"
     echo "  SERVICENOW_INSTANCE  - Your ServiceNow instance (e.g., mycompany.service-now.com)"
-    echo "  SERVICENOW_USERNAME  - Your ServiceNow username"
-    echo "  SERVICENOW_PASSWORD  - Your ServiceNow password"
+    echo
+    echo "Authentication:"
+    echo "  Uses browser-based SSO. A browser window will open for authentication."
+    echo "  Sessions are cached at ~/.config/servicenow-mcp/ (8-hour expiry)."
 else
     warn "Installation may have issues - servicenow-mcp not found in PATH"
     echo "Try: pip3 install -e ."
