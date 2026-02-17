@@ -1,15 +1,16 @@
-# servicenow MCP Server
+# ServiceNow MCP Server
 
-Access ServiceNow CMDB, incidents, changes, problems, and other ITSM data directly from your AI assistant.
+Access ServiceNow CMDB, incidents, changes, problems, and other ITSM data directly from your AI assistant. Uses SSO authentication via browser.
 
 ## Installation
 
 ```bash
-# From source (Go required)
-go install github.com/your-org/servicenow-mcp@latest
+# Install from the servers directory
+cd ~/.ai/mcp/servers/servicenow
+pip install .
 
-# Or download from releases
-# https://github.com/your-org/servicenow-mcp/releases
+# Install Playwright browsers
+playwright install chromium
 ```
 
 ## Configuration
@@ -24,9 +25,7 @@ Add to your `.vscode/mcp.json`:
       "command": "servicenow-mcp",
       "args": ["serve"],
       "env": {
-        "SERVICENOW_INSTANCE": "mycompany.service-now.com",
-        "SERVICENOW_USERNAME": "api_user",
-        "SERVICENOW_PASSWORD": "your-password-or-token"
+        "SERVICENOW_INSTANCE": "mycompany.service-now.com"
       }
     }
   }
@@ -38,31 +37,23 @@ Add to your `.vscode/mcp.json`:
 | Variable              | Required | Description                                                  |
 | --------------------- | -------- | ------------------------------------------------------------ |
 | `SERVICENOW_INSTANCE` | ✓        | Your ServiceNow instance (e.g., `mycompany.service-now.com`) |
-| `SERVICENOW_USERNAME` | ✓        | Username with API access                                     |
-| `SERVICENOW_PASSWORD` | ✓        | Password or API token                                        |
 
-**Security tip:** Use VS Code input variables to prompt for credentials:
+### SSO Authentication
 
-```json
-{
-  "servers": {
-    "servicenow": {
-      "type": "stdio",
-      "command": "servicenow-mcp",
-      "args": ["serve"],
-      "env": {
-        "SERVICENOW_INSTANCE": "${input:snow_instance}",
-        "SERVICENOW_USERNAME": "${input:snow_user}",
-        "SERVICENOW_PASSWORD": "${input:snow_pass}"
-      }
-    }
-  },
-  "inputs": [
-    { "id": "snow_instance", "type": "promptString", "description": "ServiceNow instance" },
-    { "id": "snow_user", "type": "promptString", "description": "ServiceNow username" },
-    { "id": "snow_pass", "type": "promptString", "description": "ServiceNow password", "password": true }
-  ]
-}
+When you first use a ServiceNow tool, a browser window will open for SSO login:
+
+1. Complete your organization's SSO login in the browser
+2. Once authenticated, the browser will close automatically
+3. Your session is saved to `~/.config/servicenow-mcp/` for future use
+
+Sessions are cached per-instance, so you won't need to log in again until the session expires.
+
+### Runtime Configuration
+
+If you don't set `SERVICENOW_INSTANCE` via environment, use the `snow_configure` tool:
+
+```
+Call snow_configure with instance="mycompany.service-now.com"
 ```
 
 ## Tools

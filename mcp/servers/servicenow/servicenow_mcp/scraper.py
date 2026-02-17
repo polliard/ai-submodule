@@ -6,6 +6,8 @@ Handles authentication, navigation, and data extraction from ServiceNow UI.
 
 import os
 import re
+import stat
+import sys
 import time
 from typing import Any, Dict, List, Optional
 from contextlib import contextmanager
@@ -37,7 +39,8 @@ class ServiceNowScraper:
     ServiceNow web scraper.
 
     Automates browser to extract data from ServiceNow when API access
-    is not available.
+    is not available. Uses SSO login - opens a visible browser for user
+    to authenticate, then uses that session.
     """
 
     # Common ServiceNow tables and their list URLs
@@ -57,21 +60,21 @@ class ServiceNowScraper:
         "sc_req_item": "sc_req_item_list.do",
     }
 
+    # Session storage location
+    SESSION_DIR = os.path.expanduser("~/.config/servicenow-mcp")
+
+    # Session expiry (8 hours - typical SSO session length)
+    SESSION_MAX_AGE_SECONDS = 8 * 60 * 60
+
     def __init__(
         self,
         instance: Optional[str] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        headless: bool = True,
     ):
         """
         Initialize scraper.
 
         Args:
             instance: ServiceNow instance (e.g., mycompany.service-now.com)
-            username: ServiceNow username
-            password: ServiceNow password
-            headless: Run browser in headless mode
         """
         if not PLAYWRIGHT_AVAILABLE:
             raise ServiceNowScraperError(
@@ -79,20 +82,17 @@ class ServiceNowScraper:
             )
 
         self.instance = instance or os.environ.get("SERVICENOW_INSTANCE", "")
-        self.username = username or os.environ.get("SERVICENOW_USERNAME", "")
-        self.password = password or os.environ.get("SERVICENOW_PASSWORD", "")
-        self.headless = headless
 
         if not self.instance:
             raise ServiceNowScraperError("SERVICENOW_INSTANCE not set")
-        if not self.username:
-            raise ServiceNowScraperError("SERVICENOW_USERNAME not set")
-        if not self.password:
-            raise ServiceNowScraperError("SERVICENOW_PASSWORD not set")
 
         # Clean instance URL
         self.instance = self.instance.replace("https://", "").replace("http://", "").rstrip("/")
         self.base_url = f"https://{self.instance}"
+
+        # Session file for this instance
+        os.makedirs(self.SESSION_DIR, exist_ok=True)
+        self._session_file = os.path.join(self.SESSION_DIR, f"{self.instance.replace('.', '_')}_session.json")
 
         self._playwright = None
         self._browser: Optional[Browser] = None
@@ -100,56 +100,144 @@ class ServiceNowScraper:
         self._page: Optional[Page] = None
         self._logged_in = False
 
-    def _ensure_browser(self):
+    def _ensure_browser(self, headless: bool = True):
         """Ensure browser is started."""
         if self._browser is None:
             self._playwright = sync_playwright().start()
-            self._browser = self._playwright.chromium.launch(headless=self.headless)
-            self._context = self._browser.new_context(
-                viewport={"width": 1920, "height": 1080},
-                user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
-            )
+            self._browser = self._playwright.chromium.launch(headless=headless)
+
+            # Try to load existing session
+            context_options = {
+                "viewport": {"width": 1920, "height": 1080},
+                "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+            }
+
+            if self._is_session_valid():
+                try:
+                    context_options["storage_state"] = self._session_file
+                except:
+                    pass  # Session file may be invalid
+
+            self._context = self._browser.new_context(**context_options)
             self._page = self._context.new_page()
 
+    def _is_session_valid(self) -> bool:
+        """Check if session file exists and is not expired."""
+        if not os.path.exists(self._session_file):
+            return False
+
+        try:
+            # Check session age
+            file_age = time.time() - os.path.getmtime(self._session_file)
+            if file_age > self.SESSION_MAX_AGE_SECONDS:
+                # Session expired - remove it
+                os.remove(self._session_file)
+                return False
+            return True
+        except:
+            return False
+
+    def _save_session(self):
+        """Save browser session for reuse with secure permissions."""
+        if self._context:
+            try:
+                self._context.storage_state(path=self._session_file)
+                # Set restrictive permissions (owner read/write only)
+                os.chmod(self._session_file, stat.S_IRUSR | stat.S_IWUSR)  # 0600
+            except:
+                pass  # Best effort
+
+    def _is_logged_in(self) -> bool:
+        """Check if we're logged into ServiceNow."""
+        try:
+            # Navigate to a simple page to check auth status
+            self._page.goto(f"{self.base_url}/navpage.do", wait_until="networkidle", timeout=10000)
+
+            # If we get redirected to login/SSO, we're not logged in
+            current_url = self._page.url.lower()
+            if "login" in current_url or "sso" in current_url or "saml" in current_url or "oauth" in current_url:
+                return False
+
+            # Check for ServiceNow UI elements that indicate we're logged in
+            logged_in_indicators = [
+                "iframe#gsft_main",      # Classic UI
+                ".sn-polaris-navigation", # Polaris UI
+                ".navpage-header",        # Nav header
+                "#nav_west_center",       # Navigator
+            ]
+
+            for selector in logged_in_indicators:
+                if self._page.query_selector(selector):
+                    return True
+
+            return False
+        except:
+            return False
+
     def _login(self):
-        """Log into ServiceNow."""
+        """Log into ServiceNow via SSO."""
         if self._logged_in:
             return
 
-        self._ensure_browser()
+        # First try with existing session (headless)
+        self._ensure_browser(headless=True)
 
-        # Navigate to login page
-        self._page.goto(f"{self.base_url}/login.do", wait_until="networkidle")
-
-        # Wait for login form
-        try:
-            # Standard ServiceNow login
-            self._page.wait_for_selector("#user_name, input[name='user_name']", timeout=10000)
-
-            # Fill credentials
-            self._page.fill("#user_name, input[name='user_name']", self.username)
-            self._page.fill("#user_password, input[name='user_password']", self.password)
-
-            # Submit
-            self._page.click("#sysverb_login, button[type='submit'], input[type='submit']")
-
-            # Wait for navigation to complete (should redirect to home/dashboard)
-            self._page.wait_for_load_state("networkidle", timeout=30000)
-
-            # Check if login succeeded (look for navigator or home frame)
-            if "login" in self._page.url.lower() and "sso" not in self._page.url.lower():
-                # Still on login page - check for error
-                error = self._page.query_selector(".error, .alert-danger, #status")
-                if error:
-                    raise AuthenticationError(f"Login failed: {error.inner_text()}")
-                raise AuthenticationError("Login failed: still on login page")
-
+        if self._is_logged_in():
             self._logged_in = True
+            return
+
+        # Close headless browser and open visible one for SSO
+        self.close()
+        self._ensure_browser(headless=False)
+
+        # Navigate to ServiceNow - will redirect to SSO
+        self._page.goto(f"{self.base_url}/navpage.do", wait_until="networkidle")
+
+        # Print message to stderr so user knows to login
+        print(f"\n>>> Browser opened for SSO login to {self.instance}", file=sys.stderr)
+        print(f">>> Please complete the login in the browser window...", file=sys.stderr)
+        print(f">>> The browser will close automatically once logged in.\n", file=sys.stderr)
+
+        # Wait for user to complete SSO login (up to 5 minutes)
+        try:
+            max_wait = 300  # 5 minutes
+            start_time = time.time()
+
+            while time.time() - start_time < max_wait:
+                time.sleep(2)  # Check every 2 seconds
+
+                current_url = self._page.url.lower()
+
+                # Check if we're back on ServiceNow (not SSO/login)
+                if self.instance.lower() in current_url:
+                    if "login" not in current_url and "sso" not in current_url and "saml" not in current_url:
+                        # Verify we're actually logged in
+                        self._page.wait_for_load_state("networkidle", timeout=5000)
+
+                        logged_in_indicators = [
+                            "iframe#gsft_main",
+                            ".sn-polaris-navigation",
+                            ".navpage-header",
+                            "#nav_west_center",
+                        ]
+
+                        for selector in logged_in_indicators:
+                            if self._page.query_selector(selector):
+                                print(f">>> Login successful!", file=sys.stderr)
+                                self._save_session()
+                                self._logged_in = True
+
+                                # Reopen in headless mode for actual work
+                                self.close()
+                                self._ensure_browser(headless=True)
+                                return
+
+            raise AuthenticationError("Login timeout - please try again")
 
         except Exception as e:
             if isinstance(e, AuthenticationError):
                 raise
-            raise AuthenticationError(f"Login failed: {e}")
+            raise AuthenticationError(f"SSO login failed: {e}")
 
     def _navigate_to_list(self, table: str, query: Optional[str] = None) -> Page:
         """

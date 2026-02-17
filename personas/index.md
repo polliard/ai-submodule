@@ -49,6 +49,8 @@ Quick reference for all available personas and when to use them.
 | Data Architect | `domain_specific/data-architect.md` | Data layer — schema evolution, indexing, migrations |
 | ML Engineer | `domain_specific/ml-engineer.md` | Machine learning — training pipelines, model versioning, drift |
 | Mobile Engineer | `domain_specific/mobile-engineer.md` | Mobile — platform conventions, offline-first, battery efficiency |
+| MCP Server Engineer | `domain_specific/mcp-server-engineer.md` | MCP servers — protocol compliance, tool schemas, transport, resources |
+| AI Tooling Specialist | `domain_specific/ai-tooling-specialist.md` | AI tooling — tool naming, LLM usability, description quality, workflow design |
 
 ## Compliance & Governance
 
@@ -94,3 +96,4 @@ Multi-perspective reviews where several personas collaborate. See `round_tables/
 | Technical Debt Review | `round_tables/technical-debt-review.md` | Refactor Specialist, Systems Architect, Test Engineer, Tech Lead, Minimalist Engineer |
 | Migration Review | `round_tables/migration-review.md` | Migration Specialist, Data Architect, SRE, Failure Engineer, Tech Lead |
 | Incident Post-Mortem | `round_tables/incident-post-mortem.md` | Incident Commander, SRE, Systems Architect, Failure Engineer, Observability Engineer |
+| MCP Server Review | `round_tables/mcp-server-review.md` | MCP Server Engineer, AI Tooling Specialist, Security Auditor, API Designer, API Consumer |
