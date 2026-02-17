@@ -9,6 +9,7 @@ Reusable AI instructions, prompts, personas, and templates designed to be added 
 - **prompts/** — Reusable prompt templates (debug, refactor, code-review, workflows, etc.)
 - **personas/** — Specialized AI personas for different roles and review types
 - **templates/** — Language/framework-specific project scaffolding (Go, Python, Node, React, C#)
+- **mcp/** — MCP server configurations for shared AI tooling (requires binaries installed locally)
 
 ## Why a Git Submodule?
 
@@ -16,14 +17,14 @@ There are several ways to share configuration across repos. A git submodule is t
 
 ### Alternatives considered
 
-| Approach | Drawback |
-|---|---|
-| **Copy-paste** | Drifts immediately. No way to propagate updates across 10+ repos. You end up with N slightly different versions of the same instructions. |
+| Approach                             | Drawback                                                                                                                                                                       |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Copy-paste**                       | Drifts immediately. No way to propagate updates across 10+ repos. You end up with N slightly different versions of the same instructions.                                      |
 | **Package manager** (npm, pip, etc.) | Adds a runtime dependency and build step for static text files. Requires a registry, versioning toolchain, and a language-specific ecosystem — overkill for markdown and YAML. |
-| **Monorepo / shared folder** | Forces all projects into one repo or requires a separate sync script. Doesn't work when repos live in different orgs or on different hosts. |
-| **Template repo** | Good for bootstrapping, but one-time only. Changes to the template don't flow to repos that were created from it. |
-| **Symlinks to a local path** | Machine-specific. Breaks for every other developer who doesn't have the same filesystem layout. |
-| **Git subtree** | Merges history into the host repo, making it harder to cleanly update or remove. Subtree splits are error-prone and confusing for contributors. |
+| **Monorepo / shared folder**         | Forces all projects into one repo or requires a separate sync script. Doesn't work when repos live in different orgs or on different hosts.                                    |
+| **Template repo**                    | Good for bootstrapping, but one-time only. Changes to the template don't flow to repos that were created from it.                                                              |
+| **Symlinks to a local path**         | Machine-specific. Breaks for every other developer who doesn't have the same filesystem layout.                                                                                |
+| **Git subtree**                      | Merges history into the host repo, making it harder to cleanly update or remove. Subtree splits are error-prone and confusing for contributors.                                |
 
 ### Why submodules win for this use case
 
