@@ -1,4 +1,4 @@
-.PHONY: help lint-md lint-md-fix setup
+.PHONY: help lint-md lint-md-fix setup sync-copilot
 
 # Default target - show help
 help:
@@ -7,6 +7,7 @@ help:
 	@echo "  setup       - Configure git hooks"
 	@echo "  lint-md     - Check markdown files for issues"
 	@echo "  lint-md-fix - Check and auto-fix markdown issues"
+	@echo "  sync-copilot - Merge instructions.md into copilot-instructions.md"
 
 # Setup git hooks (idempotent - checks if already configured)
 setup:
@@ -26,4 +27,10 @@ lint-md:
 lint-md-fix:
 	@command -v markdownlint >/dev/null 2>&1 || { echo "Installing markdownlint-cli..."; npm install -g markdownlint-cli; }
 	markdownlint '**/*.md' --ignore node_modules --ignore .venv --fix
+
+# Merge instructions.md into copilot-instructions.md (section-level merge)
+sync-copilot:
+	python3 .githooks/merge-instructions.py instructions.md .github/copilot-instructions.md > .github/copilot-instructions.md.tmp
+	mv .github/copilot-instructions.md.tmp .github/copilot-instructions.md
+	@echo "copilot-instructions.md merged."
 
