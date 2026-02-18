@@ -1,3 +1,3 @@
 # Claude Instructons
 
-@../instructions.md
+@.github/copilot-instructions.md
