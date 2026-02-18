@@ -135,7 +135,13 @@ class ServiceNowScraper:
         """Ensure browser is started, reusing session if available."""
         if self._browser is None:
             self._playwright = sync_playwright().start()
-            self._browser = self._playwright.chromium.launch(headless=self.headless)
+
+            # Use headless mode if we have a valid session (no login needed)
+            # or if explicitly requested
+            use_headless = self.headless or self._is_session_valid()
+            self._browser = self._playwright.chromium.launch(headless=use_headless)
+            # Update headless flag to reflect actual state
+            self.headless = use_headless
 
             context_options = {
                 "viewport": {"width": 1920, "height": 1080},
@@ -151,6 +157,56 @@ class ServiceNowScraper:
 
             self._context = self._browser.new_context(**context_options)
             self._page = self._context.new_page()
+
+    def switch_to_headless(self):
+        """
+        Switch browser to headless mode after login.
+
+        Closes the visible browser and relaunches in headless mode,
+        reusing the saved session. This is useful after interactive
+        login to avoid showing the browser during queries.
+        """
+        if not self._logged_in:
+            return  # Only switch after successful login
+
+        if self.headless:
+            return  # Already headless, nothing to do
+
+        # Save session before switching
+        self._save_session()
+
+        # Close visible browser
+        if self._page:
+            try:
+                self._page.close()
+            except:
+                pass
+            self._page = None
+
+        if self._context:
+            try:
+                self._context.close()
+            except:
+                pass
+            self._context = None
+
+        if self._browser:
+            try:
+                self._browser.close()
+            except:
+                pass
+            self._browser = None
+
+        if self._playwright:
+            try:
+                self._playwright.stop()
+            except:
+                pass
+            self._playwright = None
+
+        # Relaunch in headless mode
+        self.headless = True
+        self._ensure_browser()
 
     def _is_logged_in(self) -> bool:
         """Check if currently logged in to ServiceNow by navigating to test page."""
@@ -234,12 +290,15 @@ class ServiceNowScraper:
         except:
             return False
 
-    def login_interactive(self):
+    def login_interactive(self, switch_headless: bool = True):
         """
         Interactive login - opens browser and waits for user to complete SSO.
 
         This is a standalone method for the 'login' CLI command.
         Doesn't interfere with the login process at all - just waits.
+
+        Args:
+            switch_headless: If True, switch to headless mode after login (default True)
         """
         self._ensure_browser()
 
@@ -247,6 +306,8 @@ class ServiceNowScraper:
         if self._is_logged_in():
             print("Already logged in from saved session!")
             self._logged_in = True
+            if switch_headless:
+                self.switch_to_headless()
             return
 
         # Navigate to ServiceNow - let it redirect to SSO naturally
@@ -278,6 +339,9 @@ class ServiceNowScraper:
             self._logged_in = True
             self._save_session()
             print("Login verified and session saved!")
+            # Switch to headless mode for subsequent queries
+            if switch_headless:
+                self.switch_to_headless()
         else:
             raise AuthenticationError("Login verification failed - please try again")
 
@@ -333,6 +397,8 @@ class ServiceNowScraper:
                             self._logged_in = True
                             self._save_session()
                             print("\nSSO authentication successful! Session saved.")
+                            # Switch to headless mode for subsequent queries
+                            self.switch_to_headless()
                             return
 
             raise AuthenticationError("SSO authentication timed out after 10 minutes")
@@ -342,25 +408,34 @@ class ServiceNowScraper:
                 raise
             raise AuthenticationError(f"SSO login failed: {e}")
 
-    def _navigate_to_list(self, table: str, query: Optional[str] = None) -> Page:
+    def _navigate_to_list(
+        self, table: str, query: Optional[str] = None, offset: int = 0
+    ) -> Page:
         """
         Navigate to a table list view.
 
         Args:
             table: Table name (e.g., 'incident', 'cmdb_ci_server')
             query: Optional encoded query string
+            offset: Starting row for pagination (0-indexed)
 
         Returns:
             Page object positioned at the list
         """
         self._login()
 
-        # Build URL
+        # Build URL with pagination support
         list_url = self.TABLES.get(table, f"{table}_list.do")
         url = f"{self.base_url}/{list_url}"
 
+        params = []
         if query:
-            url += f"?sysparm_query={query}"
+            params.append(f"sysparm_query={query}")
+        if offset > 0:
+            params.append(f"sysparm_first_row={offset}")
+
+        if params:
+            url += "?" + "&".join(params)
 
         self._page.goto(url, wait_until="networkidle")
 
@@ -614,20 +689,193 @@ class ServiceNowScraper:
         table: str,
         query: Optional[str] = None,
         limit: int = 50,
-    ) -> List[Dict[str, Any]]:
+        offset: int = 0,
+        fetch_all: bool = False,
+        page_size: int = 200,
+        max_records: int = 10000,
+    ) -> Dict[str, Any]:
         """
-        Query a ServiceNow table.
+        Query a ServiceNow table with pagination support.
 
         Args:
             table: Table name
             query: Encoded query string (e.g., "priority=1^state!=7")
-            limit: Maximum records to return
+            limit: Maximum records to return (ignored if fetch_all=True)
+            offset: Starting row for pagination (0-indexed)
+            fetch_all: If True, automatically paginate to fetch all records
+            page_size: Records per page when fetch_all=True (default: 200)
+            max_records: Safety limit when fetch_all=True (default: 10000)
 
         Returns:
-            List of records
+            Dictionary with records and metadata:
+            {
+                "records": [...],
+                "total_fetched": int,
+                "offset": int,
+                "truncated": bool,  # True if max_records limit hit
+                "page_count": int   # Number of pages fetched (1 if not fetch_all)
+            }
         """
-        frame = self._navigate_to_list(table, query)
-        return self._parse_list_table(frame, limit)
+        if fetch_all:
+            # Auto-paginate to fetch all records
+            all_records = []
+            current_offset = offset
+            page_count = 0
+
+            while len(all_records) < max_records:
+                frame = self._navigate_to_list(table, query, current_offset)
+                page_records = self._parse_list_table(frame, page_size)
+                page_count += 1
+
+                if not page_records:
+                    # No more records
+                    break
+
+                all_records.extend(page_records)
+
+                if len(page_records) < page_size:
+                    # Last page - fewer records than page_size
+                    break
+
+                current_offset += len(page_records)
+
+            # Truncate to max_records if exceeded
+            truncated = len(all_records) > max_records
+            if truncated:
+                all_records = all_records[:max_records]
+
+            return {
+                "records": all_records,
+                "total_fetched": len(all_records),
+                "offset": offset,
+                "truncated": truncated,
+                "page_count": page_count,
+            }
+        else:
+            # Single page query
+            frame = self._navigate_to_list(table, query, offset)
+            records = self._parse_list_table(frame, limit)
+            return {
+                "records": records,
+                "total_fetched": len(records),
+                "offset": offset,
+                "truncated": False,
+                "page_count": 1,
+            }
+
+    def describe_table(self, table: str) -> Dict[str, Any]:
+        """
+        Get field information for a ServiceNow table.
+
+        Queries sys_dictionary to get field names, types, and descriptions.
+
+        Args:
+            table: Table name (e.g., 'incident', 'cmdb_ci_business_app')
+
+        Returns:
+            Dictionary with table metadata and fields:
+            {
+                "table": str,
+                "fields": [
+                    {"name": str, "label": str, "type": str, "mandatory": bool}
+                ]
+            }
+        """
+        # Query sys_dictionary for this table's fields
+        dict_query = f"name={table}^elementISNOTEMPTY"
+        frame = self._navigate_to_list("sys_dictionary", dict_query)
+        raw_fields = self._parse_list_table(frame, 500)
+
+        # Also get inherited fields from parent tables
+        # by checking for fields where name starts with table base class
+
+        fields = []
+        seen = set()
+
+        for row in raw_fields:
+            # Map common column names from sys_dictionary
+            field_name = row.get("Column name", row.get("Element", ""))
+            field_label = row.get("Column label", row.get("Label", field_name))
+            field_type = row.get("Type", "")
+            mandatory = row.get("Mandatory", "").lower() == "true"
+
+            if field_name and field_name not in seen:
+                seen.add(field_name)
+                fields.append({
+                    "name": field_name,
+                    "label": field_label,
+                    "type": field_type,
+                    "mandatory": mandatory,
+                })
+
+        # Sort by name for easier reading
+        fields.sort(key=lambda f: f["name"])
+
+        return {
+            "table": table,
+            "field_count": len(fields),
+            "fields": fields,
+        }
+
+    @staticmethod
+    def build_query(filters: List[Dict[str, Any]], operator: str = "AND") -> str:
+        """
+        Build an encoded query string from structured filters.
+
+        Converts a list of filter conditions to ServiceNow's encoded query syntax.
+
+        Args:
+            filters: List of filter dictionaries, each with:
+                - field: Field name (e.g., "operational_status", "u_lob")
+                - operator: Comparison operator
+                    - "=", "!=", ">", ">=", "<", "<="
+                    - "LIKE", "STARTSWITH", "ENDSWITH"
+                    - "IN", "NOT IN" (value should be comma-separated)
+                    - "ISEMPTY", "ISNOTEMPTY"
+                - value: Value to compare (not needed for ISEMPTY/ISNOTEMPTY)
+            operator: Logical operator between conditions ("AND" or "OR")
+
+        Returns:
+            Encoded query string (e.g., "u_lob=SET^operational_status!=retired")
+
+        Example:
+            filters = [
+                {"field": "u_lob", "operator": "=", "value": "SET"},
+                {"field": "operational_status", "operator": "!=", "value": "retired"},
+                {"field": "name", "operator": "LIKE", "value": "prod"},
+            ]
+            query = ServiceNowScraper.build_query(filters)
+            # Returns: "u_lob=SET^operational_status!=retired^nameLIKEprod"
+        """
+        join_char = "^" if operator.upper() == "AND" else "^OR"
+        parts = []
+
+        for f in filters:
+            field = f.get("field", "")
+            op = f.get("operator", "=")
+            value = f.get("value", "")
+
+            if not field:
+                continue
+
+            # Handle different operators
+            op_upper = op.upper()
+
+            if op_upper in ("ISEMPTY", "ISNOTEMPTY"):
+                parts.append(f"{field}{op_upper}")
+            elif op_upper == "IN":
+                parts.append(f"{field}IN{value}")
+            elif op_upper == "NOT IN":
+                parts.append(f"{field}NOTIN{value}")
+            elif op_upper in ("LIKE", "STARTSWITH", "ENDSWITH"):
+                parts.append(f"{field}{op_upper}{value}")
+            elif op_upper in ("=", "!=", ">", ">=", "<", "<="):
+                parts.append(f"{field}{op}{value}")
+            else:
+                # Default to equals
+                parts.append(f"{field}={value}")
+
+        return join_char.join(parts)
 
     def get_record(self, table: str, identifier: str) -> Dict[str, Any]:
         """

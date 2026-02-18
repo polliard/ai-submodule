@@ -8,7 +8,10 @@ MCP server for ServiceNow with SSO authentication via Playwright web scraping.
 - **Auto Pre-authentication**: Automatically prompts for SSO if no valid session exists
 - **Session Caching**: Sessions cached for 8 hours at `~/.config/servicenow-mcp/`
 - **Secure Storage**: Session files have restrictive permissions (0600)
-- **11 Tools**: Query incidents, changes, CMDB, users, groups, KB articles
+- **Pagination Support**: Fetch all records automatically with `fetch_all=true`
+- **Structured Filters**: Build queries with `filters` array instead of encoded query syntax
+- **Schema Discovery**: Use `snow_describe_table` to discover available fields
+- **13 Tools**: Query incidents, changes, CMDB, users, groups, KB articles + describe tables
 - **3 Prompts**: Configure, incident triage, change review
 
 ## Installation
@@ -90,20 +93,37 @@ Add to your MCP settings:
 
 ## Data Format
 
-Query tools return JSON arrays with data scraped from ServiceNow list views:
+Query tools return JSON objects with records and metadata:
 
 ```json
-[
-  {
-    "sys_id": "00abed1a138c17405852d3228144b01c",
-    "Name": "My Application",
-    "Operational status": "Operational",
-    "Business criticality": "High",
-    "Owned by": "John Smith (jsmith)",
-    "Managed by": "Jane Doe (jdoe)",
-    "Description": "Application description..."
-  }
-]
+{
+  "records": [
+    {
+      "sys_id": "00abed1a138c17405852d3228144b01c",
+      "Name": "My Application",
+      "Operational status": "Operational",
+      "Business criticality": "High",
+      "Owned by": "John Smith (jsmith)",
+      "Managed by": "Jane Doe (jdoe)"
+    }
+  ],
+  "total_fetched": 50,
+  "offset": 0,
+  "truncated": false,
+  "page_count": 1
+}
+```
+
+When using `fetch_all=true`:
+
+```json
+{
+  "records": [...],
+  "total_fetched": 1723,
+  "offset": 0,
+  "truncated": false,
+  "page_count": 9
+}
 ```
 
 Column names match the ServiceNow list view headers.
@@ -162,13 +182,37 @@ Get change request details.
 
 ### snow_cmdb_query
 
-Query CMDB configuration items.
+Query CMDB configuration items with pagination support.
 
 ```json
 {
   "class": "cmdb_ci_business_app",
   "query": "operational_status=1",
   "limit": 50
+}
+```
+
+**With pagination (fetch all records):**
+
+```json
+{
+  "class": "cmdb_ci_business_app",
+  "fetch_all": true,
+  "page_size": 200,
+  "max_records": 10000
+}
+```
+
+**With structured filters (no query syntax needed):**
+
+```json
+{
+  "class": "cmdb_ci_business_app",
+  "filters": [
+    {"field": "u_lob", "operator": "=", "value": "SET"},
+    {"field": "operational_status", "operator": "!=", "value": "retired"}
+  ],
+  "fetch_all": true
 }
 ```
 
@@ -214,13 +258,35 @@ Query groups.
 
 ### snow_table_query
 
-Query any ServiceNow table.
+Query any ServiceNow table with pagination support.
 
 ```json
 {
   "table": "sc_request",
   "query": "state=2",
   "limit": 50
+}
+```
+
+**Using structured filters:**
+
+```json
+{
+  "table": "sc_request",
+  "filters": [
+    {"field": "state", "operator": "=", "value": "2"},
+    {"field": "requested_for", "operator": "ISNOTEMPTY"}
+  ]
+}
+```
+
+**Fetch all records:**
+
+```json
+{
+  "table": "sc_request",
+  "fetch_all": true,
+  "max_records": 5000
 }
 ```
 
@@ -234,6 +300,56 @@ Search knowledge base.
   "limit": 50
 }
 ```
+
+### snow_describe_table
+
+Get field information for a ServiceNow table. Use this before querying to discover available fields.
+
+```json
+{"table": "cmdb_ci_business_app"}
+```
+
+Returns:
+
+```json
+{
+  "table": "cmdb_ci_business_app",
+  "field_count": 45,
+  "fields": [
+    {"name": "name", "label": "Name", "type": "string", "mandatory": true},
+    {"name": "operational_status", "label": "Operational status", "type": "integer", "mandatory": false},
+    {"name": "u_lob", "label": "Line of Business", "type": "reference", "mandatory": false}
+  ]
+}
+```
+
+### snow_build_query
+
+Build an encoded query string from structured filters. Use this to construct complex queries without knowing ServiceNow query syntax.
+
+```json
+{
+  "filters": [
+    {"field": "u_lob", "operator": "=", "value": "SET"},
+    {"field": "operational_status", "operator": "!=", "value": "retired"},
+    {"field": "name", "operator": "LIKE", "value": "prod"}
+  ],
+  "operator": "AND"
+}
+```
+
+Returns:
+
+```json
+{"query": "u_lob=SET^operational_status!=retired^nameLIKEprod"}
+```
+
+**Supported operators:**
+
+- `=`, `!=`, `>`, `>=`, `<`, `<=` - Comparison
+- `LIKE`, `STARTSWITH`, `ENDSWITH` - String matching
+- `IN`, `NOT IN` - List matching (comma-separated values)
+- `ISEMPTY`, `ISNOTEMPTY` - Null checks
 
 ## Prompts
 

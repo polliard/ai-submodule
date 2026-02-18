@@ -121,21 +121,50 @@ TOOLS = [
     },
     {
         "name": "snow_cmdb_query",
-        "description": "Query CMDB configuration items",
+        "description": "Query CMDB configuration items with optional pagination. Returns records and metadata.",
         "inputSchema": {
             "type": "object",
             "properties": {
                 "class": {
                     "type": "string",
-                    "description": "CI class (cmdb_ci, cmdb_ci_server, cmdb_ci_app_server, cmdb_ci_database)"
+                    "description": "CI class (cmdb_ci, cmdb_ci_server, cmdb_ci_app_server, cmdb_ci_database, cmdb_ci_business_app)"
                 },
                 "query": {
                     "type": "string",
                     "description": "Encoded query (e.g., 'operational_status=1^name LIKE prod')"
                 },
+                "filters": {
+                    "type": "array",
+                    "description": "Structured filters (alternative to query string). Each filter: {field, operator, value}",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {"type": "string", "description": "Field name (e.g., 'u_lob', 'operational_status')"},
+                            "operator": {"type": "string", "description": "Operator: =, !=, LIKE, STARTSWITH, IN, ISEMPTY, etc."},
+                            "value": {"type": "string", "description": "Value to compare"}
+                        },
+                        "required": ["field", "operator"]
+                    }
+                },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum records (default: 50)"
+                    "description": "Maximum records (default: 50, ignored if fetch_all=true)"
+                },
+                "offset": {
+                    "type": "integer",
+                    "description": "Starting row for pagination (0-indexed)"
+                },
+                "fetch_all": {
+                    "type": "boolean",
+                    "description": "Auto-paginate to fetch all matching records"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "Records per page when fetch_all=true (default: 200)"
+                },
+                "max_records": {
+                    "type": "integer",
+                    "description": "Safety limit when fetch_all=true (default: 10000)"
                 }
             },
             "required": ["class"]
@@ -195,7 +224,7 @@ TOOLS = [
     },
     {
         "name": "snow_table_query",
-        "description": "Query any ServiceNow table by name",
+        "description": "Query any ServiceNow table by name with optional pagination. Returns records and metadata.",
         "inputSchema": {
             "type": "object",
             "properties": {
@@ -207,9 +236,38 @@ TOOLS = [
                     "type": "string",
                     "description": "Encoded query string"
                 },
+                "filters": {
+                    "type": "array",
+                    "description": "Structured filters (alternative to query string). Each filter: {field, operator, value}",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {"type": "string", "description": "Field name"},
+                            "operator": {"type": "string", "description": "Operator: =, !=, LIKE, STARTSWITH, IN, ISEMPTY, etc."},
+                            "value": {"type": "string", "description": "Value to compare"}
+                        },
+                        "required": ["field", "operator"]
+                    }
+                },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum records (default: 50)"
+                    "description": "Maximum records (default: 50, ignored if fetch_all=true)"
+                },
+                "offset": {
+                    "type": "integer",
+                    "description": "Starting row for pagination (0-indexed)"
+                },
+                "fetch_all": {
+                    "type": "boolean",
+                    "description": "Auto-paginate to fetch all matching records"
+                },
+                "page_size": {
+                    "type": "integer",
+                    "description": "Records per page when fetch_all=true (default: 200)"
+                },
+                "max_records": {
+                    "type": "integer",
+                    "description": "Safety limit when fetch_all=true (default: 10000)"
                 }
             },
             "required": ["table"]
@@ -231,6 +289,58 @@ TOOLS = [
                 }
             },
             "required": ["query"]
+        }
+    },
+    {
+        "name": "snow_describe_table",
+        "description": "Get field information for a ServiceNow table. Use this to discover available fields, their types, and whether they're mandatory before querying.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "table": {
+                    "type": "string",
+                    "description": "Table name (e.g., 'incident', 'cmdb_ci_business_app')"
+                }
+            },
+            "required": ["table"]
+        }
+    },
+    {
+        "name": "snow_build_query",
+        "description": "Build an encoded query string from structured filters. Use this to construct complex queries without knowing ServiceNow query syntax.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "filters": {
+                    "type": "array",
+                    "description": "List of filter conditions",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "field": {
+                                "type": "string",
+                                "description": "Field name (e.g., 'u_lob', 'operational_status', 'name')"
+                            },
+                            "operator": {
+                                "type": "string",
+                                "enum": ["=", "!=", ">", ">=", "<", "<=", "LIKE", "STARTSWITH", "ENDSWITH", "IN", "NOT IN", "ISEMPTY", "ISNOTEMPTY"],
+                                "description": "Comparison operator"
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Value to compare (not needed for ISEMPTY/ISNOTEMPTY)"
+                            }
+                        },
+                        "required": ["field", "operator"]
+                    }
+                },
+                "operator": {
+                    "type": "string",
+                    "enum": ["AND", "OR"],
+                    "description": "Logical operator between conditions (default: AND)"
+                }
+            },
+            "required": ["filters"]
         }
     }
 ]
@@ -387,39 +497,55 @@ class MCPServer:
         elif name == "snow_change_get":
             return scraper.get_record("change_request", args["identifier"])
         elif name == "snow_cmdb_query":
-            return scraper.query_table(
+            return self._query_with_pagination(
+                scraper,
                 args.get("class", "cmdb_ci"),
-                args.get("query"),
-                args.get("limit", 50)
+                args
             )
         elif name == "snow_cmdb_get":
             table = args.get("class", "cmdb_ci")
             return scraper.get_record(table, args["identifier"])
         elif name == "snow_user_query":
-            return scraper.query_table(
-                "sys_user",
-                args.get("query"),
-                args.get("limit", 50)
-            )
+            return self._query_with_pagination(scraper, "sys_user", args)
         elif name == "snow_group_query":
-            return scraper.query_table(
-                "sys_user_group",
-                args.get("query"),
-                args.get("limit", 50)
-            )
+            return self._query_with_pagination(scraper, "sys_user_group", args)
         elif name == "snow_table_query":
-            return scraper.query_table(
-                args["table"],
-                args.get("query"),
-                args.get("limit", 50)
-            )
+            return self._query_with_pagination(scraper, args["table"], args)
         elif name == "snow_kb_search":
             return scraper.search_knowledge(
                 args["query"],
                 args.get("limit", 50)
             )
+        elif name == "snow_describe_table":
+            return scraper.describe_table(args["table"])
+        elif name == "snow_build_query":
+            return {
+                "query": ServiceNowScraper.build_query(
+                    args["filters"],
+                    args.get("operator", "AND")
+                )
+            }
         else:
             raise ValueError(f"Unknown tool: {name}")
+
+    def _query_with_pagination(
+        self, scraper: ServiceNowScraper, table: str, args: Dict
+    ) -> Dict:
+        """Execute a query with pagination support."""
+        # Build query from filters if provided
+        query = args.get("query")
+        if args.get("filters"):
+            query = ServiceNowScraper.build_query(args["filters"])
+
+        return scraper.query_table(
+            table=table,
+            query=query,
+            limit=args.get("limit", 50),
+            offset=args.get("offset", 0),
+            fetch_all=args.get("fetch_all", False),
+            page_size=args.get("page_size", 200),
+            max_records=args.get("max_records", 10000),
+        )
 
     def _configure(self, args: Dict) -> Dict:
         """Configure ServiceNow instance."""
@@ -443,7 +569,7 @@ class MCPServer:
             "message": f"Connected to {instance}. SSO session active."
         }
 
-    def _incident_query(self, scraper: ServiceNowScraper, args: Dict) -> List[Dict]:
+    def _incident_query(self, scraper: ServiceNowScraper, args: Dict) -> Dict:
         """Build and execute incident query."""
         query_parts = []
 
@@ -462,9 +588,13 @@ class MCPServer:
             query_parts.append(f"priority={args['priority']}")
 
         query = "^".join(query_parts) if query_parts else None
-        return scraper.query_table("incident", query, args.get("limit", 50))
+        return scraper.query_table(
+            table="incident",
+            query=query,
+            limit=args.get("limit", 50),
+        )
 
-    def _change_query(self, scraper: ServiceNowScraper, args: Dict) -> List[Dict]:
+    def _change_query(self, scraper: ServiceNowScraper, args: Dict) -> Dict:
         """Build and execute change query."""
         query_parts = []
 
@@ -476,7 +606,11 @@ class MCPServer:
             query_parts.append(f"state={args['state']}")
 
         query = "^".join(query_parts) if query_parts else None
-        return scraper.query_table("change_request", query, args.get("limit", 50))
+        return scraper.query_table(
+            table="change_request",
+            query=query,
+            limit=args.get("limit", 50),
+        )
 
     def handle_request(self, request: Dict) -> Optional[Dict]:
         """Handle a JSON-RPC request."""
@@ -578,13 +712,14 @@ def main():
             scraper = ServiceNowScraper(instance=instance, headless=False)
             try:
                 if not scraper._is_session_valid():
-                    print(f"\nNo valid session for {instance}. Starting pre-authentication...")
-                    print("Complete SSO in the browser, then press ENTER.\n")
+                    # Use stderr for messages - stdout is for JSON-RPC
+                    print(f"\nNo valid session for {instance}. Starting pre-authentication...", file=sys.stderr)
+                    print("Complete SSO in the browser, then press ENTER.\n", file=sys.stderr)
                     scraper.login_interactive()
-                    print("\nSession saved! Starting MCP server...\n")
+                    print("\nSession saved! Starting MCP server...\n", file=sys.stderr)
             except Exception as e:
-                print(f"\nPre-authentication failed: {e}")
-                print("Starting server anyway - will prompt for SSO on first query.\n")
+                print(f"\nPre-authentication failed: {e}", file=sys.stderr)
+                print("Starting server anyway - will prompt for SSO on first query.\n", file=sys.stderr)
             finally:
                 scraper.close()
 
