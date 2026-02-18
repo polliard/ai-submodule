@@ -12,6 +12,7 @@ Base instructions for AI assistants across all projects.
 - Ask clarifying questions when requirements are ambiguous
 - Prefer iterative changes over large rewrites
 - Always keep documentation in sync with code.
+- Use American English for spelling, naming conventions, and checks
 
 ## Commit Isolation
 
