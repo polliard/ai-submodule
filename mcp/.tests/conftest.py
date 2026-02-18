@@ -10,8 +10,11 @@ import pytest
 from mcp_client import MCPClient, check_server_available
 
 
-# Get the venv path for servicenow-mcp
-_VENV_BIN = os.path.join(os.path.dirname(__file__), ".venv", "bin")
+# Get the venv path for servicenow-mcp (installed in server dir)
+_SNOW_VENV_BIN = os.path.join(
+    os.path.dirname(__file__), "..", "servers", "servicenow-mcp", ".venv", "bin"
+)
+_TESTS_VENV_BIN = os.path.join(os.path.dirname(__file__), ".venv", "bin")
 
 # Server configurations
 SERVERS = {
@@ -22,7 +25,7 @@ SERVERS = {
     "servicenow": {
         # Use venv's servicenow-mcp to ensure we get the latest installed version
         # Use --no-preauth to handle SSO on-demand during tests
-        "command": [os.path.join(_VENV_BIN, "servicenow-mcp"), "serve", "--no-preauth"],
+        "command": [os.path.join(_SNOW_VENV_BIN, "servicenow-mcp"), "serve", "--no-preauth"],
         "env": {
             "SERVICENOW_INSTANCE": os.environ.get("SERVICENOW_INSTANCE", ""),
         },
