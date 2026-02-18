@@ -13,6 +13,7 @@ Base instructions for AI assistants across all projects.
 - Prefer iterative changes over large rewrites
 - Always keep documentation in sync with code.
 - Use American English for spelling, naming conventions, and checks
+- In repositories always use markdown files for documentation.
 
 ## Commit Isolation
 
