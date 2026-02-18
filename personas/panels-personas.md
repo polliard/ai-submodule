@@ -11,6 +11,7 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 - **System changes** — Migration Review, Testing Review
 - **Documentation updates** — Documentation Review
 - **Security assessments** — Security Review
+- **Threat modeling** — Threat Modeling Review
 - **Privacy, accessibility & compliance** — Compliance Review
 - **Performance concerns** — Performance Review
 
@@ -123,6 +124,16 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 **When to use**: Designing new APIs, versioning existing APIs, exposing internal services externally, or when developer onboarding is slow.
 
 **What you get**: API contract assessment, consumer friction points, documentation gaps, compatibility analysis, and developer satisfaction assessment.
+
+---
+
+## Threat Modeling Review
+
+**Purpose**: Systematic identification, classification, and prioritization of threats using structured methodologies (STRIDE, MITRE ATT&CK, attack trees) combined with architectural analysis and offensive/defensive perspectives.
+
+**When to use**: New system designs, before exposing new attack surfaces, after significant architectural changes, or as a periodic security posture assessment.
+
+**What you get**: Data flow diagrams with trust boundaries, STRIDE threat catalog, MITRE ATT&CK heat map, attack trees, threat actor profiles, detection coverage matrix, and prioritized threat register with mitigation roadmap.
 
 ---
 

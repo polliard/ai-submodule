@@ -64,6 +64,7 @@ Quick reference for all available personas and when to use them.
 | Purple Team Engineer   | `compliance_governance/purple-team-engineer.md`   | Collaborative security — attack-defense alignment, TTP mapping, posture validation |
 | Supply Chain Engineer  | `compliance_governance/supply-chain-engineer.md`  | Supply chain security — SBOM, dependency provenance, build attestation            |
 | Privacy Engineer       | `compliance_governance/privacy-engineer.md`       | Data privacy — PII detection, data minimization, GDPR/CCPA compliance              |
+| MITRE Analyst          | `compliance_governance/mitre-analyst.md`          | Threat modeling — STRIDE, ATT&CK mapping, attack trees, threat actor profiling     |
 
 ## Process & People
 
@@ -111,3 +112,4 @@ Multi-perspective reviews where several personas collaborate. Every panel includ
 | Launch Readiness Review | `panels/launch-readiness-review.md` | SRE, Infrastructure Engineer, Observability Engineer, Failure Engineer, DevOps Engineer, Release Engineer, Test Engineer, Tech Lead |
 | API Review             | `panels/api-review.md`               | API Designer, API Consumer, UX Engineer, Frontend Engineer, Backend Engineer, Documentation Reviewer                         |
 | Compliance Review      | `panels/compliance-review.md`        | Privacy Engineer, Supply Chain Engineer, Accessibility Engineer, Compliance Officer, Security Auditor, Data Architect, Frontend Engineer |
+| Threat Modeling Review | `panels/threat-modeling-review.md`   | MITRE Analyst, Systems Architect, Red Team Engineer, Blue Team Engineer, Purple Team Engineer, Infrastructure Engineer, Security Auditor, Compliance Officer |
