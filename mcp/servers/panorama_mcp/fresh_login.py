@@ -1,0 +1,113 @@
+#!/usr/bin/env python3
+"""
+Fresh SSO login - clears all cookies/state first.
+"""
+
+import asyncio
+from pathlib import Path
+from playwright.async_api import async_playwright
+
+PANORAMA_URL = "https://panoramav2.corp.jmfamily.com"
+
+
+async def main():
+    print("=" * 60)
+    print("Panorama Fresh SSO Login")
+    print("=" * 60)
+
+    # Clear any old auth state first
+    storage_path = Path.home() / ".panorama_mcp" / "auth_state.json"
+    if storage_path.exists():
+        storage_path.unlink()
+        print("✓ Cleared old session state")
+
+    print(f"\nOpening: {PANORAMA_URL}")
+    print("\n>>> Complete your SSO login in the browser <<<")
+    print(">>> The script will auto-detect when you're logged in <<<\n")
+
+    playwright = await async_playwright().start()
+
+    # Launch with clean profile, no saved state
+    browser = await playwright.chromium.launch(
+        headless=False,
+        args=['--disable-blink-features=AutomationControlled']  # Less detectable
+    )
+
+    # Fresh context - no storage state
+    context = await browser.new_context(
+        viewport={'width': 1280, 'height': 900},
+        user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    )
+
+    page = await context.new_page()
+
+    # Go directly to the base URL (not login.php)
+    print("Navigating to Panorama...")
+    await page.goto(PANORAMA_URL, wait_until="domcontentloaded", timeout=30000)
+    print(f"Initial URL: {page.url}")
+
+    logged_in = False
+    try:
+        # Wait for user to complete login
+        check_count = 0
+        while not logged_in:
+            await asyncio.sleep(2)
+            check_count += 1
+
+            try:
+                current_url = page.url
+
+                # Show progress every few checks
+                if check_count % 5 == 0:
+                    print(f"Waiting... Current: {current_url[:60]}...")
+
+                # Detect successful login - Panorama uses hash routing when logged in
+                if "panoramav2.corp.jmfamily.com" in current_url:
+                    # Check if we're past the login page
+                    if "#" in current_url or "/php/login.php" not in current_url:
+                        # Double check we're not on an error page
+                        content = await page.content()
+                        if "session has expired" not in content.lower():
+                            print(f"\n✓ Login detected! URL: {current_url}")
+                            logged_in = True
+                            break
+
+            except Exception as e:
+                # Page might be navigating
+                pass
+
+        if logged_in:
+            # Wait a moment for page to stabilize
+            await asyncio.sleep(2)
+
+            # Save the session
+            print("\nSaving session state...")
+            storage_path.parent.mkdir(parents=True, exist_ok=True)
+            await context.storage_state(path=str(storage_path))
+            print(f"✓ Session saved to: {storage_path}")
+
+            # Take a screenshot as proof
+            await page.screenshot(path="panorama_logged_in.png")
+            print("✓ Screenshot saved: panorama_logged_in.png")
+
+            input("\nPress Enter to close browser...")
+
+    except KeyboardInterrupt:
+        print("\n\nInterrupted by user")
+        if not logged_in:
+            # Try to save anyway
+            try:
+                storage_path.parent.mkdir(parents=True, exist_ok=True)
+                await context.storage_state(path=str(storage_path))
+                print(f"Session state saved to: {storage_path}")
+            except:
+                pass
+
+    finally:
+        await browser.close()
+        await playwright.stop()
+        print("Browser closed.")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
