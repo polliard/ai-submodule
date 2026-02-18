@@ -16,6 +16,7 @@ Base instructions for AI assistants across all projects.
 - In repositories always use markdown files for documentation.
 
 ## Panels and Persona Reviews
+
 - Use personas for focused analysis from specific expert perspectives (e.g. security, performance, maintainability)
 - Use panels for comprehensive reviews that consolidate multiple perspectives into actionable recommendations
 - Follow the activation protocol for loading personas, setting up tools, and executing evaluations
@@ -23,7 +24,19 @@ Base instructions for AI assistants across all projects.
 - For custom panels, select relevant personas and follow the same activation and evaluation process
 - Create data and reporting in the format specified in the panel's output requirements, ensuring clarity and actionable insights for developers and stakeholders.
 - Store the outputs in markdown files in the `docs/panel-reports` directory, organized by panel type and date for easy reference.
+- Create GitHub issues for actionable findings from panel reviews:
+  - Use severity labels (critical, high, medium, low) matching the finding
+  - Include the finding ID, description, and recommended remediation
+  - Link to the panel report in the issue body
+  - Add appropriate labels (e.g., security, performance, technical-debt)
 - Ignore the docs/panel-reports directory when staging changes for commits, as these are generated outputs and not source files.
+
+## Commit Isolation
+
+### Purpose
+
+Ensure all Git commits are logically atomic and grouped by functional domain.
+Never mix unrelated filesystem areas or change types in a single commit.
 
 ### Behavioral Rules
 
@@ -61,6 +74,27 @@ Each server has a `mcp.json` with its tool definitions. For VS Code, symlink `mc
 - Panels are multi-persona collaborative reviews (see `personas/panels/`)
 - Use panels when comprehensive evaluation from multiple perspectives is needed
 - Panel output consolidates individual findings into actionable recommendations
+- Follow the activation protocol for loading personas, setting up tools,
+  and executing evaluations
+- Refer to shared policies for tool setup, severity ratings, credential
+  handling, and scope constraints
+- For custom panels, select relevant personas and follow the same
+  activation and evaluation process
+- Create data and reporting in the format specified in the panel's output
+  requirements, ensuring clarity and actionable insights for developers
+  and stakeholders
+- Use mermaid syntax for all diagrams in panel output (data flow diagrams,
+  attack trees, architecture diagrams, sequence diagrams, etc.).
+  Never use ASCII art diagrams.
+- Store the outputs in markdown files in the `docs/panel-reports`
+  directory, organized by panel type and date for easy reference
+- Create GitHub issues for actionable findings from panel reviews:
+  - Use severity labels (critical, high, medium, low) matching the finding
+  - Include the finding ID, description, and recommended remediation
+  - Link to the panel report in the issue body
+  - Add appropriate labels (e.g., security, performance, technical-debt)
+- Ignore the `docs/panel-reports` directory when staging changes for
+  commits, as these are generated outputs and not source files
 - See `personas/panels-personas.md` for guidance on which panel to use
 
 ### Activation Protocol
