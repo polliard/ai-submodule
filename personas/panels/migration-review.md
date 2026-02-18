@@ -4,6 +4,7 @@
 Evaluate migration plan safety, completeness, and risk mitigation.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Migration Specialist](../special_purpose/migration-specialist.md)** - Plan completeness, rollback capability
 - **[Data Architect](../domain_specific/data-architect.md)** - Data integrity, transformation correctness
 - **[SRE](../operations_reliability/sre.md)** - Operational readiness, monitoring during migration

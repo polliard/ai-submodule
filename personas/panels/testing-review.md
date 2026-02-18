@@ -4,6 +4,7 @@
 Evaluate test coverage, quality, and testing approach comprehensively.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Test Engineer](../engineering/test-engineer.md)** - Coverage, isolation, determinism
 - **[Failure Engineer](../operations_reliability/failure-engineer.md)** - Failure scenario coverage, chaos testing
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Load testing, benchmarks

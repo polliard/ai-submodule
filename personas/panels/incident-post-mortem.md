@@ -4,6 +4,7 @@
 Analyze incident for root cause and systemic improvements.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Incident Commander](../special_purpose/incident-commander.md)** - Timeline accuracy, response effectiveness
 - **[SRE](../operations_reliability/sre.md)** - Detection gaps, SLO impact, operational failures
 - **[Systems Architect](../architecture/systems-architect.md)** - Architectural contributing factors

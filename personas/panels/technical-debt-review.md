@@ -4,6 +4,7 @@
 Assess and prioritize technical debt for strategic remediation.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Refactor Specialist](../engineering/refactor-specialist.md)** - Code structure, duplication, complexity
 - **[Systems Architect](../architecture/systems-architect.md)** - Architectural debt, coupling, boundaries
 - **[Test Engineer](../engineering/test-engineer.md)** - Test debt, coverage gaps, flaky tests

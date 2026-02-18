@@ -4,6 +4,7 @@
 Comprehensive code evaluation from multiple engineering perspectives.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Code Reviewer](../code_quality/code-reviewer.md)** - Correctness, edge cases, error handling
 - **[Security Auditor](../compliance_governance/security-auditor.md)** - Vulnerabilities, input validation, secrets
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Complexity, allocations, bottlenecks

@@ -1,21 +1,18 @@
 # Panels Overview
 
-Multi-persona collaborative reviews for comprehensive evaluation. Each panel brings together specialists with different perspectives to surface issues a single reviewer might miss.
+Multi-persona collaborative reviews for comprehensive evaluation. Each panel brings together specialists with different perspectives to surface issues a single reviewer might miss. Every panel is facilitated by a [Moderator](process_people/moderator.md) who manages turn order, enforces the severity scale, and consolidates findings.
 
 ## When to Use Panels
 
-- **Before launch** — Production Readiness, Security Review, Release Review
-- **Design phase** — Architecture Review, API Design Review, Data Design Review
-- **Ongoing maintenance** — Code Review, Technical Debt Review, Cost Review
+- **Before launch** — Launch Readiness Review
+- **Design phase** — Architecture Review, API Review
+- **Ongoing maintenance** — Code Review, Technical Debt Review
 - **After incidents** — Incident Post-Mortem
 - **System changes** — Migration Review, Testing Review
 - **Documentation updates** — Documentation Review
-- **Business alignment** — Business Analysis Panel
-- **Security assessments** — Adversarial Security Panel, Penetration Testing
-- **Accessibility** — Accessibility Review
-- **ML/AI systems** — ML/AI System Review
-- **Privacy & compliance** — Privacy Review, Supply Chain Review
-- **Developer productivity** — Developer Experience Review
+- **Security assessments** — Security Review
+- **Privacy, accessibility & compliance** — Compliance Review
+- **Performance concerns** — Performance Review
 
 ---
 
@@ -31,21 +28,21 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 
 ## Architecture Review
 
-**Purpose**: Evaluate system design decisions for scalability, resilience, security, and operational concerns.
+**Purpose**: Evaluate system design and data architecture decisions from structural, operational, security, and data-layer perspectives.
 
-**When to use**: New services, major refactors, infrastructure changes, or when design decisions have long-term implications.
+**When to use**: New services, major refactors, infrastructure changes, schema changes, data migrations, or when design decisions have long-term implications.
 
-**What you get**: Go/no-go recommendation with identified risks, required modifications, and documented tradeoffs.
+**What you get**: Go/no-go recommendation with identified risks, schema assessment, required modifications, and documented tradeoffs.
 
 ---
 
 ## Security Review
 
-**Purpose**: Identify vulnerabilities, attack surfaces, and compliance gaps from multiple security perspectives.
+**Purpose**: Comprehensive security assessment combining vulnerability analysis, adversarial attack simulation, penetration testing methodology, and compliance evaluation from offensive, defensive, and governance perspectives.
 
-**When to use**: Before exposing new endpoints, handling sensitive data, or integrating third-party services.
+**When to use**: Before exposing new endpoints, handling sensitive data, integrating third-party services, security assessments, penetration testing, or defense validation.
 
-**What you get**: Threat assessment with prioritized remediation steps and compliance checklist.
+**What you get**: Attack path narratives, detection coverage matrix, vulnerability inventory by severity, prioritized remediation roadmap, and security posture assessment.
 
 ---
 
@@ -69,39 +66,9 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 
 ---
 
-## Production Readiness
-
-**Purpose**: Verify a system is ready for production deployment and ongoing operation.
-
-**When to use**: Before initial launch or major feature releases.
-
-**What you get**: Launch checklist with SLO definitions, monitoring requirements, runbooks, and rollback procedures.
-
----
-
-## API Design Review
-
-**Purpose**: Evaluate API contracts from provider and consumer perspectives for usability, compatibility, and security.
-
-**When to use**: Designing new APIs, versioning existing APIs, or exposing internal services externally.
-
-**What you get**: API contract assessment with consumer friction points, compatibility analysis, and improvement recommendations.
-
----
-
-## Data Design Review
-
-**Purpose**: Evaluate data models, storage choices, and data flow for correctness, performance, and compliance.
-
-**When to use**: New databases, schema changes, data migrations, or when handling regulated data.
-
-**What you get**: Schema assessment, indexing recommendations, migration strategy, and compliance verification.
-
----
-
 ## Documentation Review
 
-**Purpose**: Evaluate documentation quality from author and consumer perspectives.
+**Purpose**: Evaluate documentation completeness, accuracy, and usability.
 
 **When to use**: Before publishing docs, onboarding new team members, or when docs are frequently misunderstood.
 
@@ -139,100 +106,30 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 
 ---
 
-## Adversarial Security Panel
+## Launch Readiness Review
 
-**Purpose**: Attack-defense simulation from red, blue, and purple team perspectives.
+**Purpose**: Assess whether a system is ready for production deployment, covering operational readiness, release safety, rollback capability, and ongoing operability.
 
-**When to use**: Security assessments, penetration testing preparation, or defense validation.
+**When to use**: Before initial launch, major feature releases, or production deployments with breaking changes.
 
-**What you get**: Attack paths, detection gaps, defense recommendations, and TTP coverage analysis.
-
----
-
-## Business Analysis Panel
-
-**Purpose**: Align technical solutions with business requirements and stakeholder needs.
-
-**When to use**: New projects, feature planning, or when business and technical teams need alignment.
-
-**What you get**: Requirements validation, gap analysis, acceptance criteria, and stakeholder communication plan.
+**What you get**: Launch checklist with SLO definitions, monitoring requirements, runbooks, rollback verification, feature flag configuration, and go/no-go recommendation.
 
 ---
 
-## Penetration Testing
+## API Review
 
-**Purpose**: Structured penetration test engagement simulating real-world attack methodology from reconnaissance through exploitation.
+**Purpose**: Evaluate API design, developer experience, and consumer usability from provider, consumer, and documentation perspectives.
 
-**When to use**: Pre-launch security validation, periodic security assessments, after significant infrastructure or application changes, or compliance-driven testing requirements.
+**When to use**: Designing new APIs, versioning existing APIs, exposing internal services externally, or when developer onboarding is slow.
 
-**What you get**: Attack path narratives, vulnerability inventory by severity, exploitation proof-of-concepts, prioritized remediation roadmap, and compliance impact assessment.
-
----
-
-## Accessibility Review
-
-**Purpose**: Evaluate accessibility compliance, inclusive design, and assistive technology compatibility.
-
-**When to use**: Before launch for user-facing features, when adding new UI components, or for periodic accessibility audits.
-
-**What you get**: WCAG conformance assessment, assistive technology compatibility report, and prioritized remediation plan.
+**What you get**: API contract assessment, consumer friction points, documentation gaps, compatibility analysis, and developer satisfaction assessment.
 
 ---
 
-## Cost Review
+## Compliance Review
 
-**Purpose**: Analyze infrastructure costs, resource efficiency, and cloud spending optimization opportunities.
+**Purpose**: Evaluate privacy practices, supply chain security, accessibility compliance, and regulatory posture across the application stack.
 
-**When to use**: Before scaling, during budget planning, or when cloud bills increase unexpectedly.
+**When to use**: Before handling new PII categories, expanding to new jurisdictions, before releases with dependency changes, launching user-facing features, or for periodic compliance audits.
 
-**What you get**: Savings opportunities, right-sizing recommendations, cost vs. reliability tradeoff analysis, and governance practices.
-
----
-
-## Dependency & Supply Chain Review
-
-**Purpose**: Evaluate software supply chain security, dependency health, and build pipeline integrity.
-
-**When to use**: Before releases, after dependency updates, or when establishing supply chain security practices.
-
-**What you get**: Dependency audit, SBOM coverage assessment, license compliance report, and supply chain risk scorecard.
-
----
-
-## ML/AI System Review
-
-**Purpose**: Evaluate ML system design, model lifecycle management, and operational readiness for AI workloads.
-
-**When to use**: Before deploying ML models to production, when establishing MLOps practices, or after model performance degradation.
-
-**What you get**: Model lifecycle gap analysis, data quality assessment, serving infrastructure review, and MLOps maturity evaluation.
-
----
-
-## Developer Experience Review
-
-**Purpose**: Evaluate developer-facing tools, APIs, documentation, and workflows for usability and productivity.
-
-**When to use**: When onboarding is slow, developer satisfaction is low, or launching new developer-facing APIs or SDKs.
-
-**What you get**: Friction point inventory, onboarding gap analysis, tooling improvement recommendations, and DX satisfaction assessment.
-
----
-
-## Privacy Review
-
-**Purpose**: Evaluate data privacy practices, PII handling, and regulatory compliance across the application stack.
-
-**When to use**: Before handling new PII categories, when expanding to new jurisdictions, or for periodic privacy assessments.
-
-**What you get**: PII inventory, consent mechanism assessment, regulatory risk analysis, and privacy improvement roadmap.
-
----
-
-## Release Review
-
-**Purpose**: Evaluate release readiness, deployment safety, and rollback capability before shipping to production.
-
-**When to use**: Before production releases, especially for major features or breaking changes.
-
-**What you get**: Release readiness checklist, rollback verification, monitoring readiness assessment, and go/no-go recommendation.
+**What you get**: PII inventory, consent mechanism assessment, WCAG conformance gaps, dependency health scorecard, license compliance report, and prioritized remediation roadmap.

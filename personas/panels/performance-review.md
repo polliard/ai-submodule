@@ -4,6 +4,7 @@
 Comprehensive performance analysis from multiple perspectives.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Algorithms, hot paths, profiling
 - **[Backend Engineer](../domain_specific/backend-engineer.md)** - Database queries, caching, async patterns
 - **[Frontend Engineer](../domain_specific/frontend-engineer.md)** - Rendering, bundle size, perceived performance

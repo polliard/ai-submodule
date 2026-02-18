@@ -4,6 +4,7 @@
 Evaluate documentation completeness, accuracy, and usability.
 
 ## Participants
+- **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Documentation Reviewer](../documentation/documentation-reviewer.md)** - Accuracy, completeness, structure
 - **[Documentation Writer](../documentation/documentation-writer.md)** - Clarity, examples, task orientation
 - **[API Consumer](../special_purpose/api-consumer.md)** - Discoverability, onboarding experience
