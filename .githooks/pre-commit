@@ -1,35 +1,28 @@
 #!/bin/bash
 # Pre-commit hook: Merge instructions.md into copilot-instructions.md
-# Preserves project-specific sections in copilot-instructions.md
+# Section-level merge: base sections updated, project sections preserved
 
 set -e
 
 INSTRUCTIONS="instructions.md"
 COPILOT_INSTRUCTIONS=".github/copilot-instructions.md"
-MARKER="---"
-PROJECT_SECTION_HEADER="## Project-Specific Instructions"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Only run if instructions.md is being committed
 if git diff --cached --name-only | grep -q "^${INSTRUCTIONS}$"; then
-    echo "Syncing instructions.md -> copilot-instructions.md..."
+    echo "Merging instructions.md -> copilot-instructions.md..."
 
-    # Extract project-specific section from copilot-instructions.md (if it exists)
-    PROJECT_SPECIFIC=""
-    if [ -f "$COPILOT_INSTRUCTIONS" ]; then
-        # Find everything after the marker followed by Project-Specific header
-        PROJECT_SPECIFIC=$(awk "/${MARKER}/{found=1} found{print}" "$COPILOT_INSTRUCTIONS" 2>/dev/null || true)
+    if [ ! -f "$COPILOT_INSTRUCTIONS" ]; then
+        # First sync: copy base and append empty project section
+        cp "$INSTRUCTIONS" "$COPILOT_INSTRUCTIONS"
+        printf '\n---\n\n## Project-Specific Instructions\n' >> "$COPILOT_INSTRUCTIONS"
+    else
+        python3 "$SCRIPT_DIR/merge-instructions.py" \
+            "$INSTRUCTIONS" "$COPILOT_INSTRUCTIONS" \
+            > "${COPILOT_INSTRUCTIONS}.tmp"
+        mv "${COPILOT_INSTRUCTIONS}.tmp" "$COPILOT_INSTRUCTIONS"
     fi
 
-    # Copy base instructions
-    cp "$INSTRUCTIONS" "$COPILOT_INSTRUCTIONS"
-
-    # Append project-specific section if it exists
-    if [ -n "$PROJECT_SPECIFIC" ]; then
-        echo "" >> "$COPILOT_INSTRUCTIONS"
-        echo "$PROJECT_SPECIFIC" >> "$COPILOT_INSTRUCTIONS"
-    fi
-
-    # Stage the updated copilot-instructions.md
     git add "$COPILOT_INSTRUCTIONS"
-    echo "copilot-instructions.md updated and staged."
+    echo "copilot-instructions.md merged and staged."
 fi
