@@ -1,9 +1,22 @@
-.PHONY: lint-md lint-md-fix setup
+.PHONY: help lint-md lint-md-fix setup
 
-# Setup git hooks
+# Default target - show help
+help:
+	@echo "Available targets:"
+	@echo "  help        - Show this help message"
+	@echo "  setup       - Configure git hooks"
+	@echo "  lint-md     - Check markdown files for issues"
+	@echo "  lint-md-fix - Check and auto-fix markdown issues"
+
+# Setup git hooks (idempotent - checks if already configured)
 setup:
-	git config core.hooksPath .githooks
-	@echo "Git hooks configured."
+	@CURRENT=$$(git config --get core.hooksPath 2>/dev/null || echo ""); \
+	if [ "$$CURRENT" = ".githooks" ]; then \
+		echo "Git hooks already configured."; \
+	else \
+		git config core.hooksPath .githooks; \
+		echo "Git hooks configured."; \
+	fi
 
 # Markdown linting using markdownlint-cli
 lint-md:
