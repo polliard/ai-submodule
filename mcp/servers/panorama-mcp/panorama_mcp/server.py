@@ -597,6 +597,7 @@ async def list_tools() -> list[Tool]:
                     },
                     "params": {
                         "type": "array",
+                        "items": {},
                         "description": "Parameters array to pass to the method (default: [])",
                         "default": [],
                     },

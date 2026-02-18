@@ -244,6 +244,7 @@ install_panorama_mcp() {
     print_env_summary "panorama-mcp" "${env_pairs[@]}"
 
     # VS Code snippet
+    local VENV_PYTHON="$SERVERS_DIR/panorama-mcp/.venv/bin/python"
     print_vscode_snippet "panorama-mcp"
     local sso_line=""
     if [ -n "$PANORAMA_SSO_ACCOUNT" ]; then
@@ -254,8 +255,9 @@ install_panorama_mcp() {
 {
     "servers": {
         "panorama": {
-            "command": "panorama-mcp",
-            "args": ["serve", "--no-preauth"],
+            "type": "stdio",
+            "command": "${VENV_PYTHON}",
+            "args": ["-m", "panorama_mcp", "serve", "--no-preauth"],
             "env": {
                 "PANORAMA_URLS": "${PANORAMA_URLS}",${sso_line}
                 "PANORAMA_HEADLESS": "false"
@@ -291,14 +293,15 @@ install_servicenow_mcp() {
     print_env_summary "servicenow-mcp" "SERVICENOW_INSTANCE=\"${SERVICENOW_INSTANCE}\""
 
     # VS Code snippet
+    local VENV_CMD="$SERVERS_DIR/servicenow-mcp/.venv/bin/servicenow-mcp"
     print_vscode_snippet "servicenow-mcp"
     cat <<SNIPPET
 {
     "servers": {
         "servicenow": {
             "type": "stdio",
-            "command": "servicenow-mcp",
-            "args": ["serve"],
+            "command": "${VENV_CMD}",
+            "args": ["serve", "--no-preauth"],
             "env": {
                 "SERVICENOW_INSTANCE": "${SERVICENOW_INSTANCE}"
             }
