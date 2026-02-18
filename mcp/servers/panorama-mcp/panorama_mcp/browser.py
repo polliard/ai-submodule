@@ -146,7 +146,13 @@ class PanoramaSession:
             return False
 
     async def _is_on_panorama_login(self) -> bool:
-        """True if the page is the Panorama local login page."""
+        """True if the page is the Panorama local login page.
+
+        Panorama uses login.php as the base URL even when authenticated
+        (hash routing: login.php?...#dashboard).  So we check for the
+        actual login form elements rather than just 'login' in the URL.
+        Uses JS query for speed (no waiting/timeout).
+        """
         if not self.page:
             return False
         try:
@@ -154,18 +160,26 @@ class PanoramaSession:
             host = self.instance_name.lower()
             if host not in url:
                 return False
-            # Check for login path or login form elements
-            if "login" in url:
-                return True
-            for sel in ['input[name="user"]', 'input[name="passwd"]',
-                        '#loginForm', 'input[type="password"]']:
-                try:
-                    el = await self.page.wait_for_selector(sel, timeout=1000)
-                    if el:
-                        return True
-                except Exception:
-                    continue
-            return False
+            # Fast JS check for login form elements — no waiting
+            return await self.page.evaluate("""() => {
+                const selectors = [
+                    'input[name="user"]', 'input[name="passwd"]',
+                    '#loginForm', 'input[type="password"]'
+                ];
+                for (const sel of selectors) {
+                    const el = document.querySelector(sel);
+                    if (el && el.offsetParent !== null) return true;
+                }
+                // Check for SSO link text
+                const links = document.querySelectorAll('a');
+                for (const a of links) {
+                    const text = (a.textContent || '').toLowerCase();
+                    if (text.includes('single sign') || text.includes('sso')) {
+                        if (a.offsetParent !== null) return true;
+                    }
+                }
+                return false;
+            }""")
         except Exception:
             return False
 
@@ -173,8 +187,10 @@ class PanoramaSession:
         """
         Does the current page indicate an authenticated Panorama session?
 
-        On Panorama host + NOT on login/IDP page → authenticated.
-        Nav selectors provide extra confidence but are not required.
+        Uses a single fast JS call to check for dashboard elements,
+        rather than trying selectors one-by-one with timeouts.
+        Dashboard elements trump URL-based login detection (Panorama
+        uses login.php as the base URL even when authenticated).
         """
         if not self.page:
             return False
@@ -186,19 +202,38 @@ class PanoramaSession:
                 return False
             if host not in url:
                 return False
+
+            # Single JS call to check all nav selectors at once (fast)
+            has_dashboard = await self.page.evaluate("""() => {
+                // CSS selectors
+                const cssSelectors = [
+                    '#dashboard', '.pan-dashboard', '#topNav', '.device-tab',
+                    '#acc-management', '.dashboard-widget'
+                ];
+                for (const sel of cssSelectors) {
+                    if (document.querySelector(sel)) return true;
+                }
+                // Text-based checks
+                const navTexts = ['Dashboard', 'ACC', 'Monitor', 'Policies',
+                                  'Objects', 'Network', 'Device', 'Panorama'];
+                const allText = document.body ? document.body.innerText : '';
+                let matches = 0;
+                for (const t of navTexts) {
+                    if (allText.includes(t)) matches++;
+                }
+                // Need at least 3 nav items to confirm dashboard
+                return matches >= 3;
+            }""")
+
+            if has_dashboard:
+                return True
+
+            # No dashboard elements — check if on actual login form
             if await self._is_on_panorama_login():
                 return False
 
-            # Try nav selectors for extra confidence
-            for selector in _PANORAMA_NAV_SELECTORS:
-                try:
-                    el = await self.page.wait_for_selector(selector, timeout=1500)
-                    if el:
-                        return True
-                except Exception:
-                    continue
-
-            # On Panorama host, not on login — treat as authenticated
+            # On Panorama host, no dashboard, no login form —
+            # page may still be loading; treat as authenticated
             return True
         except Exception:
             return False
@@ -491,8 +526,14 @@ class PanoramaSession:
     async def get_page_snapshot(self) -> str:
         if not self.page:
             raise RuntimeError("Browser not initialized")
-        snapshot = await self.page.accessibility.snapshot()
-        return json.dumps(snapshot, indent=2) if snapshot else "{}"
+        # Playwright >= 1.49 removed page.accessibility; use locator.aria_snapshot()
+        try:
+            snapshot = await self.page.locator("body").aria_snapshot()
+            return snapshot if snapshot else "{}"
+        except AttributeError:
+            # Fallback for older Playwright versions
+            snapshot = await self.page.accessibility.snapshot()
+            return json.dumps(snapshot, indent=2) if snapshot else "{}"
 
     async def click_element(self, selector: str) -> dict:
         if not self.page:

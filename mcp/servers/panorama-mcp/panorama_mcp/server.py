@@ -160,7 +160,7 @@ async def list_tools() -> list[Tool]:
         # ---- Policies ----
         Tool(
             name="panorama_get_security_policies",
-            description="Get security policies from Panorama for a device group",
+            description="Get security policies from Panorama for a device group (pre-rules, post-rules, or both)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -170,13 +170,19 @@ async def list_tools() -> list[Tool]:
                         "description": "Device group name (default: shared)",
                         "default": "shared",
                     },
+                    "position": {
+                        "type": "string",
+                        "enum": ["pre", "post", "both"],
+                        "description": "Rulebase position: 'pre', 'post', or 'both' (default: both)",
+                        "default": "both",
+                    },
                 },
                 "required": [],
             },
         ),
         Tool(
             name="panorama_get_nat_policies",
-            description="Get NAT policies from Panorama for a device group",
+            description="Get NAT policies from Panorama for a device group (pre-rules, post-rules, or both)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -185,6 +191,12 @@ async def list_tools() -> list[Tool]:
                         "type": "string",
                         "description": "Device group name (default: shared)",
                         "default": "shared",
+                    },
+                    "position": {
+                        "type": "string",
+                        "enum": ["pre", "post", "both"],
+                        "description": "Rulebase position: 'pre', 'post', or 'both' (default: both)",
+                        "default": "both",
                     },
                 },
                 "required": [],
@@ -290,6 +302,330 @@ async def list_tools() -> list[Tool]:
                     },
                 },
                 "required": ["device_group"],
+            },
+        ),
+        # ---- System / Dashboard ----
+        Tool(
+            name="panorama_get_system_info",
+            description="Get Panorama system information: hostname, IP, PAN-OS version, serial number, uptime",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_device_summary",
+            description="Get managed device summary: connected/disconnected counts, version distribution",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_system_resources",
+            description="Get Panorama system resource utilization: CPU, memory, disk usage",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        # ---- Configuration ----
+        Tool(
+            name="panorama_get_templates",
+            description="Get templates, template stacks, and device-group/template associations",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_commit_history",
+            description="Get configuration commit audit trail: who committed, when, and what changed",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "limit": {
+                        "type": "integer",
+                        "description": "Max entries to return (default: 50)",
+                        "default": 50,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        # ---- Objects ----
+        Tool(
+            name="panorama_get_address_objects",
+            description="Get address objects (IP, FQDN, range) for a device group with optional search filter",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "device_group": {
+                        "type": "string",
+                        "description": "Device group name (default: shared)",
+                        "default": "shared",
+                    },
+                    "search": {
+                        "type": "string",
+                        "description": "Search/filter string",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_service_objects",
+            description="Get service objects (protocol/port) for a device group with optional search filter",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "device_group": {
+                        "type": "string",
+                        "description": "Device group name (default: shared)",
+                        "default": "shared",
+                    },
+                    "search": {
+                        "type": "string",
+                        "description": "Search/filter string",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_address_groups",
+            description="Get address group objects (collections of addresses) for a device group with optional search filter",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "device_group": {
+                        "type": "string",
+                        "description": "Device group name (default: shared)",
+                        "default": "shared",
+                    },
+                    "search": {
+                        "type": "string",
+                        "description": "Search/filter string",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_service_groups",
+            description="Get service group objects (collections of services) for a device group with optional search filter",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "device_group": {
+                        "type": "string",
+                        "description": "Device group name (default: shared)",
+                        "default": "shared",
+                    },
+                    "search": {
+                        "type": "string",
+                        "description": "Search/filter string",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        # ---- Network ----
+        Tool(
+            name="panorama_get_security_zones",
+            description="Get security zones (trust, untrust, DMZ, etc.), optionally scoped to a template",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "template": {
+                        "type": "string",
+                        "description": "Template name (optional — returns all if omitted)",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_interfaces",
+            description="Get network interfaces, optionally scoped to a template",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "template": {
+                        "type": "string",
+                        "description": "Template name (optional — returns all if omitted)",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_routing",
+            description="Get routing information (virtual routers, static routes), optionally scoped to a template",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "template": {
+                        "type": "string",
+                        "description": "Template name (optional — returns all if omitted)",
+                        "default": "",
+                    },
+                },
+                "required": [],
+            },
+        ),
+        # ---- Additional Logs ----
+        Tool(
+            name="panorama_get_url_logs",
+            description="Get URL filtering logs with optional filter query",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "query": {"type": "string", "description": "Log filter query", "default": ""},
+                    "limit": {"type": "integer", "description": "Max logs (default: 100)", "default": 100},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_wildfire_logs",
+            description="Get WildFire submission/verdict logs with optional filter query",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "query": {"type": "string", "description": "Log filter query", "default": ""},
+                    "limit": {"type": "integer", "description": "Max logs (default: 100)", "default": 100},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_config_logs",
+            description="Get configuration change logs with optional filter query",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "query": {"type": "string", "description": "Log filter query", "default": ""},
+                    "limit": {"type": "integer", "description": "Max logs (default: 100)", "default": 100},
+                },
+                "required": [],
+            },
+        ),
+        # ---- Monitoring ----
+        Tool(
+            name="panorama_get_jobs",
+            description="Get async job status: commits, pushes, upgrades, and other background jobs",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "status": {
+                        "type": "string",
+                        "description": "Filter by job status (e.g., 'FIN', 'PEND', 'ACT')",
+                        "default": "",
+                    },
+                    "limit": {"type": "integer", "description": "Max jobs (default: 50)", "default": 50},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_ha_status",
+            description="Get high availability (HA) pair status for Panorama",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        Tool(
+            name="panorama_get_software_info",
+            description="Get installed PAN-OS and content/threat versions",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                },
+                "required": [],
+            },
+        ),
+        # ---- Power Tools ----
+        Tool(
+            name="panorama_run_direct",
+            description=(
+                "Call any PanDirect RPC method directly (power users). "
+                "Useful for methods not yet wrapped by dedicated tools."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "method": {
+                        "type": "string",
+                        "description": "PanDirect method name (e.g., 'DashboardDirect.getSystemInfo')",
+                    },
+                    "params": {
+                        "type": "array",
+                        "description": "Parameters array to pass to the method (default: [])",
+                        "default": [],
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "description": "Timeout in ms (default: 30000)",
+                        "default": 30000,
+                    },
+                },
+                "required": ["method"],
+            },
+        ),
+        Tool(
+            name="panorama_discover_methods",
+            description=(
+                "Enumerate available PanDirect API namespaces and methods via JS introspection. "
+                "Call with no namespace to list all namespaces, or with a namespace to list its methods."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "instance": {"type": "string", "description": inst_desc},
+                    "namespace": {
+                        "type": "string",
+                        "description": "PanDirect namespace to inspect (e.g., 'DashboardDirect'). Empty = list all.",
+                        "default": "",
+                    },
+                },
+                "required": [],
             },
         ),
         # ---- Browser control ----
@@ -409,13 +745,15 @@ async def _execute_tool(name: str, arguments: dict) -> dict:
         session = await _get_session_for(arguments)
         scraper = PanoramaScraper(session)
         dg = arguments.get("device_group", "shared")
-        return {"device_group": dg, "policies": await scraper.get_security_policies(dg)}
+        pos = arguments.get("position", "both")
+        return {"device_group": dg, "position": pos, "policies": await scraper.get_security_policies(dg, pos)}
 
     if name == "panorama_get_nat_policies":
         session = await _get_session_for(arguments)
         scraper = PanoramaScraper(session)
         dg = arguments.get("device_group", "shared")
-        return {"device_group": dg, "nat_policies": await scraper.get_nat_policies(dg)}
+        pos = arguments.get("position", "both")
+        return {"device_group": dg, "position": pos, "nat_policies": await scraper.get_nat_policies(dg, pos)}
 
     # ---- Log tools ----
     if name == "panorama_get_traffic_logs":
@@ -460,6 +798,147 @@ async def _execute_tool(name: str, arguments: dict) -> dict:
         session = await _get_session_for(arguments)
         scraper = PanoramaScraper(session)
         return await scraper.push_to_devices(arguments["device_group"])
+
+    # ---- System / Dashboard tools ----
+    if name == "panorama_get_system_info":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"system_info": await scraper.get_system_info()}
+
+    if name == "panorama_get_device_summary":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"device_summary": await scraper.get_device_summary()}
+
+    if name == "panorama_get_system_resources":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"resources": await scraper.get_system_resources()}
+
+    # ---- Configuration tools ----
+    if name == "panorama_get_templates":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"templates": await scraper.get_templates()}
+
+    if name == "panorama_get_commit_history":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        limit = arguments.get("limit", 50)
+        entries = await scraper.get_commit_history(limit)
+        return {"commits": entries, "count": len(entries)}
+
+    # ---- Object tools ----
+    if name == "panorama_get_address_objects":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        dg = arguments.get("device_group", "shared")
+        search = arguments.get("search", "")
+        objects = await scraper.get_address_objects(dg, search)
+        return {"device_group": dg, "address_objects": objects, "count": len(objects)}
+
+    if name == "panorama_get_service_objects":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        dg = arguments.get("device_group", "shared")
+        search = arguments.get("search", "")
+        objects = await scraper.get_service_objects(dg, search)
+        return {"device_group": dg, "service_objects": objects, "count": len(objects)}
+
+    if name == "panorama_get_address_groups":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        dg = arguments.get("device_group", "shared")
+        search = arguments.get("search", "")
+        groups = await scraper.get_address_groups(dg, search)
+        return {"device_group": dg, "address_groups": groups, "count": len(groups)}
+
+    if name == "panorama_get_service_groups":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        dg = arguments.get("device_group", "shared")
+        search = arguments.get("search", "")
+        groups = await scraper.get_service_groups(dg, search)
+        return {"device_group": dg, "service_groups": groups, "count": len(groups)}
+
+    # ---- Network tools ----
+    if name == "panorama_get_security_zones":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        template = arguments.get("template", "")
+        zones = await scraper.get_security_zones(template)
+        return {"template": template or "(all)", "zones": zones, "count": len(zones)}
+
+    if name == "panorama_get_interfaces":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        template = arguments.get("template", "")
+        interfaces = await scraper.get_interfaces(template)
+        return {"template": template or "(all)", "interfaces": interfaces, "count": len(interfaces)}
+
+    if name == "panorama_get_routing":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        template = arguments.get("template", "")
+        routing = await scraper.get_routing(template)
+        return {"template": template or "(all)", "routing": routing, "count": len(routing)}
+
+    # ---- Additional log tools ----
+    if name == "panorama_get_url_logs":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        q, lim = arguments.get("query", ""), arguments.get("limit", 100)
+        logs = await scraper.get_url_logs(q, lim)
+        return {"query": q, "logs": logs, "count": len(logs)}
+
+    if name == "panorama_get_wildfire_logs":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        q, lim = arguments.get("query", ""), arguments.get("limit", 100)
+        logs = await scraper.get_wildfire_logs(q, lim)
+        return {"query": q, "logs": logs, "count": len(logs)}
+
+    if name == "panorama_get_config_logs":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        q, lim = arguments.get("query", ""), arguments.get("limit", 100)
+        logs = await scraper.get_config_logs(q, lim)
+        return {"query": q, "logs": logs, "count": len(logs)}
+
+    # ---- Monitoring tools ----
+    if name == "panorama_get_jobs":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        status = arguments.get("status", "")
+        limit = arguments.get("limit", 50)
+        jobs = await scraper.get_jobs(status, limit)
+        return {"status_filter": status or "(all)", "jobs": jobs, "count": len(jobs)}
+
+    if name == "panorama_get_ha_status":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"ha_status": await scraper.get_ha_status()}
+
+    if name == "panorama_get_software_info":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        return {"software_info": await scraper.get_software_info()}
+
+    # ---- Power tools ----
+    if name == "panorama_run_direct":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        method = arguments["method"]
+        params = arguments.get("params", [])
+        timeout = arguments.get("timeout", 30000)
+        result = await scraper.run_direct(method, params, timeout)
+        return {"method": method, "result": result}
+
+    if name == "panorama_discover_methods":
+        session = await _get_session_for(arguments)
+        scraper = PanoramaScraper(session)
+        ns = arguments.get("namespace", "")
+        return await scraper.discover_methods(ns)
 
     # ---- Browser control ----
     if name == "panorama_screenshot":
