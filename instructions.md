@@ -32,6 +32,15 @@ Base instructions for AI assistants across all projects.
 - Prefer project-specific tooling over generic approaches
 - Check `.ai/project.yaml` for project configuration (language, framework, test runner, linter, formatter, and other project-specific settings)
 
+### MCP Servers
+
+MCP server configs live in `.ai/mcp/servers/`. This `.ai/` directory can be:
+
+- **`~/.ai/`** — Personal install, shared across all repos on the machine
+- **`<repo>/.ai/`** — Git submodule, shared with the team
+
+Each server has a `mcp.json` with its tool definitions. For VS Code, symlink `mcp/vscode.json` → `.vscode/mcp.json`. See [mcp/README.md](mcp/README.md) for per-server install steps and available tools.
+
 ## Personas & Panels
 
 - Personas are individual expert perspectives (see `personas/`)
@@ -64,10 +73,9 @@ Tool isolation: All `pip install` commands must run inside a Python virtual envi
 
 ### Choosing Between Similar Panels
 
-Some panels have overlapping scope. Use these guidelines:
-
-- **Security Review** vs **Adversarial Security Panel** vs **Penetration Testing**: Use Security Review for general vulnerability assessment and compliance. Use Adversarial Security for red/blue/purple team coordination and detection coverage validation. Use Penetration Testing for structured exploit-driven assessments with kill chain analysis.
 - **Code Review** vs **Technical Debt Review**: Use Code Review for evaluating specific changes (PRs, new features). Use Technical Debt Review for assessing accumulated debt across the codebase and prioritizing remediation.
+- **Architecture Review** vs **API Review**: Use Architecture Review for system-level design (boundaries, data models, infrastructure). Use API Review for contract design, developer experience, and consumer usability.
+- **Launch Readiness Review** vs **Security Review**: Launch Readiness covers operational readiness across the board (deploy, monitor, rollback). Security Review focuses specifically on threat analysis, attack paths, and security posture.
 
 ### Custom Panels
 
