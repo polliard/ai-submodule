@@ -222,3 +222,23 @@ If logical separation cannot be determined:
 - Do not auto-commit.
 - Present categorized grouping proposal.
 - Require confirmation before staging.
+
+---
+
+## Project-Specific Instructions
+
+### Pre-Commit Checks
+
+Before committing any changes that include markdown files, run the markdown linter:
+
+```bash
+make lint-md-fix
+```
+
+This will check and auto-fix common markdown issues. If issues remain after auto-fix, resolve them manually before committing.
+
+For check-only (no auto-fix):
+
+```bash
+make lint-md
+```
