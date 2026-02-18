@@ -17,7 +17,7 @@ MCP server for ServiceNow with SSO authentication via Playwright web scraping.
 ## Installation
 
 ```bash
-cd mcp/servers/servicenow
+cd mcp/servers/servicenow-mcp
 pip install -e .
 playwright install chromium
 ```
