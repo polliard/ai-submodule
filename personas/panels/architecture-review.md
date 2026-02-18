@@ -1,9 +1,11 @@
 # Panel: Architecture Review
 
 ## Purpose
+
 Evaluate system design and data architecture decisions from structural, operational, security, and data-layer perspectives.
 
 ## Participants
+
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Systems Architect](../architecture/systems-architect.md)** - Scalability, boundaries, state management
 - **[Data Architect](../domain_specific/data-architect.md)** - Schema design, data integrity, query patterns, data lifecycle
@@ -14,6 +16,7 @@ Evaluate system design and data architecture decisions from structural, operatio
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Indexing, query optimization, caching, hot paths
 
 ## Process
+
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
 2. Present design context and constraints
 3. Each participant evaluates from their lens
@@ -24,13 +27,16 @@ Evaluate system design and data architecture decisions from structural, operatio
 8. Converge on recommendations
 
 ## Output Format
+
 ### Per Participant
+
 - Perspective name
 - Architectural or data concerns
 - Risk assessment
 - Recommended changes
 
 ### Consolidated
+
 - Architectural strengths
 - Critical risks (structural and data-layer)
 - Schema issues requiring change
@@ -40,6 +46,7 @@ Evaluate system design and data architecture decisions from structural, operatio
 - Go/No-Go recommendation
 
 ## Constraints
+
 - Consider both build and operate phases
 - Identify hidden assumptions
 - Prefer reversible decisions
@@ -51,6 +58,7 @@ Evaluate system design and data architecture decisions from structural, operatio
 ## Conflict Resolution
 
 When participants produce conflicting recommendations:
+
 1. Present both positions with evidence and rationale
 2. Identify the underlying tradeoff (e.g., security vs. usability, performance vs. maintainability)
 3. Recommend a resolution with explicit justification

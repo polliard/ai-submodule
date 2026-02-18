@@ -113,24 +113,32 @@ Designing or evolving an API, from requirements through implementation and consu
 ```json
 <request body schema>
 ```
+
 **Response (200):**
+
 ```json
 <response body schema>
 ```
+
 **Errors:**
+
 - <status code> — <when this occurs>
 - ...
 
 ### <METHOD> <path>
+
 ...
 
 ## Common Patterns
+
 - **Pagination:** <approach>
 - **Filtering:** <approach>
 - **Error format:** <standard error shape>
 
 ## Breaking Changes
+
 <None, or list of breaking changes with migration path>
+
 ```
 
 ### GATE
@@ -166,23 +174,30 @@ Designing or evolving an API, from requirements through implementation and consu
 **Artifact `[API-3]: Consumer Review Feedback`**
 
 ```
+
 ## Use Case Coverage
+
 - <Use case 1> — <Covered / Gap identified>
 - ...
 
 ## Ergonomic Issues
+
 - <Issue and suggestion>
 - ...
 
 ## Design Concerns
+
 - [severity] <concern>
 - ...
 
 ## Verdict
+
 <Approved / Changes Requested>
 
 ## Required Changes (if any)
+
 - <Change>
+
 ```
 
 ### GATE
@@ -219,19 +234,25 @@ Designing or evolving an API, from requirements through implementation and consu
 **Artifact `[API-4]: Implementation Summary`**
 
 ```
+
 ## Files Created/Modified
+
 - `path/to/file` — <description>
 - ...
 
 ## Endpoint Implementation Status
+
 - <METHOD> <path> — <Implemented / Partial>
 - ...
 
 ## Test Results
+
 <Pass/fail summary>
 
 ## Deviations from Contract
+
 <None, or deviations with justification>
+
 ```
 
 ---
@@ -260,18 +281,23 @@ Designing or evolving an API, from requirements through implementation and consu
 **Artifact `[API-5]: API Documentation`**
 
 ```
+
 ## Documentation Location
+
 <path or URL>
 
 ## Contents
+
 - Getting Started / Authentication
 - Endpoint Reference (all endpoints with examples)
 - Error Handling Guide
 - Migration Guide (if evolving existing API)
 
 ## Code Examples Included
+
 - <language> — <which endpoints>
 - ...
+
 ```
 
 ### GATE

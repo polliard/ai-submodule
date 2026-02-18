@@ -7,6 +7,7 @@ Refactor the selected code to improve:
 - Testability
 
 Constraints:
+
 - Preserve existing behavior
 - Keep changes minimal
 - Explain reasoning for each change

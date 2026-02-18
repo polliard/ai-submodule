@@ -11,6 +11,7 @@ Generate a commit message and PR description for staged changes.
 ```
 
 ### Types
+
 - `feat` — new functionality
 - `fix` — bug fix
 - `refactor` — restructuring without behavior change
@@ -20,6 +21,7 @@ Generate a commit message and PR description for staged changes.
 - `perf` — performance improvement
 
 ### Rules
+
 - Subject line: imperative mood, lowercase, no period, under 72 characters
 - Body: explain **why**, not what (the diff shows what)
 - Reference ticket/issue numbers when applicable
@@ -42,4 +44,5 @@ Generate a commit message and PR description for staged changes.
 ```
 
 ## When to Use
+
 Before committing, to generate a well-structured message from the current diff.

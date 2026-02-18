@@ -1,9 +1,11 @@
 # Panel: Security Review
 
 ## Purpose
+
 Comprehensive security assessment combining vulnerability analysis, adversarial attack simulation, penetration testing methodology, and compliance evaluation from offensive, defensive, and governance perspectives.
 
 ## Participants
+
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Red Team Engineer](../compliance_governance/red-team-engineer.md)** - Attack surface enumeration, exploitation chains, kill chain analysis, privilege escalation
 - **[Blue Team Engineer](../compliance_governance/blue-team-engineer.md)** - Detection coverage, response readiness, hardening gaps
@@ -15,6 +17,7 @@ Comprehensive security assessment combining vulnerability analysis, adversarial 
 - **[Backend Engineer](../domain_specific/backend-engineer.md)** - Auth implementation, injection vectors, business logic flaws
 
 ## Process
+
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
 2. Define scope, threat model, trust boundaries, and adversary profile
 3. Infrastructure Engineer performs reconnaissance and service enumeration
@@ -29,13 +32,16 @@ Comprehensive security assessment combining vulnerability analysis, adversarial 
 12. Converge on prioritized remediation and posture improvement plan
 
 ## Output Format
+
 ### Per Participant
+
 - Perspective name
 - Findings with evidence and reproduction steps
 - Severity and exploitability rating
 - Recommended mitigations
 
 ### Consolidated
+
 - Executive summary with risk posture rating
 - Attack path narratives with kill chain mapping
 - Detection coverage matrix (detected / missed / partial)
@@ -46,6 +52,7 @@ Comprehensive security assessment combining vulnerability analysis, adversarial 
 - Security posture assessment (Strong / Adequate / Weak / Critical)
 
 ## Constraints
+
 - All testing must respect defined scope and rules of engagement
 - Ground every finding in reproducible evidence
 - Map findings to MITRE ATT&CK and OWASP where applicable
@@ -58,6 +65,7 @@ Comprehensive security assessment combining vulnerability analysis, adversarial 
 ## Conflict Resolution
 
 When participants produce conflicting recommendations:
+
 1. Present both positions with evidence and rationale
 2. Identify the underlying tradeoff (e.g., security vs. usability, performance vs. maintainability)
 3. Recommend a resolution with explicit justification

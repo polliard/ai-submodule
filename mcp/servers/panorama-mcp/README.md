@@ -114,36 +114,43 @@ If omitted, the first configured instance is used.
 ## Available Tools (36)
 
 ### Instance Management (4)
+
 - `panorama_list_instances` — List configured instances and session status
 - `panorama_login` — Open browser for SSO login
 - `panorama_check_auth` — Check authentication status
 - `panorama_logout` — Clear saved authentication
 
 ### System / Dashboard (3)
+
 - `panorama_get_system_info` — Hostname, IP, PAN-OS version, serial, uptime
 - `panorama_get_device_summary` — Connected/disconnected counts, version distribution
 - `panorama_get_system_resources` — CPU, memory, disk utilization
 
 ### Configuration (2)
+
 - `panorama_get_templates` — Templates, template stacks, and associations
 - `panorama_get_commit_history` — Config commit audit trail (who, when, what)
 
 ### Policy Queries (2)
+
 - `panorama_get_security_policies` — Security policies for a device group (`position`: `pre`, `post`, or `both`)
 - `panorama_get_nat_policies` — NAT policies for a device group (`position`: `pre`, `post`, or `both`)
 
 ### Objects (4)
+
 - `panorama_get_address_objects` — IP/FQDN/range objects with search filter
 - `panorama_get_service_objects` — Protocol/port objects with search filter
 - `panorama_get_address_groups` — Address group objects (collections of addresses) with search filter
 - `panorama_get_service_groups` — Service group objects (collections of services) with search filter
 
 ### Network (3)
+
 - `panorama_get_security_zones` — Security zones (template-scoped)
 - `panorama_get_interfaces` — Network interfaces (template-scoped)
 - `panorama_get_routing` — Routing info / virtual routers (template-scoped)
 
 ### Log Monitoring (6)
+
 - `panorama_get_traffic_logs` — Query traffic logs with optional filters
 - `panorama_get_threat_logs` — Query threat logs with optional filters
 - `panorama_get_system_logs` — Query system logs
@@ -152,24 +159,29 @@ If omitted, the first configured instance is used.
 - `panorama_get_config_logs` — Configuration change logs
 
 ### Device Management (2)
+
 - `panorama_get_device_groups` — List all device groups with device counts
 - `panorama_get_managed_devices` — List managed firewalls with full details
 
 ### Operations (2)
+
 - `panorama_commit` — Commit pending changes
 - `panorama_push` — Push configuration to devices
 
 ### Monitoring (3)
+
 - `panorama_get_jobs` — Async job status (commits, pushes, upgrades)
 - `panorama_get_ha_status` — High availability pair status
 - `panorama_get_software_info` — Installed PAN-OS + content versions
 
 ### Browser Control (3)
+
 - `panorama_screenshot` — Capture current page screenshot
 - `panorama_navigate` — Navigate to specific Panorama page
 - `panorama_page_snapshot` — Get accessibility tree for AI analysis
 
 ### Power Tools (2)
+
 - `panorama_run_direct` — Call any PanDirect RPC method directly (escape hatch for power users)
 - `panorama_discover_methods` — Enumerate available PanDirect namespaces and methods via JS introspection
 
@@ -229,6 +241,7 @@ Panorama restricts server-side authentication — only browser-based SSO with co
 ### Why Not Headless?
 
 Corporate SSO (Azure AD, Okta) typically requires visible browser mode:
+
 - SSL certificate validation needs the system browser's cert store
 - MFA prompts (push notifications, TOTP) need user interaction
 - Some IDPs detect and block headless browsers
@@ -246,6 +259,7 @@ python validate.py
 ```
 
 This will:
+
 1. Launch browser and navigate to Panorama
 2. Auto-SSO if session expired (wait for MFA if needed)
 3. Verify authentication works
@@ -257,21 +271,25 @@ This will:
 ## Troubleshooting
 
 ### "Not authenticated" errors
+
 - The browser may have been closed (session-only cookies lost)
 - SSO session expired — the server will auto-SSO on next tool call
 - Check if `PANORAMA_SSO_ACCOUNT` is set correctly
 
 ### Browser not opening
+
 - Ensure Playwright is installed: `playwright install chromium`
 - Microsoft Edge must be installed (`channel="msedge"`)
 - `PANORAMA_HEADLESS` must be `false` (default) for SSO
 
 ### "Panos.direct.run timed out"
+
 - Panorama may be slow to respond — increase timeout
 - The browser page may have navigated away — use `panorama_check_auth`
 - Check if the Panorama instance is accessible
 
 ### Auto-SSO not working
+
 - Set `PANORAMA_SSO_ACCOUNT` to your AD username (e.g., `user@company.com`)
 - The SSO Account field on Panorama's login page must match
 - Some IDPs require MFA on every login — user interaction is needed

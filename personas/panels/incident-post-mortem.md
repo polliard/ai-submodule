@@ -1,9 +1,11 @@
 # Panel: Incident Post-Mortem
 
 ## Purpose
+
 Analyze incident for root cause and systemic improvements.
 
 ## Participants
+
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Incident Commander](../special_purpose/incident-commander.md)** - Timeline accuracy, response effectiveness
 - **[SRE](../operations_reliability/sre.md)** - Detection gaps, SLO impact, operational failures
@@ -13,6 +15,7 @@ Analyze incident for root cause and systemic improvements.
 - **[Debugger](../engineering/debugger.md)** - Root cause analysis, code-level fault tracing, reproduction steps
 
 ## Process
+
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
 2. Reconstruct incident timeline
 3. Each participant analyzes from their perspective
@@ -22,13 +25,16 @@ Analyze incident for root cause and systemic improvements.
 7. Prioritize preventive actions
 
 ## Output Format
+
 ### Per Participant
+
 - Perspective name
 - Contributing factors identified
 - Gaps in their domain
 - Recommended improvements
 
 ### Consolidated
+
 - Incident summary
 - Root cause(s)
 - Contributing factors
@@ -37,6 +43,7 @@ Analyze incident for root cause and systemic improvements.
 - Systemic improvements needed
 
 ## Constraints
+
 - Focus on systems, not individuals
 - Seek multiple contributing factors
 - Prioritize prevention over detection
@@ -45,6 +52,7 @@ Analyze incident for root cause and systemic improvements.
 ## Conflict Resolution
 
 When participants produce conflicting recommendations:
+
 1. Present both positions with evidence and rationale
 2. Identify the underlying tradeoff (e.g., security vs. usability, performance vs. maintainability)
 3. Recommend a resolution with explicit justification

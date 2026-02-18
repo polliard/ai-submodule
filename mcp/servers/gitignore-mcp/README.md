@@ -100,10 +100,12 @@ List all available templates from all configured sources.
 **CLI:** `gitignore list`
 
 **Example prompts:**
+
 - "Show me all available gitignore templates"
 - "What gitignore templates can I use?"
 
 **Output format:**
+
 ```
 github/actionscript
 github/go
@@ -122,16 +124,19 @@ Search templates by name pattern.
 **CLI:** `gitignore search <pattern>`
 
 **Parameters:**
+
 | Name      | Type   | Required | Description                                  |
 | --------- | ------ | -------- | -------------------------------------------- |
 | `pattern` | string | ✓        | Search pattern (e.g., 'rust', 'node', 'mac') |
 
 **Example prompts:**
+
 - "Search for rust gitignore templates"
 - "Find gitignore templates for macOS"
 - "What Node.js templates are available?"
 
 **Example:**
+
 ```bash
 $ gitignore search rust
 github/rust
@@ -148,16 +153,19 @@ Add a gitignore template to `.gitignore`. Templates are wrapped in section marke
 **CLI:** `gitignore add <type>`
 
 **Parameters:**
+
 | Name   | Type   | Required | Description                         |
 | ------ | ------ | -------- | ----------------------------------- |
 | `type` | string | ✓        | Template name or `source/name` path |
 
 **Example prompts:**
+
 - "Add Go gitignore patterns"
 - "Add the macOS global gitignore"
 - "Add github/go and github/global/visualstudiocode to my gitignore"
 
 **Examples:**
+
 ```bash
 gitignore add go                        # Auto-selects by priority
 gitignore add github/go                 # Specific source
@@ -166,6 +174,7 @@ gitignore add local/myproject           # Custom local template
 ```
 
 **Result in `.gitignore`:**
+
 ```gitignore
 ### START: Go
 # Binaries for programs and plugins
@@ -185,15 +194,18 @@ Remove a previously added template section from `.gitignore`.
 **CLI:** `gitignore delete <type>`
 
 **Parameters:**
+
 | Name   | Type   | Required | Description                |
 | ------ | ------ | -------- | -------------------------- |
 | `type` | string | ✓        | Template section to remove |
 
 **Example prompts:**
+
 - "Remove the Go gitignore patterns"
 - "Delete the Node.js section from my gitignore"
 
 **Example:**
+
 ```bash
 gitignore delete go
 ```
@@ -207,16 +219,19 @@ Add paths/patterns directly without using a template. Useful for project-specifi
 **CLI:** `gitignore ignore <patterns...>`
 
 **Parameters:**
+
 | Name       | Type          | Required | Description     |
 | ---------- | ------------- | -------- | --------------- |
 | `patterns` | array[string] | ✓        | Patterns to add |
 
 **Example prompts:**
+
 - "Add /dist/ to my gitignore"
 - "Ignore node_modules and *.log files"
 - "Add .env.local to gitignore"
 
 **Examples:**
+
 ```bash
 gitignore ignore /dist/
 gitignore ignore node_modules *.log tmp/
@@ -232,15 +247,18 @@ Remove patterns previously added via `ignore`.
 **CLI:** `gitignore remove <patterns...>`
 
 **Parameters:**
+
 | Name       | Type          | Required | Description        |
 | ---------- | ------------- | -------- | ------------------ |
 | `patterns` | array[string] | ✓        | Patterns to remove |
 
 **Example prompts:**
+
 - "Remove /dist/ from my gitignore"
 - "Stop ignoring node_modules"
 
 **Example:**
+
 ```bash
 gitignore remove /dist/ node_modules
 ```
@@ -254,6 +272,7 @@ Initialize `.gitignore` with all default types from configuration.
 **CLI:** `gitignore init`
 
 **Example prompts:**
+
 - "Initialize my gitignore with defaults"
 - "Set up gitignore for this new project"
 
@@ -270,6 +289,7 @@ gitignore add github/global/visualstudiocode
 ```
 
 Or configure defaults and run:
+
 ```bash
 gitignore init
 ```
@@ -287,6 +307,7 @@ gitignore ignore /dist/ /build/ .env.local
 ### Custom Templates
 
 1. Create local template:
+
    ```bash
    mkdir -p ~/.config/gitignore/templates
    cat > ~/.config/gitignore/templates/mycompany.gitignore << 'EOF'
@@ -298,6 +319,7 @@ gitignore ignore /dist/ /build/ .env.local
    ```
 
 2. Use in any project:
+
    ```bash
    gitignore add mycompany
    # or explicitly:
@@ -307,8 +329,8 @@ gitignore ignore /dist/ /build/ .env.local
 ### Audit & Cleanup
 
 Remove templates you no longer need:
+
 ```bash
 gitignore delete python
 gitignore remove *.log
 ```
-

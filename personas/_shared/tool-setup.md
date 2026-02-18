@@ -18,6 +18,7 @@
    - Note which evaluation criteria are affected
    - If >50% of required tools are unavailable, declare the persona degraded and flag this in output
 5. **Report** — Emit a tool status summary before beginning analysis:
+
    ```
    Tool Status:
    ✓ semgrep (v1.56.0) [required]

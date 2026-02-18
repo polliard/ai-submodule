@@ -1,9 +1,11 @@
 # Panel: Threat Modeling Review
 
 ## Purpose
+
 Systematic identification, classification, and prioritization of threats against a system using structured methodologies (STRIDE, MITRE ATT&CK, attack trees). Combines architectural analysis with offensive, defensive, and intelligence perspectives to produce a prioritized threat register and actionable mitigation roadmap.
 
 ## Participants
+
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[MITRE Analyst](../compliance_governance/mitre-analyst.md)** - Threat modeling lead: STRIDE analysis, ATT&CK mapping, attack trees, threat actor profiling
 - **[Systems Architect](../architecture/systems-architect.md)** - Trust boundaries, data flow diagrams, component interactions, blast radius
@@ -15,6 +17,7 @@ Systematic identification, classification, and prioritization of threats against
 - **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory impact of identified threats, risk acceptance criteria
 
 ## Process
+
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
 2. Systems Architect presents the architecture: components, data flows, trust boundaries, and external dependencies
 3. MITRE Analyst constructs data flow diagrams and identifies all trust boundary crossings
@@ -30,13 +33,16 @@ Systematic identification, classification, and prioritization of threats against
 13. Converge on prioritized threat register and mitigation roadmap
 
 ## Output Format
+
 ### Per Participant
+
 - Perspective name
 - Findings with evidence
 - Severity and likelihood rating
 - Recommended mitigations or controls
 
 ### Consolidated
+
 - Executive summary with overall threat posture
 - Data flow diagrams with annotated trust boundaries
 - STRIDE threat catalog per component and boundary
@@ -51,6 +57,7 @@ Systematic identification, classification, and prioritization of threats against
 - Threat posture assessment (Strong / Adequate / Weak / Critical)
 
 ## Constraints
+
 - Ground every threat in architectural context — no abstract threat lists
 - Every threat must trace to a specific data flow, trust boundary, or component
 - Validate threats with realistic attack paths, not theoretical speculation
@@ -63,6 +70,7 @@ Systematic identification, classification, and prioritization of threats against
 ## Conflict Resolution
 
 When participants produce conflicting threat assessments or mitigations:
+
 1. Present both positions with evidence and rationale
 2. Identify the underlying tradeoff (e.g., security vs. usability, cost vs. coverage)
 3. Recommend a resolution with explicit justification and residual risk acknowledgment

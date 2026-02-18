@@ -21,6 +21,7 @@ cd mcp\servers\servicenow-mcp
 ```
 
 The installer will:
+
 1. Check Python version (3.9+)
 2. Create a `.venv` virtual environment (or recreate if stale)
 3. Install the package and dependencies into the venv
@@ -103,18 +104,22 @@ with an 8-hour expiry.
 ## Troubleshooting
 
 ### "externally-managed-environment" error
+
 Your system Python is managed by Homebrew/OS. The installer handles this by
 using a virtual environment. If running manually, always use `.venv/bin/pip`
 instead of bare `pip` or `pip3`.
 
 ### Stale venv / "bad interpreter" error
+
 If you moved the project directory, the venv's Python symlinks break. Fix:
+
 ```bash
 rm -rf .venv
 bash install.sh
 ```
 
 ### Playwright browser not found
+
 Re-run: `.venv/bin/playwright install chromium`
 
 See [README.md](README.md) for full tool documentation and troubleshooting.

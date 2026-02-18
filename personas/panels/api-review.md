@@ -1,9 +1,11 @@
 # Panel: API Review
 
 ## Purpose
+
 Evaluate API design, developer experience, and consumer usability from provider, consumer, and documentation perspectives.
 
 ## Participants
+
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[API Designer](../architecture/api-designer.md)** - REST correctness, versioning, contracts
 - **[API Consumer](../special_purpose/api-consumer.md)** - Usability, onboarding experience, error message quality
@@ -13,6 +15,7 @@ Evaluate API design, developer experience, and consumer usability from provider,
 - **[Documentation Reviewer](../documentation/documentation-reviewer.md)** - Accuracy, completeness, discoverability of developer docs
 
 ## Process
+
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
 2. Review API contract, documentation, and SDK surface
 3. Define developer personas and key workflows
@@ -24,13 +27,16 @@ Evaluate API design, developer experience, and consumer usability from provider,
 9. Converge on design and experience improvements
 
 ## Output Format
+
 ### Per Participant
+
 - Perspective name
 - Design or usability concerns
 - Impact on developer productivity
 - Suggested changes
 
 ### Consolidated
+
 - Contract issues requiring change
 - Breaking change risks
 - Critical developer experience blockers
@@ -40,6 +46,7 @@ Evaluate API design, developer experience, and consumer usability from provider,
 - Developer satisfaction assessment (Strong / Adequate / Needs Work / Poor)
 
 ## Constraints
+
 - Prioritize backward compatibility
 - Consider multiple client types
 - Ensure consistent error semantics
@@ -51,6 +58,7 @@ Evaluate API design, developer experience, and consumer usability from provider,
 ## Conflict Resolution
 
 When participants produce conflicting recommendations:
+
 1. Present both positions with evidence and rationale
 2. Identify the underlying tradeoff (e.g., security vs. usability, performance vs. maintainability)
 3. Recommend a resolution with explicit justification
