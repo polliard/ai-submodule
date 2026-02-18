@@ -1,5 +1,25 @@
 # AI Instructions
 
+## Project Specific Instructions for All Repositories
+
+### Pre-Commit Checks
+
+Before committing any changes that include markdown files, run the markdown linter:
+
+```bash
+make lint-md-fix
+```
+
+This will check and auto-fix common markdown issues. If issues remain after auto-fix, resolve them manually before committing.
+
+For check-only (no auto-fix):
+
+```bash
+make lint-md
+```
+
+---
+
 > **Version**: 2.0 | **Last updated**: 2026-02-17
 
 Base instructions for AI assistants across all projects.
