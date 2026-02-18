@@ -228,7 +228,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 ## Phase 5: Post-Mortem
 
-> **Invoke round table:** `personas/round_tables/incident-post-mortem.md`
+> **Invoke panel:** `personas/panels/incident-post-mortem.md`
 
 ### Input
 

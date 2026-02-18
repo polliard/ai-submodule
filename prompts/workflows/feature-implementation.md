@@ -206,7 +206,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 ## Phase 5: Review
 
-> **Invoke round table:** `personas/round_tables/code-review.md`
+> **Invoke panel:** `personas/panels/code-review.md`
 
 ### Input
 

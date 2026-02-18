@@ -103,7 +103,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 ## Phase 3: Trade-offs
 
-> **Invoke round table:** `personas/round_tables/architecture-review.md`
+> **Invoke panel:** `personas/panels/architecture-review.md`
 
 ### Input
 
@@ -125,11 +125,11 @@ Making and documenting an architectural choice using an Architecture Decision Re
 ```
 ## Comparison Matrix
 
-| Criterion        | Option A | Option B | Option C |
-|------------------|----------|----------|----------|
-| <Criterion 1>   | <rating> | <rating> | <rating> |
-| <Criterion 2>   | <rating> | <rating> | <rating> |
-| ...              | ...      | ...      | ...      |
+| Criterion     | Option A | Option B | Option C |
+| ------------- | -------- | -------- | -------- |
+| <Criterion 1> | <rating> | <rating> | <rating> |
+| <Criterion 2> | <rating> | <rating> | <rating> |
+| ...           | ...      | ...      | ...      |
 
 ## Option A: Pros & Cons
 **Pros:** <list>

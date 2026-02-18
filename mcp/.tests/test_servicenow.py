@@ -10,6 +10,7 @@ Authentication:
     Uses browser-based SSO - a browser window will open for authentication.
 """
 
+import json
 import os
 import pytest
 
@@ -66,6 +67,8 @@ class TestServiceNowProtocol:
             "snow_group_query",
             "snow_table_query",
             "snow_kb_search",
+            "snow_describe_table",
+            "snow_build_query",
         }
 
         for expected in expected_tools:
@@ -80,6 +83,63 @@ class TestServiceNowProtocol:
             assert "inputSchema" in tool, f"Tool {tool['name']} missing inputSchema"
             schema = tool["inputSchema"]
             assert schema.get("type") == "object"
+
+
+class TestServiceNowQueryBuilder:
+    """Test query building (no auth required)."""
+
+    def test_build_query_simple(self, servicenow_client):
+        """Build a simple query with one filter."""
+        servicenow_client.initialize()
+        result = servicenow_client.call_tool("snow_build_query", {
+            "filters": [
+                {"field": "u_lob", "operator": "=", "value": "SET"}
+            ]
+        })
+
+        assert "content" in result
+        content = result["content"][0]
+        data = json.loads(content["text"])
+        assert data["query"] == "u_lob=SET"
+
+    def test_build_query_multiple_filters(self, servicenow_client):
+        """Build a query with multiple filters."""
+        servicenow_client.initialize()
+        result = servicenow_client.call_tool("snow_build_query", {
+            "filters": [
+                {"field": "u_lob", "operator": "=", "value": "SET"},
+                {"field": "operational_status", "operator": "!=", "value": "retired"},
+                {"field": "name", "operator": "LIKE", "value": "prod"}
+            ],
+            "operator": "AND"
+        })
+
+        assert "content" in result
+        content = result["content"][0]
+        data = json.loads(content["text"])
+        assert data["query"] == "u_lob=SET^operational_status!=retired^nameLIKEprod"
+
+    def test_build_query_operators(self, servicenow_client):
+        """Build query with various operators."""
+        servicenow_client.initialize()
+
+        # Test ISEMPTY
+        result = servicenow_client.call_tool("snow_build_query", {
+            "filters": [
+                {"field": "owner", "operator": "ISEMPTY"}
+            ]
+        })
+        data = json.loads(result["content"][0]["text"])
+        assert data["query"] == "ownerISEMPTY"
+
+        # Test IN
+        result = servicenow_client.call_tool("snow_build_query", {
+            "filters": [
+                {"field": "state", "operator": "IN", "value": "1,2,3"}
+            ]
+        })
+        data = json.loads(result["content"][0]["text"])
+        assert data["query"] == "stateIN1,2,3"
 
 
 class TestServiceNowCMDB:
@@ -287,13 +347,15 @@ class TestServiceNowIntegration:
         assert "content" in result
         assert len(result["content"]) > 0
 
-        # Parse the JSON response
-        import json
+        # Parse the JSON response (new format with records and metadata)
         content_text = result["content"][0]["text"]
         data = json.loads(content_text)
 
-        # Must have at least 1 business application
-        assert isinstance(data, list), "Expected list of business applications"
-        assert len(data) > 0, "Expected at least 1 business application, got 0"
+        # Must have records list and metadata
+        assert isinstance(data, dict), "Expected dict with records and metadata"
+        assert "records" in data, "Expected 'records' key in response"
+        assert "total_fetched" in data, "Expected 'total_fetched' key in response"
+        assert isinstance(data["records"], list), "Expected records to be a list"
+        assert len(data["records"]) > 0, "Expected at least 1 business application, got 0"
 
-        print(f"Found {len(data)} business applications")
+        print(f"Found {data['total_fetched']} business applications")

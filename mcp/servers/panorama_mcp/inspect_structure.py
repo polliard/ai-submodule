@@ -17,7 +17,8 @@ async def main():
 
     session = await get_session(os.environ["PANORAMA_URL"], headless=False)
 
-    # Navigate to different pages and capture structure
+    # Navigate to
+    # different pages and capture structure
     pages_to_check = [
         ("Dashboard", ""),
         ("Device Groups", "#panorama/device_groups"),

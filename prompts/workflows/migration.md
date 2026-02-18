@@ -259,7 +259,7 @@ For each step in the execution plan:
 
 ## Phase 5: Validation
 
-> **Invoke round table:** `personas/round_tables/migration-review.md`
+> **Invoke panel:** `personas/panels/migration-review.md`
 
 ### Input
 

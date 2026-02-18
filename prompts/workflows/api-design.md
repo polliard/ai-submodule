@@ -146,7 +146,7 @@ Designing or evolving an API, from requirements through implementation and consu
 
 ## Phase 3: Consumer Review
 
-> **Invoke round table:** `personas/round_tables/api-design-review.md`
+> **Invoke panel:** `personas/panels/api-design-review.md`
 
 ### Input
 

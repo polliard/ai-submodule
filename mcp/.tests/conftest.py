@@ -21,7 +21,8 @@ SERVERS = {
     },
     "servicenow": {
         # Use venv's servicenow-mcp to ensure we get the latest installed version
-        "command": [os.path.join(_VENV_BIN, "servicenow-mcp"), "serve"],
+        # Use --no-preauth to handle SSO on-demand during tests
+        "command": [os.path.join(_VENV_BIN, "servicenow-mcp"), "serve", "--no-preauth"],
         "env": {
             "SERVICENOW_INSTANCE": os.environ.get("SERVICENOW_INSTANCE", ""),
         },
