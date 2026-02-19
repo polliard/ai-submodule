@@ -1,45 +1,60 @@
 name: release
 
 on:
-  push:
-    tags:
-      - "v*"
+    push:
+        tags:
+            - "v*"
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
-      - name: Ensure tag is on main
-        id: on_main
-        run: |
-          TAG_REF=${GITHUB_REF#refs/tags/}
-          TAG_COMMIT=$(git rev-list -n1 "$TAG_REF")
-          git fetch origin main --quiet
-          if git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
-            echo "on_main=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Tag $TAG_REF not on main; skipping release."
-            echo "on_main=false" >> "$GITHUB_OUTPUT"
-          fi
+            - name: Ensure tag is on main
+              id: on_main
+              run: |
+                  TAG_REF=${GITHUB_REF#refs/tags/}
+                  TAG_COMMIT=$(git rev-list -n1 "$TAG_REF")
+                  git fetch origin main --quiet
+                  if git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
+                    echo "on_main=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "Tag $TAG_REF not on main; skipping release."
+                    echo "on_main=false" >> "$GITHUB_OUTPUT"
+                  fi
 
-      - name: Compute previous tag
-        if: ${{ steps.on_main.outputs.on_main == 'true' }}
-        id: prev
-        run: |
-          TAG_REF=${GITHUB_REF#refs/tags/}
-          PREV=$(git tag --list 'v*' --sort=-v:refname | grep -A1 "^${TAG_REF}$" | tail -n1 || true)
-          echo "prev_tag=${PREV}" >> "$GITHUB_OUTPUT"
+            - name: Compute previous tag
+              if: ${{ steps.on_main.outputs.on_main == 'true' }}
+              id: prev
+              run: |
+                  TAG_REF=${GITHUB_REF#refs/tags/}
+                  PREV=$(git tag --list 'v*' --sort=-v:refname | grep -A1 "^${TAG_REF}$" | tail -n1 || true)
+                  echo "prev_tag=${PREV}" >> "$GITHUB_OUTPUT"
 
-      - name: Create release
-        if: ${{ steps.on_main.outputs.on_main == 'true' }}
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create release
+              if: ${{ steps.on_main.outputs.on_main == 'true' }}
+              uses: actions/github-script@v7
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  script: |
+                      const tag = process.env.GITHUB_REF_NAME;
+                      try {
+                        const resp = await github.rest.repos.createRelease({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          tag_name: tag,
+                          generate_release_notes: true,
+                        });
+                        core.info(`Release created: ${resp.data.html_url}`);
+                      } catch (error) {
+                        if (error.status === 422) {
+                          core.warning(`Release for ${tag} already exists; skipping.`);
+                        } else {
+                          throw error;
+                        }
+                      }
