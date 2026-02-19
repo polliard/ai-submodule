@@ -1,0 +1,48 @@
+# Project AI Configuration
+# This file describes the .ai submodule repo itself.
+# For application projects, copy templates/project.yaml and customize.
+
+# Project metadata
+name: "ai-submodule"
+description: "Shared AI instructions, prompts, personas, and templates"
+language: "markdown"
+framework: null
+
+# Relevant personas for maintaining this repo
+personas:
+  - documentation/documentation-reviewer.md
+  - documentation/documentation-writer.md
+  - domain_specific/llm-analyst.md
+  - domain_specific/llm-engineer.md
+  - process_people/moderator.md
+
+# Panels used when reviewing this repo
+panels:
+  - documentation-review.md
+  - ai-governance-review.md
+
+# Conventions
+conventions:
+  style:
+    indent: "spaces"
+    indent_size: 2
+    max_line_length: 120
+  linting:
+    markdown: "markdownlint"
+    markdown_fix: "make lint-md-fix"
+    markdown_check: "make lint-md"
+  git:
+    branch_pattern: "feature/{description}"
+    commit_style: "conventional"
+    pr_template: false
+
+# Project-specific instructions
+instructions: |
+  - This repo is consumed as a git submodule at .ai/ in other projects.
+  - All persona files live under personas/ and follow the standard template.
+  - Panel files live under personas/panels/.
+  - Shared policies live under personas/_shared/.
+  - Templates for new projects live under templates/.
+  - MCP server configs live under mcp/servers/.
+  - Run `make lint-md-fix` before committing any markdown changes.
+  - Do not add application code to this repo — it is configuration only.
