@@ -181,6 +181,12 @@ All persona-based analysis is governed by these shared policies:
 
 ### Version Control
 
+- If you are committing, prompt chain to get if its major, minor, patch.
+- With that information from the user, read the .symver file and increment the major, minor,
+or patch with +1.
+- If you modify the .symver make sure that when the uer says push that you tag and push both
+tags and repo at the same time.
+
 #### Filesystem-Aware Grouping
 
 Before staging any changes:
