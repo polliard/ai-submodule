@@ -44,3 +44,11 @@ logs/
 *.tmp
 *.temp
 .cache/
+
+### START: ignored/reasoned-instructions.md
+reasoned-instructions.md
+### END: ignored/reasoned-instructions.md
+
+# Generated outputs
+.cursor/rules/
+docs/panel-reports/
