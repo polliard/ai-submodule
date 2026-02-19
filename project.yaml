@@ -23,14 +23,26 @@ panels:
 
 # Conventions
 conventions:
+  testing:
+    framework: "make lint-md"
+    validation: "personas/validate.sh"
+    coverage_target: null
+    naming: null
   style:
     indent: "spaces"
     indent_size: 2
     max_line_length: 120
-  linting:
-    markdown: "markdownlint"
-    markdown_fix: "make lint-md-fix"
-    markdown_check: "make lint-md"
+    linter: "markdownlint"
+    formatter: null
+    linter_fix: "make lint-md-fix"
+    linter_check: "make lint-md"
+  architecture:
+    layout: "flat"
+    structure: "personas/, prompts/, templates/, mcp/"
+    validation: "markdownlint"
+  tooling:
+    build: "make"
+    linter: "markdownlint"
   git:
     branch_pattern: "feature/{description}"
     commit_style: "conventional"
