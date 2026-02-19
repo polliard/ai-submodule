@@ -1,284 +1,303 @@
 # AI Instructions
 
-Base instructions for AI assistants across all projects.
+<!-- Target: <1500 tokens for core rules. Offload reference material to linked files. -->
 
-## Core Principles
+> Base instructions for AI assistants across all projects.
+> Load this file before beginning any task in a repo.
 
-- Be concise and direct
-- Show, don't tell - prefer code over explanations
-- Follow project conventions (see project-specific instructions)
-- Ask clarifying questions when requirements are ambiguous
-- Prefer iterative changes over large rewrites
-- Always keep documentation in sync with code.
-- Use American English for spelling, naming conventions, and checks
-- In repositories always use markdown files for documentation.
-- Provide context for suggestions
-- Link to relevant files when discussing code
+## Quick Reference
+
+Five core behaviors:
+
+1. Be direct — prefer code over explanation.
+2. Check `.ai/project.yaml` for project settings before starting.
+3. Use American English.
+4. Keep documentation in sync with code.
+5. Use available MCP tools before generic alternatives.
+
+## Core Behavior
+
+- Be direct and concise. Default to showing code over narrating it.
+- Infer intent and act. Ask only when intent is genuinely ambiguous
+  and the answer materially changes your approach.
+- Follow existing patterns before introducing new ones.
+- Prefer iterative, scoped changes over large rewrites.
+- Link to relevant files when their paths are known and the reference
+  aids understanding.
+- Before modifying code, read `project.yaml` and understand the
+  project structure, key directories, and tech stack.
+
+## Security
+
+- Never hardcode secrets, tokens, or credentials. Use environment
+  variables or secret managers.
+- Never commit `.env` files, private keys, or connection strings.
+- Use parameterized queries for all database operations. Never
+  concatenate user input into SQL strings.
+- Sanitize all user input before passing to shell commands, file
+  paths, or template engines.
+- Never disable TLS/SSL verification in production code.
+- Never use `eval()`, `exec()`, or equivalent on untrusted input.
+- Never run destructive commands (`rm -rf`, `git push --force`,
+  `DROP TABLE`, `docker system prune`) without explicit user
+  confirmation.
+- Prefer least-privilege access in IAM policies, service accounts,
+  and file permissions.
+
+## Agent Mode
+
+When operating autonomously (Copilot agent mode, Claude Code,
+Cursor Composer):
+
+- **Verify changes**: run project tests and `make lint-md-fix`
+  after edits before proceeding.
+- **Scope changes**: only modify files directly related to the
+  current task.
+- **Incremental commits**: for multi-file changes, commit
+  incrementally rather than in one massive commit.
+- **Destructive-command guards**: never force-push, delete
+  branches, drop databases, or run destructive commands without
+  user confirmation.
+- **Rollback on failure**: if tests fail after a change, revert
+  and explain the failure before retrying.
+- **File creation policy**: do not create summary, log, or
+  report files unless explicitly requested.
+- **Test preservation**: never delete or weaken existing tests.
+  Only add or strengthen. If a test must change, explain why
+  before modifying it.
+
+## Conditional Behavior
+
+- If MCP tools are available, prefer them over CLI alternatives.
+  If not, fall back to CLI.
+- If running in agent mode with terminal access, verify changes
+  before committing. If in chat-only mode, provide commands for
+  the user to run.
+- If the project has no `project.yaml`, infer settings from
+  workspace structure (lockfiles, configs, directory layout).
+
+## Code Quality
+
+- Write idiomatic code for the language in use.
+- Include error handling.
+- Write testable code.
+- Write tests for code created with at least 80% coverage.
+- Follow existing patterns in the codebase.
+
+## Coding Languages
+
+### Python
+
+- Always use virtual environments `.venv`.
+- If there are multiple projects within a repo, use `.venv` inside
+  subdirectories to separate needed tooling.
+
+### JavaScript and TypeScript
+
+- Use `package-lock.json` or `yarn.lock` — always commit lockfiles.
+- Prefer `npx` for one-shot CLI tool execution over global installs.
+- Use project-local ESLint and Prettier configs; do not rely on global
+  settings.
+- Follow the existing code style (e.g., semicolons, quotes).
+- Use existing linting and formatting tools (e.g., ESLint, Prettier).
+- For new projects, use standard tools like ESLint with Airbnb config
+  and Prettier.
+- Use JSDoc for function documentation.
+
+### Go
+
+- Follow standard `go mod` for dependency management.
+- Use `go vet` and `staticcheck` for static analysis.
+- Keep module paths consistent with repository structure.
+
+### Dependencies
+
+When adding dependencies to any language:
+
+- Prefer standard library solutions before third-party packages.
+- Check license compatibility before adding a dependency.
+- Verify the package is actively maintained (recent commits, open
+  issue triage).
+- Pin versions in lockfiles. Avoid floating version ranges in
+  production.
+
+## Tools
+
+- Read `.ai/project.yaml` for language, framework, test runner, linter,
+  formatter, and other project settings. If the file does not exist,
+  infer from workspace structure.
+- Use available MCP tools first. Prefer project-specific tooling over
+  generic CLI alternatives.
+- MCP server configs live in `.ai/mcp/servers/`. Each server has a
+  `mcp.json` with tool definitions.
+  - `~/.ai/` — personal install, shared across all repos on the
+    machine.
+  - `<repo>/.ai/` — git submodule, shared with the team.
+  - VS Code: symlink `mcp/vscode.json` → `.vscode/mcp.json`. See
+    [`mcp/README.md`](mcp/README.md).
+- Python: always `pip install` inside `.venv`.
+- Node CLI tools: use `npx`; do not install globally.
 
 ## Documentation
 
 - Always use markdown files for documentation unless specified.
-- When reviewing technical documentation leverage the following LLM Models:
-  - GPT-4.1-mini
-  - GPT-4o-class
-  - GPT-5.2
-  - Claude Sonnet 4.6
-- Always use mermaid diagrams for diagrams for documentation within markdown files.
+- Always use mermaid diagrams for documentation within markdown files.
 
 ## Markdown Formatting
 
-All markdown files must pass `markdownlint` using the project config
+All markdown files must pass `markdownlint` with the project config
 (`.markdownlint.json`). Run `make lint-md-fix` before committing.
-Key rules:
+See `.markdownlint.json` for the full ruleset.
 
-- **Line length**: max 120 characters per line (MD013). Break long
-  sentences, table rows, and URLs onto continuation lines.
-- **Headings**: ATX style only (`# H1`, `## H2`). No underline-style
-  headings (MD003).
-- **Lists**: use `-` for unordered lists (MD004). Indent nested lists
-  by 2 spaces (MD007).
-- **Blank lines**: leave one blank line before and after headings,
-  fenced code blocks, and block-level elements.
-- **Fenced code blocks**: always specify a language tag
-  (e.g., `` ```yaml ``, `` ```bash ``). Never leave a bare `` ``` ``.
-- **First line**: every markdown file must start with a top-level `#`
-  heading (MD041).
-- **Duplicate headings**: no duplicate heading text among sibling
-  headings (MD024). Different nesting levels may reuse text.
-- **Inline HTML**: allowed when markdown cannot express the structure.
+## Paved Roads
 
-## Code Quality
+For JM best practices, check repositories at
+<https://github.com/JM-Paved-Roads> before introducing new patterns.
 
-- Write idiomatic code for the language
-- Include error handling
-- Write testable code
-- Follow existing patterns in the codebase
+## Version Control
 
-## Patterns and Paved Roads
+Before staging, run `git status --porcelain`, analyze paths, and group
+changes by top-level directory and change intent. Each commit must
+represent one logical change in one domain.
 
-- Use <https://github.com/JM-Paved-Roads> and the repositories below to determine JM best practices.
+### Semantic Versioning
 
-## Panels and Persona Reviews
+- Before committing, determine the version bump type (major, minor,
+  patch, or none) from the user.
+- Read the `.symver` file and increment the selected component by 1
+  unless the choice is none.
+- If `.symver` is modified, tag and push both tags and repo together
+  when the user says push.
 
-- Use personas for focused analysis from specific expert perspectives (e.g. security, performance, maintainability)
-- Use panels for comprehensive reviews that consolidate multiple perspectives into actionable recommendations
-- Follow the activation protocol for loading personas, setting up tools, and executing evaluations
-- Refer to shared policies for tool setup, severity ratings, credential handling, and scope constraints
-- For custom panels, select relevant personas and follow the same activation and evaluation process
-- Create data and reporting in the format specified in the panel's output
-  requirements, ensuring clarity and actionable insights for developers and
-  stakeholders.
-- Store the outputs in markdown files in the `docs/panel-reports` directory, organized by panel type and date for easy
-  reference.
-- Create GitHub issues for actionable findings from panel reviews:
-  - Use severity labels (critical, high, medium, low) matching the finding
-  - Include the finding ID, description, and recommended remediation
-  - Link to the panel report in the issue body
-  - Add appropriate labels (e.g., security, performance, technical-debt)
-- Ignore the docs/panel-reports directory when staging changes for commits,
-  as these are generated outputs and not source files.
+### Domain Groupings
 
-## Tools
+| Path pattern                             | Domain         |
+| ---------------------------------------- | -------------- |
+| `src/`                                   | Application    |
+| `docs/`                                  | Documentation  |
+| `test/`, `__tests__/`                    | Tests          |
+| `.github/`                               | CI/CD          |
+| `infra/`, `bicep/`, `terraform/`         | Infrastructure |
+| `scripts/`                               | Tooling        |
+| `Makefile`, `Dockerfile`, `compose.yaml` | Build / env    |
+| `package.json`, `go.mod`, `*.lock`       | Dependencies   |
+| `*.md` outside `docs/`                   | Context docs   |
 
-- Use available MCP tools when they exist
-- Prefer project-specific tooling over generic approaches
-- Check `.ai/project.yaml` for project configuration (language, framework,
-  test runner, linter, formatter, and other project-specific settings)
+### Change Intents
 
-### MCP Servers
+`feature` · `refactor` · `bugfix` · `docs` · `deps` · `infra` ·
+`chore`
 
-MCP server configs live in `.ai/mcp/servers/`. This `.ai/` directory can be:
+### Commit Rules
 
-- **`~/.ai/`** — Personal install, shared across all repos on the machine
-- **`<repo>/.ai/`** — Git submodule, shared with the team
+- One commit = one domain + one intent. Grouping must consider both
+  path and intent, not file extension alone.
+- Source (`src/`) and docs: separate commits unless the docs change is
+  a minimal inline API comment sync.
+- Dependency files with source: same commit only if required for
+  compilation; otherwise isolate.
+- `src/` and `test/` when tests are directly related: same commit is
+  allowed.
+- Formatting-only: commit independently as `chore: format codebase`.
+  Never combine with logic changes.
+- Multiple intents detected: do not auto-commit. Present a categorized
+  grouping proposal and wait for confirmation. In agentic contexts with
+  no user interaction, abort and explain why.
+- Never commit directly to `main` or `master`. Create feature branches
+  for changes.
 
-Each server has a `mcp.json` with its tool definitions. For VS Code,
-symlink `mcp/vscode.json` → `.vscode/mcp.json`.
-See [mcp/README.md](mcp/README.md) for per-server install steps and
-available tools.
+### Commit Message Format
 
-## Personas & Panels
+Follow conventional commits with scope:
 
-- Personas are individual expert perspectives (see `personas/`)
-- Panels are multi-persona collaborative reviews (see `personas/panels/`)
-- Use panels when comprehensive evaluation from multiple perspectives is needed
-- Panel output consolidates individual findings into actionable recommendations
-- Follow the activation protocol for loading personas, setting up tools,
-  and executing evaluations
-- Refer to shared policies for tool setup, severity ratings, credential
-  handling, and scope constraints
-- For custom panels, select relevant personas and follow the same
-  activation and evaluation process
-- Create data and reporting in the format specified in the panel's output
-  requirements, ensuring clarity and actionable insights for developers
-  and stakeholders
-- Use mermaid syntax for all diagrams in panel output (data flow diagrams,
-  attack trees, architecture diagrams, sequence diagrams, etc.).
-  Never use ASCII art diagrams.
-- Store the outputs in markdown files in the `docs/panel-reports`
-  directory, organized by panel type and date for easy reference
-- Create GitHub issues for actionable findings from panel reviews:
-  - Use severity labels (critical, high, medium, low) matching the finding
-  - Include the finding ID, description, and recommended remediation
-  - Link to the panel report in the issue body
-  - Add appropriate labels (e.g., security, performance, technical-debt)
-- Ignore the `docs/panel-reports` directory when staging changes for commits, as these are
-generated outputs and not source files
-- See `personas/panels-personas.md` for guidance on which panel to use
+```text
+feat(api): add user endpoint
+fix(auth): correct token expiry logic
+docs(readme): clarify setup steps
+infra(bicep): add private endpoint
+chore(deps): bump az cli version
+```
+
+## Panels and Personas
+
+Use **personas** for focused single-perspective analysis. Use **panels**
+for multi-perspective reviews that consolidate into actionable
+recommendations.
+
+- Personas: `personas/`
+- Panels: `personas/panels/`
+- Selection guidance: `personas/panels-personas.md`
+
+### Activation Protocol
+
+Apply to every persona or panel before analysis begins:
+
+1. Load the full persona definition file from `personas/`.
+2. Execute `## Tool Setup` from the persona file: check availability,
+   install missing tools, verify, document constraints.
+3. For panels: run Tool Setup across all personas, deduplicating shared
+   tools — each tool installed once only.
+4. Proceed with `## Evaluate For` using the verified toolchain.
+
+### Moderator
+
+Every panel includes the Moderator persona. The Moderator orchestrates
+turn order, enforces the severity scale, surfaces conflicts, and
+consolidates all participant findings into the final output. The
+Moderator contributes no domain findings.
 
 ### Panel Selection
 
-- **Code Review** vs **Technical Debt Review**: Use Code Review for evaluating
-specific changes (PRs, new features). Use Technical
-Debt Review for assessing accumulated debt across
-the codebase and prioritizing remediation.
-- **Architecture Review** vs **API Review**: Use Architecture Review for
-system-level design (boundaries, data models, infrastructure). Use API
-Review for contract design, developer experience, and consumer usability.
-- **Launch Readiness Review** vs **Security Review**: Launch Readiness covers
-operational readiness across the board (deploy, monitor, rollback). Security
-Review focuses specifically on threat analysis, attack paths, and security
-posture.
+| If you need                                    | Use                     |
+| ---------------------------------------------- | ----------------------- |
+| Review of specific changes (PR, new feature)   | Code Review             |
+| Accumulated debt assessment and prioritization | Technical Debt Review   |
+| System-level design (boundaries, data, infra)  | Architecture Review     |
+| Contract design and developer experience       | API Review              |
+| Operational go/no-go before deploy             | Launch Readiness Review |
+| Threat analysis and attack paths               | Security Review         |
 
-#### Custom Panels
+For situations not covered by a predefined panel, compose a custom
+panel: select 4-6 personas from `personas/index.md` plus the Moderator.
+Follow the same activation protocol.
 
-For situations that don't fit a predefined panel, compose an ad-hoc panel by
-selecting 4-6 personas from `personas/index.md`.  Always include the moderator who will orchetrate the
-panel and consildate findings.
+### Output Requirements
 
-Follow the activation
-protocol: load all persona files, deduplicate and bootstrap tools, then have
-each persona evaluate independently before consolidating findings.
-
-### Panel and Persona Activation Protocol
-
-When activating any persona or panel, follow this sequence before beginning analysis:
-
-1. **Load the persona file** — Read the full persona definition from `personas/`
-2. **Execute Tool Setup** — Run the `## Tool Setup` bootstrap in the persona file:
-   check tool availability, install missing tools, verify installations, and document any constraints
-3. **Begin analysis** — Proceed with the `## Evaluate For` criteria using the verified toolchain
-
-For panels, execute Tool Setup across all participating personas before any
-participant begins their review. Deduplicate shared tools — install each tool
-only once even if multiple personas list it.
+- Store reports in `docs/panel-reports/` organized by panel type and
+  date.
+- Create GitHub issues for actionable findings:
+  - Severity label matching the finding: `critical`, `high`, `medium`,
+    or `low`.
+  - Include finding ID, description, recommended remediation, and a
+    link to the report.
+  - Add relevant labels (e.g., `security`, `performance`,
+    `technical-debt`).
+- Exclude `docs/panel-reports/` from git staging — generated output,
+  not source.
 
 ### Shared Policies
 
-All persona-based analysis is governed by these shared policies:
+All persona analysis is governed by these shared policy files:
 
-- **[Tool Setup](personas/_shared/tool-setup.md)** — Standard bootstrap procedure for installing and verifying tools
-- **[Base Tools](personas/_shared/base-tools.md)** — Shared tools available across all personas
-- **[Severity Scale](personas/_shared/severity-scale.md)** — Canonical severity ratings for all findings
-- **[Credential Policy](personas/_shared/credential-policy.md)** — Rules for handling authentication and secrets
-- **[Scope Constraints](personas/_shared/scope-constraints.md)** — Mandatory
-  requirements for offensive and chaos engineering personas
+| Policy                                  | Purpose                       |
+| --------------------------------------- | ----------------------------- |
+| [`_shared/tool-setup.md`][tool-setup]   | Standard bootstrap for tools  |
+| [`_shared/base-tools.md`][base-tools]   | Tools across all personas     |
+| [`_shared/severity-scale.md`][severity] | Canonical severity ratings    |
+| [`_shared/credential-policy.md`][creds] | Secrets and auth handling     |
+| [`_shared/scope-constraints.md`][scope] | Offensive/chaos persona rules |
 
-#### Tool isolation
+[tool-setup]: personas/_shared/tool-setup.md
+[base-tools]: personas/_shared/base-tools.md
+[severity]: personas/_shared/severity-scale.md
+[creds]: personas/_shared/credential-policy.md
+[scope]: personas/_shared/scope-constraints.md
 
-- All `pip install` commands must run inside a Python virtual environment.
-- Use `npx` for Node.js CLI tools to avoid global installs.
+## Reference Files
 
-### Version Control
+Load these when relevant — they extend or override these instructions:
 
-- If you are committing, prompt chain to get if its major, minor, patch, or none (no bump).
-- With that information from the user, read the .symver file and increment the major, minor,
-  or patch with +1 unless the choice is none.
-- If you modify the .symver make sure that when the uer says push that you tag and push both
-  tags and repo at the same time.
-
-#### Filesystem-Aware Grouping
-
-Before staging any changes:
-
-- Inspect git status --porcelain
-- Analyze full file paths
-- Categorize files by top-level domain and functional purpose
-
-Group by:
-
-- src/ → application source code
-docs/ → documentation only
-test/ or **tests**/ → tests
-- .github/ → CI/CD workflows
-- infra/, bicep/, terraform/ → infrastructure
-- scripts/ → operational tooling
-- Root config files → build/toolchain config
-- Makefile, Dockerfile, compose.yaml → environment/build system
-- *.md outside docs → contextual documentation
-- Dependency files (package.json, go.mod, etc.) → dependency management
-
-Do not infer grouping by file extension alone.
-Grouping must consider both path and intent.
-
-#### Commit Isolation Rules
-
-A single commit MUST:
-
-- Modify only one logical domain
-- Represent one conceptual change
-- Be reversible without affecting unrelated systems
-
-A commit MUST NOT:
-
-- Mix documentation and source changes (unless doc strictly explains that change)
-- Mix infra and app logic
-- Mix dependency updates with feature code
-- Mix formatting-only changes with behavioral changes
-
-#### Intent Evaluation
-
-Before committing determine whether changes are:
-
-- Feature
-- Refactor
-- Bugfix
-- Documentation
-- Dependency update
-- Infrastructure change
-- Formatting-only
-
-If multiple intents exist → create separate commits.
-
-#### Structural Heuristics
-
-If multiple directories changed:
-
-- If changes share a common parent directory → may group.
-- If changes span unrelated roots → must split.
-- If change touches both src/ and test/ and tests are directly related → allow same commit.
-- If change touches src/ and docs/ → split unless docs are minimal API comment sync.
-
-#### Dependency Edge Case
-
-If src/ change requires go.mod / package.json change:
-
-- Allow in same commit if directly required for compilation.
-- Otherwise → isolate.
-
-#### Formatting and Linting
-
-If formatting touches many files but no logic changed:
-
-- Separate commit titled chore: format codebase.
-- Never mix formatting with feature logic.
-
-#### Commit Message Enforcement
-
-Each commit must:
-
-- Follow conventional commits (if repo uses them)
-- Be scoped:
-- feat(api): add user endpoint
-- docs(readme): clarify setup steps
-- infra(bicep): add private endpoint
-- test(auth): add token validation tests
-- chore(deps): bump az cli version
-
-#### Refusal Behavior
-
-If logical separation cannot be determined:
-
-- Do not auto-commit.
-- Present categorized grouping proposal.
-- Require confirmation before staging.
+- `.ai/project.yaml` — project-specific settings
+- `personas/index.md` — full persona index
+- `personas/panels-personas.md` — panel selection guidance
+- `mcp/README.md` — MCP server install steps and available tools
