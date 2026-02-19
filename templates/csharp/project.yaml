@@ -2,6 +2,7 @@
 # Copy to .ai/project.yaml and customize.
 
 name: "my-dotnet-project"
+description: "Brief project description"
 language: "csharp"
 framework: "aspnetcore"      # aspnetcore, minimal-api, blazor, console, maui
 
@@ -13,7 +14,7 @@ personas:
   # - compliance_governance/security-auditor.md
   # - operations_reliability/sre.md
 
-round_tables:
+panels:
   - code-review.md
   - architecture-review.md
   # - security-review.md

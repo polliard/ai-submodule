@@ -2,6 +2,7 @@
 # Copy to .ai/project.yaml and customize.
 
 name: "my-react-project"
+description: "Brief project description"
 language: "typescript"
 framework: "react"               # react, nextjs, remix, react-router
 
@@ -14,7 +15,7 @@ personas:
   - compliance_governance/accessibility-engineer.md
   # - operations_reliability/sre.md
 
-round_tables:
+panels:
   - code-review.md
   - architecture-review.md
   # - performance-review.md

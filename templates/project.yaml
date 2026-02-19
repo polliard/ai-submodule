@@ -3,6 +3,7 @@
 
 # Project metadata
 name: "my-project"
+description: "Brief project description"
 language: "typescript"       # Primary language: typescript, python, go, csharp, etc.
 framework: "express"         # Primary framework (optional)
 
@@ -16,8 +17,8 @@ personas:
   # - operations_reliability/sre.md
   # - compliance_governance/security-auditor.md
 
-# Which round tables are relevant
-round_tables:
+# Panels used when reviewing this project
+panels:
   - code-review.md
   - architecture-review.md
   # - security-review.md
