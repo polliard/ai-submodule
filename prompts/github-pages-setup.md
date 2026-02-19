@@ -2,7 +2,8 @@
 agent: agent
 model: Claude Sonnet 4.5 (copilot)
 name: global-ops-github-pages-setup
-description: Sets up GitHub Pages on a repository using GitHub Actions deployment with Jekyll 4.x. Includes workflow creation, Jekyll configuration, Liquid template protection, and optional URL migration.
+description: Sets up GitHub Pages on a repository using GitHub Actions deployment with Jekyll 4.x. Includes workflow
+  creation, Jekyll configuration, Liquid template protection, and optional URL migration.
 status: beta
 tags: ['github-pages', 'deployment', 'documentation', 'workflow', 'jekyll']
 ---
@@ -28,7 +29,7 @@ Systematically enable GitHub Pages on a repository, with support for:
 
 Ask the user:
 
-```
+```text
 Is this a new GitHub Pages setup or a migration from an existing repo?
 
 A) New Setup - Fresh deployment, no URL changes needed
@@ -64,7 +65,8 @@ gh api repos/{owner}/{repo}/pages 2>&1 || echo "Pages not configured"
 
 ### Step 4: Configure Pages Source as GitHub Actions
 
-GitHub Pages must use **GitHub Actions** as the deployment source (not "Deploy from a branch"). This enables Jekyll 4.x support with `render_with_liquid: false` front matter.
+GitHub Pages must use **GitHub Actions** as the deployment source (not "Deploy from a branch"). This enables Jekyll
+  4.x support with `render_with_liquid: false` front matter.
 
 Change in repo settings: **Settings → Pages → Source → GitHub Actions**
 
@@ -182,7 +184,8 @@ kramdown:
 
 ### Step 7: Protect Docs with Liquid Template Expressions
 
-Documentation files containing template expressions (`${{ }}` for GitHub Actions, `{{ }}` for Go/Helm templates) will break Jekyll builds.
+Documentation files containing template expressions (`${{ }}` for GitHub Actions, `{{ }}` for Go/Helm templates) will
+  break Jekyll builds.
 
 **Preferred approach** — add to front matter of affected files:
 
@@ -194,7 +197,7 @@ render_with_liquid: false
 
 **Alternative** (for files that need partial Liquid processing):
 
-```
+```text
 {% raw %}
 ... template expressions here ...
 {% endraw %}
@@ -286,7 +289,7 @@ curl -s -o /dev/null -w "%{http_code}" "https://<new-pages-url>/index.html"
 
 For **private/internal repos**:
 
-```
+```text
 ⚠️ Private repo - manual verification required.
 Please open in browser: https://<new-pages-url>/
 ```
@@ -295,7 +298,7 @@ Please open in browser: https://<new-pages-url>/
 
 Report to user:
 
-```
+```text
 ✅ GitHub Pages Setup Complete
 
 Mode: [New Setup / Migration]
@@ -356,7 +359,8 @@ Add additional file extensions to the find command as needed.
 
 - [ADR 016: Jekyll 4.x Upgrade](docs/adr/016-jekyll-4-upgrade-render-with-liquid.md)
 - [Writing Docs with Template Expressions](docs/guides/writing-docs-with-template-expressions.md)
-- [GitHub Pages Publishing Source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+- [GitHub Pages Publishing
+  Source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
 ## Integration with Other Prompts
 

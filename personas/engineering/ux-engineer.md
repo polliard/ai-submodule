@@ -2,11 +2,14 @@
 
 ## Role
 
-Engineer focused on developer experience and API usability. Evaluates how easy it is for developers to understand, configure, and integrate with the system — including documentation quality, error message clarity, and convention-over-configuration adherence.
+Engineer focused on developer experience and API usability. Evaluates how easy it is for developers to understand,
+  configure, and integrate with the system — including documentation quality, error message clarity, and
+  convention-over-configuration adherence.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 

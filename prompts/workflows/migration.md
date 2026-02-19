@@ -42,7 +42,7 @@ System, dependency, or data migrations with safety gates at every critical junct
 
 **Artifact `[MIG-1]: Migration Assessment`**
 
-```
+```text
 ## Migration
 <From what → to what>
 
@@ -100,7 +100,7 @@ System, dependency, or data migrations with safety gates at every critical junct
 
 **Artifact `[MIG-2]: Migration Strategy`**
 
-```
+```text
 ## Strategy
 <Big bang / Incremental / Parallel run / Blue-green / Strangler fig>
 
@@ -162,7 +162,7 @@ System, dependency, or data migrations with safety gates at every critical junct
 
 **Artifact `[MIG-3]: Execution Plan`**
 
-```
+```text
 ## Pre-Migration Checklist
 - [ ] <Pre-condition>
 - [ ] <Pre-condition>
@@ -197,7 +197,8 @@ System, dependency, or data migrations with safety gates at every critical junct
 
 **Stop.** Present `[MIG-3]` for review.
 
-**Approval criteria:** Steps are concrete and ordered. Each step has verification and rollback. Point of no return is identified. Monitoring plan exists.
+**Approval criteria:** Steps are concrete and ordered. Each step has verification and rollback. Point of no return is
+  identified. Monitoring plan exists.
 
 - **Approved** → proceed to Phase 4
 - **Revise** → adjust plan, re-present `[MIG-3]`
@@ -226,7 +227,7 @@ For each step in the execution plan:
 
 **Artifact `[MIG-4.N]: Step N Result`**
 
-```
+```text
 ## Step N: <Name>
 
 ### Pre-conditions
@@ -280,7 +281,7 @@ For each step in the execution plan:
 
 **Artifact `[MIG-5]: Validation Report`**
 
-```
+```text
 ## Success Criteria
 - <Criterion> — <Met / Not met>
 - ...
@@ -332,7 +333,7 @@ For each step in the execution plan:
 
 **Artifact `[MIG-6]: Rollback & Cleanup Plan`**
 
-```
+```text
 ## Rollback Status
 <Available / No longer possible — reason>
 
@@ -358,7 +359,8 @@ For each step in the execution plan:
 
 **Stop.** Present `[MIG-6]` for review.
 
-**Approval criteria:** Rollback procedure is documented and tested (or confirmed feasible). Cleanup tasks are scheduled. Rollback triggers are defined.
+**Approval criteria:** Rollback procedure is documented and tested (or confirmed feasible). Cleanup tasks are
+  scheduled. Rollback triggers are defined.
 
 - **Approved** → migration is complete
 - **Revise** → address concerns, re-present `[MIG-6]`

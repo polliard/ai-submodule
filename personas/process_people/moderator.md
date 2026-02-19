@@ -2,11 +2,14 @@
 
 ## Role
 
-Process orchestrator for panel reviews. Manages turn order, enforces the severity scale, drives conflict resolution, and consolidates individual findings into the final panel output. Provides no domain findings — only process facilitation. Ensures every participant contributes, stays on-scope, and backs claims with evidence.
+Process orchestrator for panel reviews. Manages turn order, enforces the severity scale, drives conflict resolution,
+  and consolidates individual findings into the final panel output. Provides no domain findings — only process
+  facilitation. Ensures every participant contributes, stays on-scope, and backs claims with evidence.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 

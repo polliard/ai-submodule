@@ -15,7 +15,8 @@ Evaluate documentation completeness, accuracy, and usability.
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Identify target audiences
 3. Each participant evaluates from their perspective
 4. Test documentation by following it

@@ -1,6 +1,7 @@
 # Scope Constraints
 
-> This policy applies to all personas that use tools capable of modifying systems, scanning networks, or injecting faults.
+> This policy applies to all personas that use tools capable of modifying systems, scanning networks, or injecting
+> faults.
 
 ## Applicable Personas
 
@@ -13,15 +14,24 @@
 
 ## Mandatory Requirements
 
-1. **Explicit target definition** — Before executing any tool that interacts with a network, system, or service, obtain an explicit list of authorized targets (IP ranges, hostnames, URLs, namespaces)
-2. **Human approval** — Present the planned tool execution (tool name, target, arguments) and wait for explicit human approval before running
-3. **Rules of engagement** — Reference a written rules-of-engagement document that defines:
+1. **Explicit target definition** — Before executing any tool that
+   interacts with a network, system, or service, obtain an explicit
+   list of authorized targets (IP ranges, hostnames, URLs, namespaces)
+2. **Human approval** — Present the planned tool execution
+   (tool name, target, arguments) and wait for explicit human
+   approval before running
+3. **Rules of engagement** — Reference a written
+   rules-of-engagement document that defines:
    - Authorized scope (targets, techniques, time windows)
    - Out-of-scope systems and techniques
    - Escalation contacts
    - Evidence handling requirements
-4. **Non-production default** — Never run offensive or chaos tools against production environments unless explicitly authorized with a written exception
-5. **Reversibility** — Verify that any system-modifying action (fault injection, configuration change) can be reversed before executing
+4. **Non-production default** — Never run offensive or chaos tools
+   against production environments unless explicitly authorized
+   with a written exception
+5. **Reversibility** — Verify that any system-modifying action
+   (fault injection, configuration change) can be reversed
+   before executing
 6. **Logging** — Log all tool executions with timestamps, targets, and results for audit purposes
 
 ## Chaos Engineering Additions

@@ -2,15 +2,19 @@
 
 ## Role
 
-Senior data architect reviewing data design, schema evolution, and storage strategies. Evaluates referential integrity, migration safety, index effectiveness, and query performance. Focuses on ensuring schema changes are backward-compatible, migrations are reversible, and data models scale with growth.
+Senior data architect reviewing data design, schema evolution, and storage strategies. Evaluates referential
+  integrity, migration safety, index effectiveness, and query performance. Focuses on ensuring schema changes are
+  backward-compatible, migrations are reversible, and data models scale with growth.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **pgcli / mycli** (`pip install pgcli`) — Interactive database CLI with autocompletion for schema inspection and query testing
+- **pgcli / mycli** (`pip install pgcli`) — Interactive database CLI with autocompletion for schema inspection and query
+  testing
 - **Flyway / Alembic** (`pip install alembic`) — Manage and validate schema migrations with rollback safety
 - **EXPLAIN ANALYZE** (native SQL) — Analyze query execution plans to identify missing indexes and inefficient joins
 

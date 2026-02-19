@@ -1,6 +1,7 @@
 # Delivery Intent DOCX generation prompt (template-first)
 
-Use this prompt when generating a Word DOCX so it **matches the corporate template** (front matter, header/footer, and an updatable Word Table of Contents).
+Use this prompt when generating a Word DOCX so it **matches the corporate template** (front matter, header/footer, and
+  an updatable Word Table of Contents).
 
 ## Inputs
 
@@ -10,23 +11,27 @@ Use this prompt when generating a Word DOCX so it **matches the corporate templa
 
 ## Prompt (copy/paste)
 
-You are a document assembly engine. Your job is to produce a Word `.docx` that preserves the template’s layout and styles.
+You are a document assembly engine. Your job is to produce a Word `.docx` that preserves the template’s layout and
+  styles.
 
 **Hard requirements (do not violate):**
 
-1. Start from the provided template file `incoming/TEMPLATE Delivery Intent.docx`. Do **not** create a new blank document.
+1. Start from the provided template file `incoming/TEMPLATE Delivery Intent.docx`. Do **not** create a new blank
+   document.
 2. Preserve **header/footer**, page setup, margins, section breaks, and all existing template styles.
 3. Preserve the existing Word Table of Contents **as a Word TOC field**, not a manually-typed or static TOC.
    - The template already contains a TOC field like: `TOC \o "1-3" \z \u \h \n`.
    - Keep it intact so it can be updated in Word.
-4. Do not delete template front matter sections (e.g., Instructions, Document history). Populate them if placeholders exist.
+4. Do not delete template front matter sections (e.g., Instructions, Document history). Populate them if placeholders
+   exist.
 5. Do not remove or alter section/field structures that control template behavior:
    - Do not delete section breaks.
    - Do not replace the TOC field with static text.
    - Do not rewrite the document as a fresh conversion output.
 6. Only replace content where the template clearly indicates placeholders. Treat these as placeholders:
    - Any text wrapped in angle brackets like `<...>`.
-   - Any instruction sentences like `Insert narrative details...` / `Please work with your EA...` / `Provide details...`.
+   - Any instruction sentences like `Insert narrative details...` / `Please work with your EA...` / `Provide
+     details...`.
    - Empty table rows intended for content entry (keep the table; populate cells).
    Do not delete non-placeholder template text.
 7. All section headings that should appear in the TOC must use Word styles:
@@ -34,7 +39,8 @@ You are a document assembly engine. Your job is to produce a Word `.docx` that p
    - Subsections: **Heading 2**
    - Sub-subsections: **Heading 3**
    Do not fake headings with bold/size changes.
-8. Where the template provides tables, **fill the existing tables** (do not replace them with new tables unless the template explicitly has no table).
+8. Where the template provides tables, **fill the existing tables** (do not replace them with new tables unless the
+   template explicitly has no table).
 9. Do not change the template color theme, fonts, or spacing rules. Use the existing styles.
 
 **Content rules:**
@@ -46,7 +52,8 @@ You are a document assembly engine. Your job is to produce a Word `.docx` that p
   - `Artificial Intelligence`
   - `Foundational`
   - `Appendix`
-- If the markdown contains content that doesn’t fit a specific template subsection, place it in the closest appropriate section under a new Heading 2/3, but only inside the corresponding template parent Heading 1 section.
+- If the markdown contains content that doesn’t fit a specific template subsection, place it in the closest appropriate
+  section under a new Heading 2/3, but only inside the corresponding template parent Heading 1 section.
 
 **Insertion guidance (be strict):**
 
@@ -55,7 +62,8 @@ You are a document assembly engine. Your job is to produce a Word `.docx` that p
 - When moving Markdown content into the template, prefer:
   - Filling the template’s existing subsections first.
   - Adding new subsections only when the template has no suitable placeholder.
-- If the Markdown includes a top-of-document header image, do not import it into the body. The template header/footer should control document branding.
+- If the Markdown includes a top-of-document header image, do not import it into the body. The template header/footer
+  should control document branding.
 
 **Output:**
 

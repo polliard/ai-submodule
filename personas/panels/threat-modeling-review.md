@@ -2,23 +2,34 @@
 
 ## Purpose
 
-Systematic identification, classification, and prioritization of threats against a system using structured methodologies (STRIDE, MITRE ATT&CK, attack trees). Combines architectural analysis with offensive, defensive, and intelligence perspectives to produce a prioritized threat register and actionable mitigation roadmap.
+Systematic identification, classification, and prioritization of threats against a system using structured
+  methodologies (STRIDE, MITRE ATT&CK, attack trees). Combines architectural analysis with offensive, defensive, and
+  intelligence perspectives to produce a prioritized threat register and actionable mitigation roadmap.
 
 ## Participants
 
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
-- **[MITRE Analyst](../compliance_governance/mitre-analyst.md)** - Threat modeling lead: STRIDE analysis, ATT&CK mapping, attack trees, threat actor profiling
-- **[Systems Architect](../architecture/systems-architect.md)** - Trust boundaries, data flow diagrams, component interactions, blast radius
-- **[Red Team Engineer](../compliance_governance/red-team-engineer.md)** - Attack path validation, exploitation chains, adversary simulation
-- **[Blue Team Engineer](../compliance_governance/blue-team-engineer.md)** - Detection coverage, existing controls assessment, response readiness
-- **[Purple Team Engineer](../compliance_governance/purple-team-engineer.md)** - TTP coverage validation, attack-defense gap analysis
-- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Network segmentation, IAM, cloud configuration, encryption boundaries
-- **[Security Auditor](../compliance_governance/security-auditor.md)** - Vulnerability classification, OWASP/CVE mapping, severity assessment
-- **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory impact of identified threats, risk acceptance criteria
+- **[MITRE Analyst](../compliance_governance/mitre-analyst.md)** - Threat modeling lead: STRIDE analysis, ATT&CK
+  mapping, attack trees, threat actor profiling
+- **[Systems Architect](../architecture/systems-architect.md)** - Trust boundaries, data flow diagrams, component
+  interactions, blast radius
+- **[Red Team Engineer](../compliance_governance/red-team-engineer.md)** - Attack path validation, exploitation chains,
+  adversary simulation
+- **[Blue Team Engineer](../compliance_governance/blue-team-engineer.md)** - Detection coverage, existing controls
+  assessment, response readiness
+- **[Purple Team Engineer](../compliance_governance/purple-team-engineer.md)** - TTP coverage validation, attack-defense
+  gap analysis
+- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Network segmentation, IAM, cloud
+  configuration, encryption boundaries
+- **[Security Auditor](../compliance_governance/security-auditor.md)** - Vulnerability classification, OWASP/CVE
+  mapping, severity assessment
+- **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory impact of identified threats,
+  risk acceptance criteria
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Systems Architect presents the architecture: components, data flows, trust boundaries, and external dependencies
 3. MITRE Analyst constructs data flow diagrams and identifies all trust boundary crossings
 4. MITRE Analyst applies STRIDE to each boundary crossing to generate the initial threat catalog

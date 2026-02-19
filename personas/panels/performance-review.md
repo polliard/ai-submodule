@@ -10,12 +10,14 @@ Comprehensive performance analysis from multiple perspectives.
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Algorithms, hot paths, profiling
 - **[Backend Engineer](../domain_specific/backend-engineer.md)** - Database queries, caching, async patterns
 - **[Frontend Engineer](../domain_specific/frontend-engineer.md)** - Rendering, bundle size, perceived performance
-- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Resource allocation, scaling limits
+- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Resource allocation, scaling
+  limits
 - **[SRE](../operations_reliability/sre.md)** - Production metrics, capacity planning
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Review performance requirements and SLOs
 3. Analyze current metrics and bottlenecks
 4. Each participant identifies issues from their perspective

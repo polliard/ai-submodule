@@ -2,16 +2,20 @@
 
 ## Role
 
-Collaborative security specialist bridging offensive and defensive perspectives to validate and improve security posture. Executes adversary emulation campaigns mapped to MITRE ATT&CK, then works with defenders to verify detection coverage and close gaps. Measures security improvement over time through iterative attack-and-defend cycles.
+Collaborative security specialist bridging offensive and defensive perspectives to validate and improve security
+  posture. Executes adversary emulation campaigns mapped to MITRE ATT&CK, then works with defenders to verify detection
+  coverage and close gaps. Measures security improvement over time through iterative attack-and-defend cycles.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
 - **Atomic Red Team** — Execute MITRE ATT&CK techniques in controlled environments to validate detection coverage
-- **Sigma** (`pip install pySigma`) — Author detection rules and convert them across SIEM platforms for cross-tool validation
+- **Sigma** (`pip install pySigma`) — Author detection rules and convert them across SIEM platforms for cross-tool
+  validation
 - **Caldera** — Run automated adversary emulation campaigns mapped to ATT&CK techniques
 
 ### Supplementary
@@ -25,7 +29,8 @@ Collaborative security specialist bridging offensive and defensive perspectives 
 
 ## Scope Constraints
 
-> Follow the [mandatory scope constraints](../_shared/scope-constraints.md) before executing any tool that interacts with networks, systems, or services.
+> Follow the [mandatory scope constraints](../_shared/scope-constraints.md) before executing any tool that interacts
+> with networks, systems, or services.
 
 ## Evaluate For
 

@@ -106,7 +106,7 @@ List all available templates from all configured sources.
 
 **Output format:**
 
-```
+```text
 github/actionscript
 github/go
 github/global/macos
@@ -125,9 +125,9 @@ Search templates by name pattern.
 
 **Parameters:**
 
-| Name      | Type   | Required | Description                                  |
+| Name | Type | Required | Description |
 | --------- | ------ | -------- | -------------------------------------------- |
-| `pattern` | string | ✓        | Search pattern (e.g., 'rust', 'node', 'mac') |
+| `pattern` | string | ✓ | Search pattern (e.g., 'rust', 'node', 'mac') |
 
 **Example prompts:**
 
@@ -148,15 +148,16 @@ toptal/rust-analyzer
 
 ### gitignore_add
 
-Add a gitignore template to `.gitignore`. Templates are wrapped in section markers (`### START: <type>` / `### END: <type>`) for selective removal.
+Add a gitignore template to `.gitignore`. Templates are wrapped in section markers (`### START: <type>` / `### END:
+  <type>`) for selective removal.
 
 **CLI:** `gitignore add <type>`
 
 **Parameters:**
 
-| Name   | Type   | Required | Description                         |
+| Name | Type | Required | Description |
 | ------ | ------ | -------- | ----------------------------------- |
-| `type` | string | ✓        | Template name or `source/name` path |
+| `type` | string | ✓ | Template name or `source/name` path |
 
 **Example prompts:**
 
@@ -195,9 +196,9 @@ Remove a previously added template section from `.gitignore`.
 
 **Parameters:**
 
-| Name   | Type   | Required | Description                |
+| Name | Type | Required | Description |
 | ------ | ------ | -------- | -------------------------- |
-| `type` | string | ✓        | Template section to remove |
+| `type` | string | ✓ | Template section to remove |
 
 **Example prompts:**
 
@@ -220,9 +221,9 @@ Add paths/patterns directly without using a template. Useful for project-specifi
 
 **Parameters:**
 
-| Name       | Type          | Required | Description     |
+| Name | Type | Required | Description |
 | ---------- | ------------- | -------- | --------------- |
-| `patterns` | array[string] | ✓        | Patterns to add |
+| `patterns` | array[string] | ✓ | Patterns to add |
 
 **Example prompts:**
 
@@ -248,9 +249,9 @@ Remove patterns previously added via `ignore`.
 
 **Parameters:**
 
-| Name       | Type          | Required | Description        |
+| Name | Type | Required | Description |
 | ---------- | ------------- | -------- | ------------------ |
-| `patterns` | array[string] | ✓        | Patterns to remove |
+| `patterns` | array[string] | ✓ | Patterns to remove |
 
 **Example prompts:**
 

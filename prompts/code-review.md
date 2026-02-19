@@ -19,4 +19,5 @@ Review only the **changed code** for:
 
 ## When to Use
 
-Use this prompt for PR-level reviews of bounded changesets. For deeper analysis, use the **Reviewer** or **Code Reviewer** personas. For adversarial stress-testing, use the **Adversarial Reviewer** persona.
+Use this prompt for PR-level reviews of bounded changesets. For deeper analysis, use the **Reviewer** or **Code
+  Reviewer** personas. For adversarial stress-testing, use the **Adversarial Reviewer** persona.

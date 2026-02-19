@@ -2,21 +2,28 @@
 
 ## Role
 
-Engineer focused on cloud spend efficiency and resource optimization across compute, storage, and network layers. Analyzes cost trends, identifies idle or underutilized resources, and models the financial impact of architectural decisions. Distinct from the Infrastructure Engineer in that this role prioritizes cost-effectiveness and ROI rather than security posture and deployment topology.
+Engineer focused on cloud spend efficiency and resource optimization across compute, storage, and network layers.
+  Analyzes cost trends, identifies idle or underutilized resources, and models the financial impact of architectural
+  decisions. Distinct from the Infrastructure Engineer in that this role prioritizes cost-effectiveness and ROI rather
+  than security posture and deployment topology.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **Infracost** (`brew install infracost`) — Estimate cloud cost impact of infrastructure-as-code changes before they are applied
-- **AWS Cost Explorer CLI / Azure Cost Management** — Query historical spend data, identify cost trends, and surface anomalies
+- **Infracost** (`brew install infracost`) — Estimate cloud cost impact of infrastructure-as-code changes before they
+  are applied
+- **AWS Cost Explorer CLI / Azure Cost Management** — Query historical spend data, identify cost trends, and surface
+  anomalies
 
 ### Supplementary
 
 - **kubectl top** — Inspect real-time CPU and memory utilization for Kubernetes workload right-sizing
-- **Kubecost** (Manual setup — requires `helm install kubecost kubecost/cost-analyzer --namespace kubecost` on a Kubernetes cluster) — Analyze per-namespace and per-workload Kubernetes cost allocation
+- **Kubecost** (Manual setup — requires `helm install kubecost kubecost/cost-analyzer --namespace kubecost` on a
+  Kubernetes cluster) — Analyze per-namespace and per-workload Kubernetes cost allocation
 - **cloudquery** (`brew install cloudquery`) — Query cloud resource inventory to identify idle and underutilized assets
 
 ## Tool Setup

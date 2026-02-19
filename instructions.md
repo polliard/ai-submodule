@@ -1,7 +1,5 @@
 # AI Instructions
 
-> **Version**: 2.0 | **Last updated**: 2026-02-17
-
 Base instructions for AI assistants across all projects.
 
 ## Core Principles
@@ -14,31 +12,40 @@ Base instructions for AI assistants across all projects.
 - Always keep documentation in sync with code.
 - Use American English for spelling, naming conventions, and checks
 - In repositories always use markdown files for documentation.
+- Provide context for suggestions
+- Link to relevant files when discussing code
 
-## Panels and Persona Reviews
+## Documentation
 
-- Use personas for focused analysis from specific expert perspectives (e.g. security, performance, maintainability)
-- Use panels for comprehensive reviews that consolidate multiple perspectives into actionable recommendations
-- Follow the activation protocol for loading personas, setting up tools, and executing evaluations
-- Refer to shared policies for tool setup, severity ratings, credential handling, and scope constraints
-- For custom panels, select relevant personas and follow the same activation and evaluation process
-- Create data and reporting in the format specified in the panel's output requirements, ensuring clarity and actionable insights for developers and stakeholders.
-- Store the outputs in markdown files in the `docs/panel-reports` directory, organized by panel type and date for easy reference.
-- Create GitHub issues for actionable findings from panel reviews:
-  - Use severity labels (critical, high, medium, low) matching the finding
-  - Include the finding ID, description, and recommended remediation
-  - Link to the panel report in the issue body
-  - Add appropriate labels (e.g., security, performance, technical-debt)
-- Ignore the docs/panel-reports directory when staging changes for commits, as these are generated outputs and not source files.
+- Always use markdown files for documentation unless specified.
+- When reviewing technical documentation leverage the following LLM Models:
+  - GPT-4.1-mini
+  - GPT-4o-class
+  - GPT-5.2
+  - Claude Sonnet 4.6
+- Always use mermaid diagrams for diagrams for documentation within markdown files.
 
-## Commit Isolation
+## Markdown Formatting
 
-### Purpose
+All markdown files must pass `markdownlint` using the project config
+(`.markdownlint.json`). Run `make lint-md-fix` before committing.
+Key rules:
 
-Ensure all Git commits are logically atomic and grouped by functional domain.
-Never mix unrelated filesystem areas or change types in a single commit.
-
-### Behavioral Rules
+- **Line length**: max 120 characters per line (MD013). Break long
+  sentences, table rows, and URLs onto continuation lines.
+- **Headings**: ATX style only (`# H1`, `## H2`). No underline-style
+  headings (MD003).
+- **Lists**: use `-` for unordered lists (MD004). Indent nested lists
+  by 2 spaces (MD007).
+- **Blank lines**: leave one blank line before and after headings,
+  fenced code blocks, and block-level elements.
+- **Fenced code blocks**: always specify a language tag
+  (e.g., `` ```yaml ``, `` ```bash ``). Never leave a bare `` ``` ``.
+- **First line**: every markdown file must start with a top-level `#`
+  heading (MD041).
+- **Duplicate headings**: no duplicate heading text among sibling
+  headings (MD024). Different nesting levels may reuse text.
+- **Inline HTML**: allowed when markdown cannot express the structure.
 
 ## Code Quality
 
@@ -47,17 +54,36 @@ Never mix unrelated filesystem areas or change types in a single commit.
 - Write testable code
 - Follow existing patterns in the codebase
 
-## Communication
+## Patterns and Paved Roads
 
-- Use markdown formatting
-- Link to relevant files when discussing code
-- Provide context for suggestions
+- Use <https://github.com/JM-Paved-Roads> and the repositories below to determine JM best practices.
+
+## Panels and Persona Reviews
+
+- Use personas for focused analysis from specific expert perspectives (e.g. security, performance, maintainability)
+- Use panels for comprehensive reviews that consolidate multiple perspectives into actionable recommendations
+- Follow the activation protocol for loading personas, setting up tools, and executing evaluations
+- Refer to shared policies for tool setup, severity ratings, credential handling, and scope constraints
+- For custom panels, select relevant personas and follow the same activation and evaluation process
+- Create data and reporting in the format specified in the panel's output
+  requirements, ensuring clarity and actionable insights for developers and
+  stakeholders.
+- Store the outputs in markdown files in the `docs/panel-reports` directory, organized by panel type and date for easy
+  reference.
+- Create GitHub issues for actionable findings from panel reviews:
+  - Use severity labels (critical, high, medium, low) matching the finding
+  - Include the finding ID, description, and recommended remediation
+  - Link to the panel report in the issue body
+  - Add appropriate labels (e.g., security, performance, technical-debt)
+- Ignore the docs/panel-reports directory when staging changes for commits,
+  as these are generated outputs and not source files.
 
 ## Tools
 
 - Use available MCP tools when they exist
 - Prefer project-specific tooling over generic approaches
-- Check `.ai/project.yaml` for project configuration (language, framework, test runner, linter, formatter, and other project-specific settings)
+- Check `.ai/project.yaml` for project configuration (language, framework,
+  test runner, linter, formatter, and other project-specific settings)
 
 ### MCP Servers
 
@@ -66,7 +92,10 @@ MCP server configs live in `.ai/mcp/servers/`. This `.ai/` directory can be:
 - **`~/.ai/`** — Personal install, shared across all repos on the machine
 - **`<repo>/.ai/`** — Git submodule, shared with the team
 
-Each server has a `mcp.json` with its tool definitions. For VS Code, symlink `mcp/vscode.json` → `.vscode/mcp.json`. See [mcp/README.md](mcp/README.md) for per-server install steps and available tools.
+Each server has a `mcp.json` with its tool definitions. For VS Code,
+symlink `mcp/vscode.json` → `.vscode/mcp.json`.
+See [mcp/README.md](mcp/README.md) for per-server install steps and
+available tools.
 
 ## Personas & Panels
 
@@ -93,19 +122,46 @@ Each server has a `mcp.json` with its tool definitions. For VS Code, symlink `mc
   - Include the finding ID, description, and recommended remediation
   - Link to the panel report in the issue body
   - Add appropriate labels (e.g., security, performance, technical-debt)
-- Ignore the `docs/panel-reports` directory when staging changes for
-  commits, as these are generated outputs and not source files
+- Ignore the `docs/panel-reports` directory when staging changes for commits, as these are
+generated outputs and not source files
 - See `personas/panels-personas.md` for guidance on which panel to use
 
-### Activation Protocol
+### Panel Selection
+
+- **Code Review** vs **Technical Debt Review**: Use Code Review for evaluating
+specific changes (PRs, new features). Use Technical
+Debt Review for assessing accumulated debt across
+the codebase and prioritizing remediation.
+- **Architecture Review** vs **API Review**: Use Architecture Review for
+system-level design (boundaries, data models, infrastructure). Use API
+Review for contract design, developer experience, and consumer usability.
+- **Launch Readiness Review** vs **Security Review**: Launch Readiness covers
+operational readiness across the board (deploy, monitor, rollback). Security
+Review focuses specifically on threat analysis, attack paths, and security
+posture.
+
+#### Custom Panels
+
+For situations that don't fit a predefined panel, compose an ad-hoc panel by
+selecting 4-6 personas from `personas/index.md`.  Always include the moderator who will orchetrate the
+panel and consildate findings.
+
+Follow the activation
+protocol: load all persona files, deduplicate and bootstrap tools, then have
+each persona evaluate independently before consolidating findings.
+
+### Panel and Persona Activation Protocol
 
 When activating any persona or panel, follow this sequence before beginning analysis:
 
 1. **Load the persona file** — Read the full persona definition from `personas/`
-2. **Execute Tool Setup** — Run the `## Tool Setup` bootstrap in the persona file: check tool availability, install missing tools, verify installations, and document any constraints
+2. **Execute Tool Setup** — Run the `## Tool Setup` bootstrap in the persona file:
+   check tool availability, install missing tools, verify installations, and document any constraints
 3. **Begin analysis** — Proceed with the `## Evaluate For` criteria using the verified toolchain
 
-For panels, execute Tool Setup across all participating personas before any participant begins their review. Deduplicate shared tools — install each tool only once even if multiple personas list it.
+For panels, execute Tool Setup across all participating personas before any
+participant begins their review. Deduplicate shared tools — install each tool
+only once even if multiple personas list it.
 
 ### Shared Policies
 
@@ -115,52 +171,13 @@ All persona-based analysis is governed by these shared policies:
 - **[Base Tools](personas/_shared/base-tools.md)** — Shared tools available across all personas
 - **[Severity Scale](personas/_shared/severity-scale.md)** — Canonical severity ratings for all findings
 - **[Credential Policy](personas/_shared/credential-policy.md)** — Rules for handling authentication and secrets
-- **[Scope Constraints](personas/_shared/scope-constraints.md)** — Mandatory requirements for offensive and chaos engineering personas
+- **[Scope Constraints](personas/_shared/scope-constraints.md)** — Mandatory
+  requirements for offensive and chaos engineering personas
 
-Tool isolation: All `pip install` commands must run inside a Python virtual environment. Use `npx` for Node.js CLI tools to avoid global installs.
+#### Tool isolation
 
-### Choosing Between Similar Panels
-
-- **Code Review** vs **Technical Debt Review**: Use Code Review for evaluating specific changes (PRs, new features). Use Technical Debt Review for assessing accumulated debt across the codebase and prioritizing remediation.
-- **Architecture Review** vs **API Review**: Use Architecture Review for system-level design (boundaries, data models, infrastructure). Use API Review for contract design, developer experience, and consumer usability.
-- **Launch Readiness Review** vs **Security Review**: Launch Readiness covers operational readiness across the board (deploy, monitor, rollback). Security Review focuses specifically on threat analysis, attack paths, and security posture.
-
-### Custom Panels
-
-For situations that don't fit a predefined panel, compose an ad-hoc panel by selecting 4-6 personas from `personas/index.md`. Follow the same activation protocol: load all persona files, deduplicate and bootstrap tools, then have each persona evaluate independently before consolidating findings.
-
-## Coding Languages
-
-### Python
-
-- Always use virtual environments .venv
-- If there are multiple "projects" within a repo, use .venv inside of the subdirectories to separate needed tooling.
-
-### JavaScript / TypeScript
-
-- Use `package-lock.json` or `yarn.lock` — always commit lockfiles
-- Prefer `npx` for one-shot CLI tool execution over global installs
-- Use project-local ESLint and Prettier configs; do not rely on global settings
-- Follow the existing code style (e.g. semicolons, quotes)
-- Use existing linting and formatting tools (e.g. ESLint, Prettier)
-- For new projects, use standard tools like ESLint with Airbnb config and Prettier
-- Use JSDoc for function documentation
-
-### Go
-
-- Follow standard `go mod` for dependency management
-- Use `go vet` and `staticcheck` for static analysis
-- Keep module paths consistent with repository structure
-
-### Markdown
-
-- Use consistent heading levels
-- Use bullet points for lists
-- Use code blocks for code snippets
-- Link to relevant files and documentation
-- Use tables for structured data when appropriate
-- Use mermaid for diagrams
-- For new projects, use a standard markdown linter like markdownlint
+- All `pip install` commands must run inside a Python virtual environment.
+- Use `npx` for Node.js CLI tools to avoid global installs.
 
 ### Version Control
 

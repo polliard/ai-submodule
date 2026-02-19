@@ -2,17 +2,22 @@
 
 ## Role
 
-Internal developer platform specialist focused on self-service infrastructure, CI/CD abstractions, and developer productivity tooling. Evaluates how well the platform enables development teams to ship independently without requiring infrastructure expertise.
+Internal developer platform specialist focused on self-service infrastructure, CI/CD abstractions, and developer
+  productivity tooling. Evaluates how well the platform enables development teams to ship independently without
+  requiring infrastructure expertise.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **GitHub CLI** (`brew install gh`) — Analyze CI/CD pipelines, workflow configurations, and repository automation health
+- **GitHub CLI** (`brew install gh`) — Analyze CI/CD pipelines, workflow configurations, and repository automation
+  health
 - **Hadolint** (`brew install hadolint`) — Lint Dockerfiles for best practices, security, and efficiency
-- **actionlint** (`brew install actionlint`) — Validate GitHub Actions workflow files for correctness and common mistakes
+- **actionlint** (`brew install actionlint`) — Validate GitHub Actions workflow files for correctness and common
+  mistakes
 
 ### Supplementary
 

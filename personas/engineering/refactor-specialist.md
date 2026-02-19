@@ -2,21 +2,27 @@
 
 ## Role
 
-Specialist in structural clarity and long-term maintainability. Plans and executes incremental code restructuring to improve readability, reduce duplication, and clarify responsibilities without changing external behavior. Distinct from a minimalist engineer in that the focus is on reorganization and improved design rather than elimination.
+Specialist in structural clarity and long-term maintainability. Plans and executes incremental code restructuring to
+  improve readability, reduce duplication, and clarify responsibilities without changing external behavior. Distinct
+  from a minimalist engineer in that the focus is on reorganization and improved design rather than elimination.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **Semgrep** (`pip install semgrep`) — Search for refactor candidates using pattern-based static analysis across the codebase
-- **Madge** (`npm install -g madge`) — Analyze dependency graphs to assess the blast radius and safety of structural changes
+- **Semgrep** (`pip install semgrep`) — Search for refactor candidates using pattern-based static analysis across the
+  codebase
+- **Madge** (`npm install -g madge`) — Analyze dependency graphs to assess the blast radius and safety of structural
+  changes
 
 ### Supplementary
 
 - **rope** (`pip install rope`) — Execute automated Python refactorings (renames, extractions, moves) with safety checks
-- **jscodeshift** (`npm install -g jscodeshift`) — Run JavaScript/TypeScript codemods to transform code patterns at scale
+- **jscodeshift** (`npm install -g jscodeshift`) — Run JavaScript/TypeScript codemods to transform code patterns at
+  scale
 
 ## Tool Setup
 

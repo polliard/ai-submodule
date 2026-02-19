@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Assess whether a system is ready for production deployment, covering operational readiness, release safety, rollback capability, and ongoing operability.
+Assess whether a system is ready for production deployment, covering operational readiness, release safety, rollback
+  capability, and ongoing operability.
 
 ## Participants
 
@@ -11,14 +12,17 @@ Assess whether a system is ready for production deployment, covering operational
 - **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Deployment, security, networking
 - **[Observability Engineer](../operations_reliability/observability-engineer.md)** - Logging, metrics, alerting
 - **[Failure Engineer](../operations_reliability/failure-engineer.md)** - Recovery, rollback, graceful degradation
-- **[DevOps Engineer](../operations_reliability/devops-engineer.md)** - CI/CD pipeline health, artifact management, environments
-- **[Release Engineer](../process_people/release-engineer.md)** - Release process, feature flags, rollback procedures, changelog
+- **[DevOps Engineer](../operations_reliability/devops-engineer.md)** - CI/CD pipeline health, artifact management,
+  environments
+- **[Release Engineer](../process_people/release-engineer.md)** - Release process, feature flags, rollback procedures,
+  changelog
 - **[Test Engineer](../engineering/test-engineer.md)** - Test coverage, regression risk, release validation
 - **[Tech Lead](../process_people/tech-lead.md)** - Scope validation, risk assessment, stakeholder communication
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Review deployment architecture and release scope
 3. Each participant assesses readiness from their perspective
 4. Identify gaps in observability, recovery, and release safety

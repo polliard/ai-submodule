@@ -2,11 +2,14 @@
 
 ## Role
 
-Engineer focused on aggressive simplification and complexity reduction. Identifies unnecessary abstractions, dead code, unused dependencies, and over-engineered patterns, then proposes concrete removal or consolidation plans. Distinct from a refactor specialist in that the goal is elimination rather than restructuring.
+Engineer focused on aggressive simplification and complexity reduction. Identifies unnecessary abstractions, dead
+  code, unused dependencies, and over-engineered patterns, then proposes concrete removal or consolidation plans.
+  Distinct from a refactor specialist in that the goal is elimination rather than restructuring.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
@@ -15,7 +18,8 @@ Engineer focused on aggressive simplification and complexity reduction. Identifi
 
 ### Supplementary
 
-- **Madge** (`npm install -g madge`) — Identify circular dependencies and unnecessary import chains to target for removal
+- **Madge** (`npm install -g madge`) — Identify circular dependencies and unnecessary import chains to target for
+  removal
 - **cloc** (`brew install cloc`) — Quantify codebase size before and after simplification to measure reduction impact
 
 ## Tool Setup

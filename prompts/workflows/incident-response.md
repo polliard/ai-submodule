@@ -41,7 +41,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-1]: Triage Assessment`**
 
-```
+```text
 ## Severity
 <Critical / Major / Minor>
 
@@ -96,7 +96,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-2]: Mitigation Report`**
 
-```
+```text
 ## Mitigation Strategy
 <What was done to reduce impact>
 
@@ -120,7 +120,8 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Stop.** Present `[INC-2]` for review.
 
-**Approval criteria:** User impact is reduced or eliminated. Mitigation is verified with metrics. Residual risk is known.
+**Approval criteria:** User impact is reduced or eliminated. Mitigation is verified with metrics. Residual risk is
+  known.
 
 - **Approved** → proceed to Phase 3
 - **Mitigation insufficient** → try alternative mitigation, re-present `[INC-2]`
@@ -146,7 +147,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-3]: Stakeholder Communication`**
 
-```
+```text
 ## Audience
 <Who is being notified>
 
@@ -190,7 +191,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-4]: Root Cause Analysis`**
 
-```
+```text
 ## Detailed Timeline
 - <timestamp> — <event> — <source>
 - ...
@@ -219,7 +220,8 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Stop.** Present `[INC-4]` for review.
 
-**Approval criteria:** Root cause is definitive, not speculative. Causal chain is traceable. Contributing and systemic factors are identified.
+**Approval criteria:** Root cause is definitive, not speculative. Causal chain is traceable. Contributing and systemic
+  factors are identified.
 
 - **Approved** → proceed to Phase 5
 - **Revise** → deepen investigation, re-present `[INC-4]`
@@ -248,7 +250,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-5]: Post-Mortem Report`**
 
-```
+```text
 ## Incident Summary
 <One-paragraph summary>
 
@@ -275,7 +277,8 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Stop.** Present `[INC-5]` for review.
 
-**Approval criteria:** Post-mortem is blameless. Action items are concrete, prioritized, and address systemic factors. Lessons learned are actionable.
+**Approval criteria:** Post-mortem is blameless. Action items are concrete, prioritized, and address systemic factors.
+  Lessons learned are actionable.
 
 - **Approved** → proceed to Phase 6
 - **Revise** → address feedback, re-present `[INC-5]`
@@ -301,7 +304,7 @@ Managing an active incident through mitigation, communication, root cause analys
 
 **Artifact `[INC-6]: Action Item Tracker`**
 
-```
+```text
 ## Quick Wins (do this week)
 - [ ] <Action> — @<owner>
 - ...

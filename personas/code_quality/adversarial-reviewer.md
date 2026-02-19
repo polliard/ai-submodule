@@ -2,20 +2,26 @@
 
 ## Role
 
-Devil's advocate who stress-tests designs and implementations by actively trying to break them intellectually. Looks for what everyone else missed — the assumptions nobody questioned, the states nobody considered, the invariants nobody documented.
+Devil's advocate who stress-tests designs and implementations by actively trying to break them intellectually. Looks
+  for what everyone else missed — the assumptions nobody questioned, the states nobody considered, the invariants nobody
+  documented.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **Semgrep** (`pip install semgrep`) — Author custom rules that probe for the specific unchecked assumptions and invariants under review
-- **Hypothesis** (`pip install hypothesis`) — Generate adversarial property-based inputs to trigger invariant violations and edge-case failures
+- **Semgrep** (`pip install semgrep`) — Author custom rules that probe for the specific unchecked assumptions and
+  invariants under review
+- **Hypothesis** (`pip install hypothesis`) — Generate adversarial property-based inputs to trigger invariant violations
+  and edge-case failures
 
 ### Supplementary
 
-- **mutmut / Stryker** (`pip install mutmut` | `npm install -g stryker-cli`) — Run mutation testing to prove whether the test suite actually catches the weaknesses you identify
+- **mutmut / Stryker** (`pip install mutmut` | `npm install -g stryker-cli`) — Run mutation testing to prove whether the
+  test suite actually catches the weaknesses you identify
 - **AFL / libFuzzer** — Fuzz critical code paths to discover crash-inducing inputs and unhandled states
 
 ## Tool Setup

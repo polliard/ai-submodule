@@ -2,15 +2,20 @@
 
 ## Role
 
-Site reliability engineer focused on production stability, operational excellence, and sustainable on-call practices. Defines and enforces SLOs/SLIs, manages error budgets, and identifies toil that should be automated. Distinct from the Failure Engineer in that this role governs day-to-day production reliability and incident readiness rather than proactive chaos testing.
+Site reliability engineer focused on production stability, operational excellence, and sustainable on-call practices.
+  Defines and enforces SLOs/SLIs, manages error budgets, and identifies toil that should be automated. Distinct from the
+  Failure Engineer in that this role governs day-to-day production reliability and incident readiness rather than
+  proactive chaos testing.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **promtool** (`brew install prometheus`) — Validate Prometheus alerting rules, recording rules, and configuration for correctness. Note: installs the full Prometheus package; only `promtool` is used
+- **promtool** (`brew install prometheus`) — Validate Prometheus alerting rules, recording rules, and configuration for
+  correctness. Note: installs the full Prometheus package; only `promtool` is used
 - **kubectl** (`brew install kubectl`) — Inspect cluster state, pod health, resource utilization, and service endpoints
 
 ### Supplementary

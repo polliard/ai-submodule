@@ -15,7 +15,8 @@ Evaluate test coverage, quality, and testing approach comprehensively.
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Review current test portfolio
 3. Each participant identifies gaps from their perspective
 4. Assess test reliability and maintenance burden

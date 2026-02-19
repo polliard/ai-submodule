@@ -38,7 +38,8 @@ export SERVICENOW_INSTANCE=mycompany.service-now.com
 servicenow-mcp serve
 ```
 
-If no valid session exists, a browser window opens for SSO login. Complete the login and press ENTER. The session is saved for 8 hours.
+If no valid session exists, a browser window opens for SSO login. Complete the login and press ENTER. The session is
+  saved for 8 hours.
 
 ### Skip pre-authentication
 
@@ -325,7 +326,8 @@ Returns:
 
 ### snow_build_query
 
-Build an encoded query string from structured filters. Use this to construct complex queries without knowing ServiceNow query syntax.
+Build an encoded query string from structured filters. Use this to construct complex queries without knowing
+  ServiceNow query syntax.
 
 ```json
 {

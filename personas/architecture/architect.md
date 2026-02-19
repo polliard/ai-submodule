@@ -2,20 +2,25 @@
 
 ## Role
 
-Software architect evaluating application-level design within a single service or monolith. Focuses on internal component structure, module boundaries, data flow patterns, and layering decisions. For distributed systems and cross-service architecture, see Systems Architect.
+Software architect evaluating application-level design within a single service or monolith. Focuses on internal
+  component structure, module boundaries, data flow patterns, and layering decisions. For distributed systems and
+  cross-service architecture, see Systems Architect.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
 - **pydeps** (`pip install pydeps`) — Visualize Python module dependency trees to assess component boundaries
-- **Graphviz** (`brew install graphviz`) — Render architecture diagrams, data flow maps, and component relationship graphs
+- **Graphviz** (`brew install graphviz`) — Render architecture diagrams, data flow maps, and component relationship
+  graphs
 
 ### Supplementary
 
-- **Madge** (`npm install -g madge`) — Generate dependency graphs for JavaScript/TypeScript to identify coupling and circular references
+- **Madge** (`npm install -g madge`) — Generate dependency graphs for JavaScript/TypeScript to identify coupling and
+  circular references
 - **cloc** (`brew install cloc`) — Quantify codebase size and language distribution to inform structural analysis
 
 ## Tool Setup

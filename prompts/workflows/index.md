@@ -1,6 +1,8 @@
 # Workflow Plans
 
-Standardized multi-phase workflows that chain personas, prompts, and round tables together into end-to-end processes. Each workflow produces named artifacts at every phase, with decision gates where human review is required before proceeding.
+Standardized multi-phase workflows that chain personas, prompts, and round tables together into end-to-end processes.
+  Each workflow produces named artifacts at every phase, with decision gates where human review is required before
+  proceeding.
 
 ## How to Use
 
@@ -12,7 +14,7 @@ Standardized multi-phase workflows that chain personas, prompts, and round table
 ## Workflows
 
 | Workflow | Use When | Phases | File |
-|----------|----------|--------|------|
+| ---------- | ---------- | -------- | ------ |
 | **Feature Implementation** | Building a new feature from scratch | 6 | `feature-implementation.md` |
 | **Bug Fix** | Investigating and resolving a bug | 7 | `bug-fix.md` |
 | **Documentation** | Creating or updating technical docs | 5 | `documentation.md` |
@@ -27,7 +29,7 @@ Standardized multi-phase workflows that chain personas, prompts, and round table
 Each workflow uses a unique prefix for its artifacts, enabling cross-referencing:
 
 | Prefix | Workflow |
-|--------|----------|
+| -------- | ---------- |
 | `FEAT` | Feature Implementation |
 | `BUG` | Bug Fix |
 | `DOC` | Documentation |

@@ -2,20 +2,25 @@
 
 ## Role
 
-Principal-level architect reviewing distributed system design across service boundaries. Focuses on cross-service interactions, failure domain isolation, state management across boundaries, and system-level scalability. For single-service internal architecture, see Architect.
+Principal-level architect reviewing distributed system design across service boundaries. Focuses on cross-service
+  interactions, failure domain isolation, state management across boundaries, and system-level scalability. For
+  single-service internal architecture, see Architect.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
 - **Graphviz** (`brew install graphviz`) — Diagram system topologies, failure domains, and data flow paths
-- **Terraform graph** (`terraform graph | dot -Tpng`) — Visualize infrastructure dependency chains and deployment ordering
+- **Terraform graph** (`terraform graph | dot -Tpng`) — Visualize infrastructure dependency chains and deployment
+  ordering
 
 ### Supplementary
 
-- **Madge / pydeps** (`npm install -g madge` | `pip install pydeps`) — Map dependency chains to identify coupling, blast radius, and component boundaries
+- **Madge / pydeps** (`npm install -g madge` | `pip install pydeps`) — Map dependency chains to identify coupling, blast
+  radius, and component boundaries
 - **kubectl** — Inspect service mesh topologies, deployment configurations, and resource boundaries in Kubernetes
 
 ## Tool Setup

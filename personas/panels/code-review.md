@@ -15,7 +15,8 @@ Comprehensive code evaluation from multiple engineering perspectives.
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Each participant reviews independently
 3. Present findings using the [severity scale](../_shared/severity-scale.md)
 4. Identify conflicting recommendations

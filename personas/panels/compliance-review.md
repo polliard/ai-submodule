@@ -2,22 +2,31 @@
 
 ## Purpose
 
-Evaluate privacy practices, supply chain security, accessibility compliance, and regulatory posture across the application stack.
+Evaluate privacy practices, supply chain security, accessibility compliance, and regulatory posture across the
+  application stack.
 
 ## Participants
 
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
-- **[Privacy Engineer](../compliance_governance/privacy-engineer.md)** - PII detection, data minimization, consent flows, GDPR/CCPA compliance
-- **[Supply Chain Engineer](../compliance_governance/supply-chain-engineer.md)** - SBOM generation, dependency provenance, build attestation
-- **[Accessibility Engineer](../compliance_governance/accessibility-engineer.md)** - WCAG compliance, ARIA patterns, assistive technology compatibility
-- **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory requirements, license compliance, audit readiness
-- **[Security Auditor](../compliance_governance/security-auditor.md)** - Data protection controls, vulnerability scanning, security policy compliance
-- **[Data Architect](../domain_specific/data-architect.md)** - Data lifecycle, retention policies, anonymization strategy
-- **[Frontend Engineer](../domain_specific/frontend-engineer.md)** - Semantic HTML, focus management, accessible component implementation
+- **[Privacy Engineer](../compliance_governance/privacy-engineer.md)** - PII detection, data minimization, consent
+  flows, GDPR/CCPA compliance
+- **[Supply Chain Engineer](../compliance_governance/supply-chain-engineer.md)** - SBOM generation, dependency
+  provenance, build attestation
+- **[Accessibility Engineer](../compliance_governance/accessibility-engineer.md)** - WCAG compliance, ARIA patterns,
+  assistive technology compatibility
+- **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory requirements, license
+  compliance, audit readiness
+- **[Security Auditor](../compliance_governance/security-auditor.md)** - Data protection controls, vulnerability
+  scanning, security policy compliance
+- **[Data Architect](../domain_specific/data-architect.md)** - Data lifecycle, retention policies, anonymization
+  strategy
+- **[Frontend Engineer](../domain_specific/frontend-engineer.md)** - Semantic HTML, focus management, accessible
+  component implementation
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Define applicable regulations, standards, and compliance scope
 3. Map data flows and identify PII touchpoints
 4. Generate SBOM and dependency inventory

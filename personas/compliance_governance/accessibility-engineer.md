@@ -2,11 +2,14 @@
 
 ## Role
 
-Engineer ensuring products are usable by people with diverse abilities. Evaluates interfaces against WCAG 2.1 standards, tests assistive technology compatibility, and identifies barriers affecting users with visual, auditory, motor, and cognitive disabilities.
+Engineer ensuring products are usable by people with diverse abilities. Evaluates interfaces against WCAG 2.1
+  standards, tests assistive technology compatibility, and identifies barriers affecting users with visual, auditory,
+  motor, and cognitive disabilities.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
@@ -17,7 +20,8 @@ Engineer ensuring products are usable by people with diverse abilities. Evaluate
 ### Supplementary
 
 - **VoiceOver / NVDA** — Test screen reader compatibility manually to validate semantic structure and announcements
-- **Color Contrast Analyzer** — Validate WCAG color contrast ratios for text, interactive elements, and visual indicators
+- **Color Contrast Analyzer** — Validate WCAG color contrast ratios for text, interactive elements, and visual
+  indicators
 
 ## Tool Setup
 

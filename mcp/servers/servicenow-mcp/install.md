@@ -51,7 +51,7 @@ python3 -m venv .venv
 ### Environment Variables
 
 | Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
+| ---------- | ---------- | ------------- | --------- |
 | `SERVICENOW_INSTANCE` | Yes | Your ServiceNow instance hostname | `mycompany.service-now.com` |
 
 ### VS Code / Copilot

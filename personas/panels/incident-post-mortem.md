@@ -11,12 +11,14 @@ Analyze incident for root cause and systemic improvements.
 - **[SRE](../operations_reliability/sre.md)** - Detection gaps, SLO impact, operational failures
 - **[Systems Architect](../architecture/systems-architect.md)** - Architectural contributing factors
 - **[Failure Engineer](../operations_reliability/failure-engineer.md)** - Resilience gaps, recovery effectiveness
-- **[Observability Engineer](../operations_reliability/observability-engineer.md)** - Monitoring blind spots, alert quality
+- **[Observability Engineer](../operations_reliability/observability-engineer.md)** - Monitoring blind spots, alert
+  quality
 - **[Debugger](../engineering/debugger.md)** - Root cause analysis, code-level fault tracing, reproduction steps
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Reconstruct incident timeline
 3. Each participant analyzes from their perspective
 4. Identify contributing factors (not blame)

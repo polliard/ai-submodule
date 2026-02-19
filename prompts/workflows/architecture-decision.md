@@ -41,7 +41,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Artifact `[ADR-1]: Decision Context`**
 
-```
+```text
 ## Decision Required
 <What specifically needs to be decided>
 
@@ -86,7 +86,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Artifact `[ADR-2]: Options Catalog`**
 
-```
+```text
 ## Option A: <Name>
 **Description:** <What this option entails>
 **Proof needed:** <Any spike/PoC required, or "None">
@@ -122,7 +122,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Artifact `[ADR-3]: Trade-off Analysis`**
 
-```
+```text
 ## Comparison Matrix
 
 | Criterion     | Option A | Option B | Option C |
@@ -153,7 +153,8 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Stop.** Present `[ADR-3]` for review.
 
-**Approval criteria:** All options have been fairly evaluated. Trade-offs are concrete, not vague. No viable option has been overlooked.
+**Approval criteria:** All options have been fairly evaluated. Trade-offs are concrete, not vague. No viable option
+  has been overlooked.
 
 - **Approved** → proceed to Phase 4
 - **Revise** → add missing options or deepen analysis, re-present `[ADR-3]`
@@ -182,7 +183,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Artifact `[ADR-4]: Decision`**
 
-```
+```text
 ## Chosen Option
 <Option name>
 
@@ -204,7 +205,8 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Stop.** Present `[ADR-4]` for review.
 
-**Approval criteria:** Rationale is sound and traces back to the forces in `[ADR-1]`. Trade-offs are acknowledged honestly.
+**Approval criteria:** Rationale is sound and traces back to the forces in `[ADR-1]`. Trade-offs are acknowledged
+  honestly.
 
 - **Approved** → proceed to Phase 5
 - **Revise** → revisit rationale or reconsider decision, re-present `[ADR-4]`
@@ -234,7 +236,7 @@ Making and documenting an architectural choice using an Architecture Decision Re
 
 **Artifact `[ADR-5]: Published ADR`**
 
-```
+```text
 ## ADR File
 <path/to/adr-NNN-title.md>
 

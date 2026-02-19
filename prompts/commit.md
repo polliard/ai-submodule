@@ -4,7 +4,7 @@ Generate a commit message and PR description for staged changes.
 
 ## Commit Message Format
 
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
@@ -29,7 +29,7 @@ Generate a commit message and PR description for staged changes.
 
 ## PR Description Format
 
-```
+```text
 ## Summary
 <1-3 bullet points describing the change>
 

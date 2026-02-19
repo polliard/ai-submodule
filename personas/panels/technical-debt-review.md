@@ -15,7 +15,8 @@ Assess and prioritize technical debt for strategic remediation.
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Inventory known technical debt
 3. Each participant identifies debt from their perspective
 4. Assess impact on velocity and reliability

@@ -1,6 +1,9 @@
 # Panels Overview
 
-Multi-persona collaborative reviews for comprehensive evaluation. Each panel brings together specialists with different perspectives to surface issues a single reviewer might miss. Every panel is facilitated by a [Moderator](process_people/moderator.md) who manages turn order, enforces the severity scale, and consolidates findings.
+Multi-persona collaborative reviews for comprehensive evaluation. Each panel brings together specialists with
+  different perspectives to surface issues a single reviewer might miss. Every panel is facilitated by a
+  [Moderator](process_people/moderator.md) who manages turn order, enforces the severity scale, and consolidates
+  findings.
 
 ## When to Use Panels
 
@@ -19,31 +22,39 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 
 ## Code Review
 
-**Purpose**: Comprehensive evaluation of code changes from quality, security, performance, and maintainability perspectives.
+**Purpose**: Comprehensive evaluation of code changes from quality, security, performance, and maintainability
+  perspectives.
 
 **When to use**: Pull requests for critical paths, new features, or complex refactors.
 
-**What you get**: Consolidated assessment with must-fix, should-fix, and consider items. Clear approve/reject recommendation with reasoning.
+**What you get**: Consolidated assessment with must-fix, should-fix, and consider items. Clear approve/reject
+  recommendation with reasoning.
 
 ---
 
 ## Architecture Review
 
-**Purpose**: Evaluate system design and data architecture decisions from structural, operational, security, and data-layer perspectives.
+**Purpose**: Evaluate system design and data architecture decisions from structural, operational, security, and
+  data-layer perspectives.
 
-**When to use**: New services, major refactors, infrastructure changes, schema changes, data migrations, or when design decisions have long-term implications.
+**When to use**: New services, major refactors, infrastructure changes, schema changes, data migrations, or when
+  design decisions have long-term implications.
 
-**What you get**: Go/no-go recommendation with identified risks, schema assessment, required modifications, and documented tradeoffs.
+**What you get**: Go/no-go recommendation with identified risks, schema assessment, required modifications, and
+  documented tradeoffs.
 
 ---
 
 ## Security Review
 
-**Purpose**: Comprehensive security assessment combining vulnerability analysis, adversarial attack simulation, penetration testing methodology, and compliance evaluation from offensive, defensive, and governance perspectives.
+**Purpose**: Comprehensive security assessment combining vulnerability analysis, adversarial attack simulation,
+  penetration testing methodology, and compliance evaluation from offensive, defensive, and governance perspectives.
 
-**When to use**: Before exposing new endpoints, handling sensitive data, integrating third-party services, security assessments, penetration testing, or defense validation.
+**When to use**: Before exposing new endpoints, handling sensitive data, integrating third-party services, security
+  assessments, penetration testing, or defense validation.
 
-**What you get**: Attack path narratives, detection coverage matrix, vulnerability inventory by severity, prioritized remediation roadmap, and security posture assessment.
+**What you get**: Attack path narratives, detection coverage matrix, vulnerability inventory by severity, prioritized
+  remediation roadmap, and security posture assessment.
 
 ---
 
@@ -109,38 +120,49 @@ Multi-persona collaborative reviews for comprehensive evaluation. Each panel bri
 
 ## Launch Readiness Review
 
-**Purpose**: Assess whether a system is ready for production deployment, covering operational readiness, release safety, rollback capability, and ongoing operability.
+**Purpose**: Assess whether a system is ready for production deployment, covering operational readiness, release
+  safety, rollback capability, and ongoing operability.
 
 **When to use**: Before initial launch, major feature releases, or production deployments with breaking changes.
 
-**What you get**: Launch checklist with SLO definitions, monitoring requirements, runbooks, rollback verification, feature flag configuration, and go/no-go recommendation.
+**What you get**: Launch checklist with SLO definitions, monitoring requirements, runbooks, rollback verification,
+  feature flag configuration, and go/no-go recommendation.
 
 ---
 
 ## API Review
 
-**Purpose**: Evaluate API design, developer experience, and consumer usability from provider, consumer, and documentation perspectives.
+**Purpose**: Evaluate API design, developer experience, and consumer usability from provider, consumer, and
+  documentation perspectives.
 
-**When to use**: Designing new APIs, versioning existing APIs, exposing internal services externally, or when developer onboarding is slow.
+**When to use**: Designing new APIs, versioning existing APIs, exposing internal services externally, or when
+  developer onboarding is slow.
 
-**What you get**: API contract assessment, consumer friction points, documentation gaps, compatibility analysis, and developer satisfaction assessment.
+**What you get**: API contract assessment, consumer friction points, documentation gaps, compatibility analysis, and
+  developer satisfaction assessment.
 
 ---
 
 ## Threat Modeling Review
 
-**Purpose**: Systematic identification, classification, and prioritization of threats using structured methodologies (STRIDE, MITRE ATT&CK, attack trees) combined with architectural analysis and offensive/defensive perspectives.
+**Purpose**: Systematic identification, classification, and prioritization of threats using structured methodologies
+  (STRIDE, MITRE ATT&CK, attack trees) combined with architectural analysis and offensive/defensive perspectives.
 
-**When to use**: New system designs, before exposing new attack surfaces, after significant architectural changes, or as a periodic security posture assessment.
+**When to use**: New system designs, before exposing new attack surfaces, after significant architectural changes, or
+  as a periodic security posture assessment.
 
-**What you get**: Data flow diagrams with trust boundaries, STRIDE threat catalog, MITRE ATT&CK heat map, attack trees, threat actor profiles, detection coverage matrix, and prioritized threat register with mitigation roadmap.
+**What you get**: Data flow diagrams with trust boundaries, STRIDE threat catalog, MITRE ATT&CK heat map, attack
+  trees, threat actor profiles, detection coverage matrix, and prioritized threat register with mitigation roadmap.
 
 ---
 
 ## Compliance Review
 
-**Purpose**: Evaluate privacy practices, supply chain security, accessibility compliance, and regulatory posture across the application stack.
+**Purpose**: Evaluate privacy practices, supply chain security, accessibility compliance, and regulatory posture
+  across the application stack.
 
-**When to use**: Before handling new PII categories, expanding to new jurisdictions, before releases with dependency changes, launching user-facing features, or for periodic compliance audits.
+**When to use**: Before handling new PII categories, expanding to new jurisdictions, before releases with dependency
+  changes, launching user-facing features, or for periodic compliance audits.
 
-**What you get**: PII inventory, consent mechanism assessment, WCAG conformance gaps, dependency health scorecard, license compliance report, and prioritized remediation roadmap.
+**What you get**: PII inventory, consent mechanism assessment, WCAG conformance gaps, dependency health scorecard,
+  license compliance report, and prioritized remediation roadmap.

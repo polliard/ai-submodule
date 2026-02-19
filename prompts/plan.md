@@ -13,7 +13,7 @@ Decompose a task into an implementation plan before writing code.
 
 ## Output Format
 
-```
+```text
 ## Goal
 <one sentence>
 

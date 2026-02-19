@@ -2,21 +2,26 @@
 
 ## Role
 
-Senior business analyst bridging business needs and technical solutions through requirements elicitation, process analysis, data flow documentation, and stakeholder alignment.
+Senior business analyst bridging business needs and technical solutions through requirements elicitation, process
+  analysis, data flow documentation, and stakeholder alignment.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **Mermaid** (`npm install -g @mermaid-js/mermaid-cli`) — Create process flow diagrams, sequence diagrams, and state charts for requirements visualization
+- **Mermaid** (`npm install -g @mermaid-js/mermaid-cli`) — Create process flow diagrams, sequence diagrams, and state
+  charts for requirements visualization
 - **jq** (`brew install jq`) — Explore API responses and data structures to validate integration assumptions
 
 ### Supplementary
 
-- **csvkit** (`pip install csvkit`) — Analyze business data exports to validate requirements against actual data patterns
-- **PlantUML** (`brew install plantuml`) — Generate UML diagrams for use case modeling and system interaction documentation
+- **csvkit** (`pip install csvkit`) — Analyze business data exports to validate requirements against actual data
+  patterns
+- **PlantUML** (`brew install plantuml`) — Generate UML diagrams for use case modeling and system interaction
+  documentation
 - **draw.io CLI** — Build business process diagrams and data flow maps for stakeholder communication
 
 ## Tool Setup

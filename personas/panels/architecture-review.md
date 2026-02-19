@@ -2,22 +2,26 @@
 
 ## Purpose
 
-Evaluate system design and data architecture decisions from structural, operational, security, and data-layer perspectives.
+Evaluate system design and data architecture decisions from structural, operational, security, and data-layer
+  perspectives.
 
 ## Participants
 
 - **[Moderator](../process_people/moderator.md)** - Process facilitation, conflict resolution, finding consolidation
 - **[Systems Architect](../architecture/systems-architect.md)** - Scalability, boundaries, state management
-- **[Data Architect](../domain_specific/data-architect.md)** - Schema design, data integrity, query patterns, data lifecycle
+- **[Data Architect](../domain_specific/data-architect.md)** - Schema design, data integrity, query patterns, data
+  lifecycle
 - **[Security Auditor](../compliance_governance/security-auditor.md)** - Attack surface, auth model, data protection
 - **[Failure Engineer](../operations_reliability/failure-engineer.md)** - Resilience, recovery, blast radius
-- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Deployment, networking, operations
+- **[Infrastructure Engineer](../operations_reliability/infrastructure-engineer.md)** - Deployment, networking,
+  operations
 - **[API Designer](../architecture/api-designer.md)** - Contracts, versioning, consumer experience
 - **[Performance Engineer](../engineering/performance-engineer.md)** - Indexing, query optimization, caching, hot paths
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Present design context and constraints
 3. Each participant evaluates from their lens
 4. Surface cross-cutting concerns — including data model alignment with system boundaries

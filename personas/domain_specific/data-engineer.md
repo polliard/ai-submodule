@@ -2,15 +2,19 @@
 
 ## Role
 
-Data engineering specialist focused on data pipeline reliability, data quality, and data infrastructure. Evaluates ETL/ELT processes, data warehouse design, data lineage tracking, and data quality enforcement — the plumbing that ensures data is available, correct, and timely.
+Data engineering specialist focused on data pipeline reliability, data quality, and data infrastructure. Evaluates
+  ETL/ELT processes, data warehouse design, data lineage tracking, and data quality enforcement — the plumbing that
+  ensures data is available, correct, and timely.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **Great Expectations** (`pip install great_expectations`) — Define and validate data quality expectations with automated test suites
+- **Great Expectations** (`pip install great_expectations`) — Define and validate data quality expectations with
+  automated test suites
 - **DVC** (`pip install dvc`) — Track data versions, manage data pipelines, and ensure reproducibility of data artifacts
 
 ### Supplementary

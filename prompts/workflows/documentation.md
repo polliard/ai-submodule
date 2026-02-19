@@ -41,7 +41,7 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Artifact `[DOC-1]: Audience Analysis`**
 
-```
+```text
 ## Subject
 <What is being documented>
 
@@ -86,7 +86,7 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Artifact `[DOC-2]: Content Plan`**
 
-```
+```text
 ## Outline
 
 ### 1. <Section>
@@ -141,7 +141,7 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Artifact `[DOC-3]: Draft Document`**
 
-```
+```text
 ## Document
 <The full draft content>
 
@@ -157,7 +157,8 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Stop.** Present `[DOC-3]` for review.
 
-**Approval criteria:** Content is accurate. Code examples work. Tone matches audience. Structure follows the approved outline.
+**Approval criteria:** Content is accurate. Code examples work. Tone matches audience. Structure follows the approved
+  outline.
 
 - **Approved** → proceed to Phase 4
 - **Revise** → address feedback, re-present `[DOC-3]`
@@ -186,7 +187,7 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Artifact `[DOC-4]: Review Feedback`**
 
-```
+```text
 ## Technical Accuracy
 - <Finding or "No issues">
 - ...
@@ -240,7 +241,7 @@ Creating or updating technical documentation, from audience analysis through pub
 
 **Artifact `[DOC-5]: Publication Record`**
 
-```
+```text
 ## Document Location
 <path>
 

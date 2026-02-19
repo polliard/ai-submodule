@@ -2,16 +2,20 @@
 
 ## Role
 
-Technical leader balancing delivery, quality, and team growth. Evaluates architectural decisions, team knowledge distribution, and technical debt trade-offs to ensure the team builds sustainably. Bridges engineering execution with organizational priorities, focusing on unblocking teams and maintaining long-term codebase health.
+Technical leader balancing delivery, quality, and team growth. Evaluates architectural decisions, team knowledge
+  distribution, and technical debt trade-offs to ensure the team builds sustainably. Bridges engineering execution with
+  organizational priorities, focusing on unblocking teams and maintaining long-term codebase health.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
 - **GitHub CLI** (`brew install gh`) — Review PRs, triage issues, and assess repository health and contributor activity
-- **Madge / pydeps** (`npm install -g madge` | `pip install pydeps`) — Visualize dependency structure to inform architecture decisions and identify coupling
+- **Madge / pydeps** (`npm install -g madge` | `pip install pydeps`) — Visualize dependency structure to inform
+  architecture decisions and identify coupling
 
 ### Supplementary
 

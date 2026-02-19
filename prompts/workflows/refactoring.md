@@ -39,7 +39,7 @@ Safe, incremental code restructuring with verification at every step.
 
 **Artifact `[REF-1]: Refactoring Analysis`**
 
-```
+```text
 ## Current State
 <Description of the code being refactored>
 
@@ -66,7 +66,8 @@ Safe, incremental code restructuring with verification at every step.
 
 **Stop.** Present `[REF-1]` for review.
 
-**Approval criteria:** Issues are clearly identified. Dependencies are mapped. Risks are acknowledged. Goal state is well-defined. Test coverage is adequate (or adding tests is included as a pre-step).
+**Approval criteria:** Issues are clearly identified. Dependencies are mapped. Risks are acknowledged. Goal state is
+  well-defined. Test coverage is adequate (or adding tests is included as a pre-step).
 
 - **Approved** → proceed to Phase 2
 - **Revise** → address feedback, re-present `[REF-1]`
@@ -94,7 +95,7 @@ Safe, incremental code restructuring with verification at every step.
 
 **Artifact `[REF-2]: Refactoring Strategy`**
 
-```
+```text
 ## Approach
 <High-level refactoring approach (e.g., extract class, inline function, split module)>
 
@@ -120,7 +121,8 @@ Safe, incremental code restructuring with verification at every step.
 
 **Stop.** Present `[REF-2]` for review.
 
-**Approval criteria:** Steps are small and incremental. Each step keeps the code working. Verification method is defined for each step.
+**Approval criteria:** Steps are small and incremental. Each step keeps the code working. Verification method is
+  defined for each step.
 
 - **Approved** → proceed to Phase 3
 - **Revise** → adjust strategy, re-present `[REF-2]`
@@ -149,7 +151,7 @@ For each step in the strategy:
 
 **Artifact `[REF-3.N]: Step N Result`**
 
-```
+```text
 ## Step N: <Name>
 
 ### Changes Made
@@ -197,7 +199,7 @@ For each step in the strategy:
 
 **Artifact `[REF-4]: Verification Report`**
 
-```
+```text
 ## Full Test Suite
 <Pass / Fail — details>
 
@@ -239,7 +241,7 @@ For each step in the strategy:
 
 **Artifact `[REF-5]: Review Verdict`**
 
-```
+```text
 ## Verdict
 <Approved / Changes Requested>
 

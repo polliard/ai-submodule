@@ -2,15 +2,19 @@
 
 ## Role
 
-Release management specialist focused on safe, predictable software delivery. Evaluates release processes for deployment safety, rollback readiness, feature flag hygiene, and release communication — ensuring software reaches users reliably and reversibly.
+Release management specialist focused on safe, predictable software delivery. Evaluates release processes for
+  deployment safety, rollback readiness, feature flag hygiene, and release communication — ensuring software reaches
+  users reliably and reversibly.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **GitHub CLI** (`brew install gh`) — Manage releases, inspect tags, generate changelogs, and review deployment workflows
+- **GitHub CLI** (`brew install gh`) — Manage releases, inspect tags, generate changelogs, and review deployment
+  workflows
 - **Semgrep** (`pip install semgrep`) — Detect stale feature flags, unreleased code paths, and dead conditional branches
 
 ### Supplementary

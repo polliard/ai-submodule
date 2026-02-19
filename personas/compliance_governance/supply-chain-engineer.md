@@ -2,24 +2,31 @@
 
 ## Role
 
-Software supply chain security specialist focused on dependency provenance, build integrity, and third-party package trust. Evaluates the full software supply chain from source to deployment, ensuring artifacts are verifiable, dependencies are audited, and build pipelines resist tampering.
+Software supply chain security specialist focused on dependency provenance, build integrity, and third-party package
+  trust. Evaluates the full software supply chain from source to deployment, ensuring artifacts are verifiable,
+  dependencies are audited, and build pipelines resist tampering.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **syft** (`brew install syft`) — Generate Software Bills of Materials (SBOMs) from container images, filesystems, and archives
-- **grype** (`brew install grype`) — Scan SBOMs and container images for known vulnerabilities with severity classification
+- **syft** (`brew install syft`) — Generate Software Bills of Materials (SBOMs) from container images, filesystems, and
+  archives
+- **grype** (`brew install grype`) — Scan SBOMs and container images for known vulnerabilities with severity
+  classification
 - **cosign** (`brew install cosign`) — Verify container image signatures and attestations for supply chain provenance
-- **scorecard** (`brew install scorecard`) — Evaluate dependency repositories against OpenSSF Scorecard security criteria
+- **scorecard** (`brew install scorecard`) — Evaluate dependency repositories against OpenSSF Scorecard security
+  criteria
 
 ### Supplementary
 
 - **pip-audit** (`pip install pip-audit`) — Audit Python dependency trees for known vulnerabilities
 - **npm audit** (built-in) — Audit Node.js dependency trees for known vulnerabilities
-- **trivy** (`brew install trivy`) — Comprehensive vulnerability scanning across containers, filesystems, and dependencies
+- **trivy** (`brew install trivy`) — Comprehensive vulnerability scanning across containers, filesystems, and
+  dependencies
 
 ## Tool Setup
 

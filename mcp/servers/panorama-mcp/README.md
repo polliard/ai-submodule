@@ -1,8 +1,10 @@
 # Panorama MCP Server
 
-**Read-only query tool** for Palo Alto Panorama. Provides structured, searchable access to policies, objects, logs, devices, and configuration — without modifying anything on the appliance.
+**Read-only query tool** for Palo Alto Panorama. Provides structured, searchable access to policies, objects, logs,
+  devices, and configuration — without modifying anything on the appliance.
 
-Uses browser-based SSO authentication, multi-instance support, and Panorama's internal PanDirect RPC API for reliable structured data.
+Uses browser-based SSO authentication, multi-instance support, and Panorama's internal PanDirect RPC API for reliable
+  structured data.
 
 ## Features
 
@@ -53,7 +55,8 @@ panorama-mcp serve --no-preauth # skip pre-auth, handle SSO on-demand
 
 ### `panorama-mcp login`
 
-Standalone SSO login for testing. Note: Panorama uses session-only cookies, so the session only persists while the browser is open.
+Standalone SSO login for testing. Note: Panorama uses session-only cookies, so the session only persists while the
+  browser is open.
 
 ```bash
 panorama-mcp login                          # login to first configured instance
@@ -74,12 +77,12 @@ panorama-mcp status
 
 ### Environment Variables
 
-| Variable               | Description                                  | Example                                                  |
+| Variable | Description | Example |
 | ---------------------- | -------------------------------------------- | -------------------------------------------------------- |
-| `PANORAMA_URLS`        | Comma-separated Panorama URLs (multi-deploy) | `https://panoramav2.example.com,https://panoramav1.example.com` |
-| `PANORAMA_URL`         | Single Panorama URL (backward compat)        | `https://panoramav2.example.com`                         |
-| `PANORAMA_SSO_ACCOUNT` | SSO account for auto-fill on login page      | `user@company.com`                                       |
-| `PANORAMA_HEADLESS`    | Run browser in headless mode (default: false) | `false`                                                  |
+| `PANORAMA_URLS` | Comma-separated Panorama URLs (multi-deploy) | `https://panoramav2.example.com,https://panoramav1.example.com` |
+| `PANORAMA_URL` | Single Panorama URL (backward compat) | `https://panoramav2.example.com` |
+| `PANORAMA_SSO_ACCOUNT` | SSO account for auto-fill on login page | `user@company.com` |
+| `PANORAMA_HEADLESS` | Run browser in headless mode (default: false) | `false` |
 
 ### VS Code / Cursor
 
@@ -189,7 +192,7 @@ If omitted, the first configured instance is used.
 
 ### Architecture
 
-```
+```text
 MCP Client (VS Code, CLI)
     │
     ▼
@@ -246,7 +249,8 @@ Corporate SSO (Azure AD, Okta) typically requires visible browser mode:
 - MFA prompts (push notifications, TOTP) need user interaction
 - Some IDPs detect and block headless browsers
 
-The server uses `channel="msedge"` to leverage the system Microsoft Edge installation, which has access to corporate certificates and proxy configuration.
+The server uses `channel="msedge"` to leverage the system Microsoft Edge installation, which has access to corporate
+  certificates and proxy configuration.
 
 ## Validation
 

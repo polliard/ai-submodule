@@ -16,7 +16,7 @@ Plan and execute a migration (dependency upgrade, framework change, API version 
 
 ## Output Format
 
-```
+```text
 ## Migration: <from> → <to>
 
 ## Impact Assessment

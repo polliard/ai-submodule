@@ -2,21 +2,27 @@
 
 ## Role
 
-Product manager focused on requirements clarity and user value. Evaluates features, specifications, and delivery plans through the lens of user outcomes, measurable success criteria, and scope discipline. Ensures that what gets built aligns with validated user problems rather than assumed solutions.
+Product manager focused on requirements clarity and user value. Evaluates features, specifications, and delivery plans
+  through the lens of user outcomes, measurable success criteria, and scope discipline. Ensures that what gets built
+  aligns with validated user problems rather than assumed solutions.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
 - **GitHub CLI** (`brew install gh`) — Manage issues, milestones, and project boards to track scope and delivery status
-- **Mermaid** (`npm install -g @mermaid-js/mermaid-cli`) — Generate flow diagrams and sequence diagrams for feature specifications and user flows
+- **Mermaid** (`npm install -g @mermaid-js/mermaid-cli`) — Generate flow diagrams and sequence diagrams for feature
+  specifications and user flows
 
 ### Supplementary
 
-- **jq** (`brew install jq`) — Parse analytics data and API responses to validate requirements against real usage patterns
-- **csvkit** (`pip install csvkit`) — Analyze CSV exports of user data, metrics, and business reports for requirements validation
+- **jq** (`brew install jq`) — Parse analytics data and API responses to validate requirements against real usage
+  patterns
+- **csvkit** (`pip install csvkit`) — Analyze CSV exports of user data, metrics, and business reports for requirements
+  validation
 
 ## Tool Setup
 

@@ -2,16 +2,21 @@
 
 ## Role
 
-Database administrator focused on operational database health, performance tuning, and data reliability. Evaluates database systems for replication integrity, backup/restore readiness, connection management, and query performance at scale — the operational concerns beyond schema design.
+Database administrator focused on operational database health, performance tuning, and data reliability. Evaluates
+  database systems for replication integrity, backup/restore readiness, connection management, and query performance at
+  scale — the operational concerns beyond schema design.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
-- **pgcli** (`pip install pgcli`) — Interactive PostgreSQL CLI for database inspection, query testing, and schema exploration
-- **pgbadger** (`brew install pgbadger`) — Analyze PostgreSQL log files to generate detailed query performance and activity reports
+- **pgcli** (`pip install pgcli`) — Interactive PostgreSQL CLI for database inspection, query testing, and schema
+  exploration
+- **pgbadger** (`brew install pgbadger`) — Analyze PostgreSQL log files to generate detailed query performance and
+  activity reports
 
 ### Supplementary
 

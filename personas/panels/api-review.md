@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Evaluate API design, developer experience, and consumer usability from provider, consumer, and documentation perspectives.
+Evaluate API design, developer experience, and consumer usability from provider, consumer, and documentation
+  perspectives.
 
 ## Participants
 
@@ -12,11 +13,13 @@ Evaluate API design, developer experience, and consumer usability from provider,
 - **[UX Engineer](../engineering/ux-engineer.md)** - API ergonomics, CLI usability, developer workflow friction
 - **[Frontend Engineer](../domain_specific/frontend-engineer.md)** - Client integration, caching, offline support
 - **[Backend Engineer](../domain_specific/backend-engineer.md)** - Implementation feasibility, performance
-- **[Documentation Reviewer](../documentation/documentation-reviewer.md)** - Accuracy, completeness, discoverability of developer docs
+- **[Documentation Reviewer](../documentation/documentation-reviewer.md)** - Accuracy, completeness, discoverability of
+  developer docs
 
 ## Process
 
-1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file. Install and verify all required tools, deduplicating across participants
+1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.
+   Install and verify all required tools, deduplicating across participants
 2. Review API contract, documentation, and SDK surface
 3. Define developer personas and key workflows
 4. Each participant evaluates from their perspective

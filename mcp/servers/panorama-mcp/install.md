@@ -52,7 +52,7 @@ python3 -m venv .venv
 ### Environment Variables
 
 | Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
+| ---------- | ---------- | ------------- | --------- |
 | `PANORAMA_URLS` | Yes | Comma-separated Panorama URLs | `https://panoramav2.example.com` |
 | `PANORAMA_SSO_ACCOUNT` | No | SSO account for auto-fill on login page | `user@company.com` |
 | `PANORAMA_HEADLESS` | No | Run browser in headless mode (default: false) | `false` |

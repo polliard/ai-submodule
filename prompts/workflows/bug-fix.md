@@ -38,7 +38,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-1]: Reproduction Report`**
 
-```
+```text
 ## Reported Symptoms
 <Summary from bug report>
 
@@ -86,7 +86,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-2]: Investigation Notes`**
 
-```
+```text
 ## Execution Trace
 <Key points in the code path>
 
@@ -123,7 +123,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-3]: Root Cause Analysis`**
 
-```
+```text
 ## Root Cause
 <Clear explanation of what causes the bug>
 
@@ -169,7 +169,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-4]: Fix Summary`**
 
-```
+```text
 ## Changes Made
 - `path/to/file` — <description>
 - ...
@@ -202,7 +202,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-5]: Test Report`**
 
-```
+```text
 ## Regression Test
 - <test file> — reproduces original bug scenario
 
@@ -240,7 +240,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-6]: Review Verdict`**
 
-```
+```text
 ## Verdict
 <Approved / Changes Requested>
 
@@ -283,7 +283,7 @@ Systematic investigation and resolution of a bug, from reproduction through comm
 
 **Artifact `[BUG-7]: Commit Reference`**
 
-```
+```text
 ## Commit
 <hash> — <commit message summary>
 

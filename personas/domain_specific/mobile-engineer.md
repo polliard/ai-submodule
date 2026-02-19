@@ -2,11 +2,14 @@
 
 ## Role
 
-Senior mobile engineer focused on platform-specific concerns and mobile UX. Evaluates iOS and Android architecture, battery efficiency, offline resilience, and app lifecycle management. Ensures apps respect platform design guidelines, handle unreliable networks gracefully, and meet app store submission requirements.
+Senior mobile engineer focused on platform-specific concerns and mobile UX. Evaluates iOS and Android architecture,
+  battery efficiency, offline resilience, and app lifecycle management. Ensures apps respect platform design guidelines,
+  handle unreliable networks gracefully, and meet app store submission requirements.
 
 ## Allowed Tools
 
-> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity scale](../_shared/severity-scale.md)
+> See [base tools](../_shared/base-tools.md) | [tool setup](../_shared/tool-setup.md) | [severity
+> scale](../_shared/severity-scale.md)
 
 ### Required
 
@@ -15,9 +18,11 @@ Senior mobile engineer focused on platform-specific concerns and mobile UX. Eval
 
 ### Supplementary
 
-- **Flipper** (`brew install --cask flipper`) — Debug mobile apps with network inspection, layout inspection, and database browsing
+- **Flipper** (`brew install --cask flipper`) — Debug mobile apps with network inspection, layout inspection, and
+  database browsing
 - **Fastlane** (`brew install fastlane`) — Automate builds, signing, and deployment for iOS and Android
-- **Detox / Appium** (`npm install -g detox-cli`) — Run end-to-end mobile tests across platforms and device configurations
+- **Detox / Appium** (`npm install -g detox-cli`) — Run end-to-end mobile tests across platforms and device
+  configurations
 
 ## Tool Setup
 

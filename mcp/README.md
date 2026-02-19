@@ -4,11 +4,13 @@ Shareable MCP server configurations for extending AI capabilities.
 
 ## Overview
 
-This directory contains [Model Context Protocol](https://modelcontextprotocol.io) server definitions that can be imported into any project using this submodule. MCP servers let AI assistants (VS Code Copilot, Claude, etc.) call tools directly via JSON-RPC over stdio.
+This directory contains [Model Context Protocol](https://modelcontextprotocol.io) server definitions that can be
+  imported into any project using this submodule. MCP servers let AI assistants (VS Code Copilot, Claude, etc.) call
+  tools directly via JSON-RPC over stdio.
 
 ## Structure
 
-```
+```text
 mcp/
 ├── README.md            # This file
 ├── mcp-install          # Unified installer (macOS/Linux)
@@ -58,7 +60,8 @@ The `.ai/` directory can live in two places:
 
 ### Quick install
 
-Use the unified installer at the root of `mcp/`. It handles prerequisites, prompts for required configuration, runs the server-specific installer, and prints the VS Code config snippet with your values filled in.
+Use the unified installer at the root of `mcp/`. It handles prerequisites, prompts for required configuration, runs
+  the server-specific installer, and prints the VS Code config snippet with your values filled in.
 
 ```bash
 # macOS / Linux
@@ -73,10 +76,11 @@ Use the unified installer at the root of `mcp/`. It handles prerequisites, promp
 
 ### Per-server setup
 
-Each server has different prerequisites and install methods. See the table below for details, or run `./mcp-install` for an interactive guide.
+Each server has different prerequisites and install methods. See the table below for details, or run `./mcp-install`
+  for an interactive guide.
 
 | Server | Type | Prerequisites | Install guide | Automated install |
-|--------|------|---------------|---------------|-------------------|
+| -------- | ------ | --------------- | --------------- | ------------------- |
 | [azure-devops-mcp](servers/azure-devops-mcp/) | npx (no local install) | Node.js 18+ | [install.md](servers/azure-devops-mcp/install.md) | `install.sh` / `install.ps1` |
 | [gitignore-mcp](servers/gitignore-mcp/) | Go binary | Go 1.23+ or curl | [install.md](servers/gitignore-mcp/install.md) | `install.sh` / `install.ps1` |
 | [panorama-mcp](servers/panorama-mcp/) | Python venv + Playwright | Python 3.10+, Edge | [install.md](servers/panorama-mcp/install.md) | `install.sh` / `install.ps1` |
@@ -84,7 +88,8 @@ Each server has different prerequisites and install methods. See the table below
 
 ### VS Code / GitHub Copilot
 
-Each server's [install.md](servers/) includes a VS Code config snippet. To configure a server, add its entry to `.vscode/mcp.json`.
+Each server's [install.md](servers/) includes a VS Code config snippet. To configure a server, add its entry to
+  `.vscode/mcp.json`.
 
 Start with an empty skeleton:
 
@@ -95,7 +100,8 @@ Start with an empty skeleton:
 }
 ```
 
-Then merge in the `servers` entry (and any `inputs`) from each server's install guide. For example, to add **gitignore** and **ado**:
+Then merge in the `servers` entry (and any `inputs`) from each server's install guide. For example, to add
+  **gitignore** and **ado**:
 
 ```json
 {
@@ -125,7 +131,8 @@ Save as `.vscode/mcp.json` and reload VS Code.
 
 ### Claude Code
 
-Claude Code reads `mcp.json` files from server directories automatically when configured. See [Claude Code MCP docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for config details.
+Claude Code reads `mcp.json` files from server directories automatically when configured. See [Claude Code MCP
+  docs](https://docs.anthropic.com/en/docs/claude-code/mcp) for config details.
 
 ### Other Clients
 
@@ -142,7 +149,8 @@ Query Azure DevOps work items, repos, pipelines, and pull requests.
 
 **Required inputs:** Azure DevOps organization name (prompted on first use).
 
-See [install.md](servers/azure-devops-mcp/install.md) for setup and [mcp.json](servers/azure-devops-mcp/mcp.json) for config.
+See [install.md](servers/azure-devops-mcp/install.md) for setup and [mcp.json](servers/azure-devops-mcp/mcp.json) for
+  config.
 
 ### gitignore
 
@@ -151,20 +159,25 @@ Manage `.gitignore` files using templates from multiple sources (GitHub, Toptal,
 **Binary:** `gitignore` (v1.3.0+)
 **Repository:** [github.com/polliard/gitignore](https://github.com/polliard/gitignore)
 
-**Tools:** `gitignore_list`, `gitignore_search`, `gitignore_add`, `gitignore_delete`, `gitignore_ignore`, `gitignore_remove`, `gitignore_init`
+**Tools:** `gitignore_list`, `gitignore_search`, `gitignore_add`, `gitignore_delete`, `gitignore_ignore`,
+  `gitignore_remove`, `gitignore_init`
 
-See [install.md](servers/gitignore-mcp/install.md) for setup and [README.md](servers/gitignore-mcp/README.md) for full documentation.
+See [install.md](servers/gitignore-mcp/install.md) for setup and [README.md](servers/gitignore-mcp/README.md) for full
+  documentation.
 
 ### panorama-mcp
 
-MCP server for Palo Alto Panorama with browser-based SSO authentication, multi-instance support, and PanDirect API integration.
+MCP server for Palo Alto Panorama with browser-based SSO authentication, multi-instance support, and PanDirect API
+  integration.
 
 **Binary:** `panorama-mcp` (Python, pip-installable)
 **Required env:** `PANORAMA_URLS`, optionally `PANORAMA_SSO_ACCOUNT`
 
-**Tools:** 34 tools covering device management, policy, objects, network, logs, monitoring, operations, and browser control.
+**Tools:** 34 tools covering device management, policy, objects, network, logs, monitoring, operations, and browser
+  control.
 
-See [install.md](servers/panorama-mcp/install.md) for setup and [README.md](servers/panorama-mcp/README.md) for full documentation.
+See [install.md](servers/panorama-mcp/install.md) for setup and [README.md](servers/panorama-mcp/README.md) for full
+  documentation.
 
 ### servicenow-mcp
 
@@ -174,9 +187,12 @@ Access ServiceNow CMDB, incidents, changes, and other ITSM data via SSO authenti
 **Required env:** `SERVICENOW_INSTANCE`
 **Auth:** Browser-based SSO — no passwords stored. Sessions cached 8 hours.
 
-**Tools:** `snow_configure`, `snow_incident_query`, `snow_incident_get`, `snow_change_query`, `snow_change_get`, `snow_cmdb_query`, `snow_cmdb_get`, `snow_user_query`, `snow_group_query`, `snow_table_query`, `snow_kb_search`, `snow_describe_table`, `snow_build_query`
+**Tools:** `snow_configure`, `snow_incident_query`, `snow_incident_get`, `snow_change_query`, `snow_change_get`,
+  `snow_cmdb_query`, `snow_cmdb_get`, `snow_user_query`, `snow_group_query`, `snow_table_query`, `snow_kb_search`,
+  `snow_describe_table`, `snow_build_query`
 
-See [install.md](servers/servicenow-mcp/install.md) for setup and [README.md](servers/servicenow-mcp/README.md) for full documentation.
+See [install.md](servers/servicenow-mcp/install.md) for setup and [README.md](servers/servicenow-mcp/README.md) for
+  full documentation.
 
 ## Adding New Servers
 
