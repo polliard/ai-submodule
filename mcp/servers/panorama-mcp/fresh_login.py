@@ -4,10 +4,39 @@ Fresh SSO login - clears all cookies/state first.
 """
 
 import asyncio
+import os
 from pathlib import Path
+from urllib.parse import urlparse
 from playwright.async_api import async_playwright
 
-PANORAMA_URL = "https://panoramav2.corp.jmfamily.com"
+
+def _parse_panorama_urls() -> list[str]:
+    """Parse configured Panorama URLs from environment."""
+    raw = os.environ.get("PANORAMA_URLS", "")
+    if raw:
+        return [u.strip().rstrip("/") for u in raw.split(",") if u.strip()]
+    single = os.environ.get("PANORAMA_URL", "").strip().rstrip("/")
+    if single:
+        return [single]
+    return ["https://panoramav2.corp.jmfamily.com"]
+
+
+def _allowed_hosts(urls: list[str]) -> set[str]:
+    """Build the set of valid hostnames from configured URLs."""
+    return {urlparse(u).hostname for u in urls if urlparse(u).hostname}
+
+
+def _is_allowed_url(url: str, hosts: set[str]) -> bool:
+    """Validate that *url*'s hostname is in the allowed set."""
+    try:
+        return urlparse(url).hostname in hosts
+    except Exception:
+        return False
+
+
+PANORAMA_URLS = _parse_panorama_urls()
+PANORAMA_URL = PANORAMA_URLS[0]
+ALLOWED_HOSTS = _allowed_hosts(PANORAMA_URLS)
 
 
 async def main():
@@ -62,7 +91,7 @@ async def main():
                     print(f"Waiting... Current: {current_url[:60]}...")
 
                 # Detect successful login - Panorama uses hash routing when logged in
-                if "panoramav2.corp.jmfamily.com" in current_url:
+                if _is_allowed_url(current_url, ALLOWED_HOSTS):
                     # Check if we're past the login page
                     if "#" in current_url or "/php/login.php" not in current_url:
                         # Double check we're not on an error page

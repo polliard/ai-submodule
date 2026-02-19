@@ -4,10 +4,39 @@ All-in-one Panorama MCP test - login and explore in single session.
 """
 
 import asyncio
+import os
 from pathlib import Path
+from urllib.parse import urlparse
 from playwright.async_api import async_playwright
 
-PANORAMA_URL = "https://panoramav2.corp.jmfamily.com"
+
+def _parse_panorama_urls() -> list[str]:
+    """Parse configured Panorama URLs from environment."""
+    raw = os.environ.get("PANORAMA_URLS", "")
+    if raw:
+        return [u.strip().rstrip("/") for u in raw.split(",") if u.strip()]
+    single = os.environ.get("PANORAMA_URL", "").strip().rstrip("/")
+    if single:
+        return [single]
+    return ["https://panoramav2.corp.jmfamily.com"]
+
+
+def _allowed_hosts(urls: list[str]) -> set[str]:
+    """Build the set of valid hostnames from configured URLs."""
+    return {urlparse(u).hostname for u in urls if urlparse(u).hostname}
+
+
+def _is_allowed_url(url: str, hosts: set[str]) -> bool:
+    """Validate that *url*'s hostname is in the allowed set."""
+    try:
+        return urlparse(url).hostname in hosts
+    except Exception:
+        return False
+
+
+PANORAMA_URLS = _parse_panorama_urls()
+PANORAMA_URL = PANORAMA_URLS[0]
+ALLOWED_HOSTS = _allowed_hosts(PANORAMA_URLS)
 
 
 async def wait_for_login(page):
@@ -22,7 +51,7 @@ async def wait_for_login(page):
             content = await page.content()
 
             # Check if logged in (not on login page, no session expired message)
-            if "panoramav2.corp.jmfamily.com" in current_url:
+            if _is_allowed_url(current_url, ALLOWED_HOSTS):
                 if "/php/login.php" not in current_url and "session has expired" not in content.lower():
                     print(f"✓ Login detected! URL: {current_url}")
                     return True
