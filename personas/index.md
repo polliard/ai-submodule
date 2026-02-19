@@ -235,3 +235,106 @@ Each persona and panel follows a consistent structural template:
 - `_shared/credential-policy.md` — Secret hygiene rules
 - `tools.yaml` — Central registry mapping every tool to install
   commands, categories, and consuming personas
+
+### External Sources
+
+Resources consulted during persona and panel development.
+
+**LLM and AI Integration:**
+
+- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+  — System prompt design, instruction ordering, and behavioral
+  steering patterns. Informed LLM Analyst and LLM Engineer.
+- [OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)
+  — Tactics for clear instructions, reference text, and
+  structured output. Informed prompt template evaluation
+  criteria.
+- [Model Context Protocol Specification](https://spec.modelcontextprotocol.io/)
+  — MCP server architecture, tool definitions, and JSON schema
+  contracts. Foundational for LLM Engineer evaluation criteria.
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+  — Copilot configuration, instruction files, and extensions.
+  Informed AI Governance panel and LLM Analyst.
+- [Cursor Rules Documentation](https://docs.cursor.com/context/rules-for-ai)
+  — `.cursorrules` format and project-level AI instruction
+  patterns. Informed cross-surface duplication analysis.
+- [Microsoft Responsible AI Standard](https://www.microsoft.com/en-us/ai/responsible-ai)
+  — Fairness, reliability, safety, privacy, inclusiveness,
+  transparency, and accountability principles. Informed AI
+  Governance panel constraints.
+- [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+  — Prompt injection, insecure output handling, and model
+  denial of service. Informed Security Auditor's AI-specific
+  evaluation criteria.
+
+**Site Reliability and Operations:**
+
+- [Google SRE Book](https://sre.google/sre-book/table-of-contents/)
+  — SLOs, SLIs, error budgets, toil reduction, on-call
+  practices. Foundational for SRE persona.
+- [Google SRE Workbook](https://sre.google/workbook/table-of-contents/)
+  — Practical implementation of SRE principles. Informed
+  Launch Readiness and Incident Post-Mortem panels.
+- [Principles of Chaos Engineering](https://principlesofchaos.org/)
+  — Steady-state hypotheses, fault injection, and abort
+  criteria. Foundational for Failure Engineer.
+- [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
+  — Distributed tracing, metrics, and logging standards.
+  Informed Observability Engineer evaluation criteria.
+
+**Security and Threat Modeling:**
+
+- [MITRE ATT&CK Framework](https://attack.mitre.org/)
+  — Adversary tactics and techniques knowledge base. Core
+  to Red/Blue/Purple Team and MITRE Analyst personas.
+- [OWASP Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+  — Web application security testing methodology. Informed
+  Security Auditor evaluation criteria.
+- [OWASP Threat Modeling](https://owasp.org/www-community/Threat_Modeling)
+  — STRIDE, attack trees, and data flow diagram methodology.
+  Informed Threat Modeling Review panel.
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+  — Identify, Protect, Detect, Respond, Recover functions.
+  Informed Compliance Officer and security-related panels.
+- [OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/)
+  — Open-source project security criteria and scorecard.
+  Informed Supply Chain Engineer.
+- [SLSA Framework](https://slsa.dev/)
+  — Supply-chain integrity levels and build attestation.
+  Informed Supply Chain Engineer.
+
+**Compliance and Privacy:**
+
+- [GDPR Official Text](https://gdpr-info.eu/)
+  — EU data protection regulation articles. Informed Privacy
+  Engineer and Compliance Officer.
+- [WCAG 2.1 Specification](https://www.w3.org/TR/WCAG21/)
+  — Web content accessibility guidelines. Informed
+  Accessibility Engineer.
+- [SOC 2 Trust Service Criteria](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2)
+  — Security, availability, processing integrity, and
+  confidentiality controls. Informed Compliance Officer.
+
+**Testing and Code Quality:**
+
+- [Mutation Testing Literature](https://pitest.org/quickstart/mutators/)
+  — Mutation operator design and adequacy metrics. Informed
+  Test Engineer mutation testing criteria.
+- [Property-Based Testing (Hypothesis)](https://hypothesis.readthedocs.io/)
+  — Generative test strategies and shrinking. Informed Test
+  Engineer evaluation criteria.
+- [Chaos Toolkit Documentation](https://chaostoolkit.org/)
+  — Experiment definition, probes, actions, and rollback.
+  Informed Failure Engineer toolchain.
+
+**Architecture and API Design:**
+
+- [Spectral (Stoplight) Documentation](https://stoplight.io/open-source/spectral)
+  — OpenAPI linting rules and custom rulesets. Informed
+  API Designer toolchain.
+- [Architecture Decision Records](https://adr.github.io/)
+  — Lightweight decision documentation format. Informed
+  Tech Lead persona.
+- [The Twelve-Factor App](https://12factor.net/)
+  — Cloud-native application design principles. Informed
+  Backend Engineer and DevOps Engineer evaluation criteria.
