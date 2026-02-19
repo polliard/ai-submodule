@@ -1,11 +1,9 @@
 {
-    "name": "gitignore",
-    "description": "Manage .gitignore files using templates from multiple sources (GitHub, Toptal, local)",
-    "repository": "https://github.com/polliard/gitignore",
-    "version": "1.4.0",
-    "transport": "stdio",
-    "command": [
-        "gitignore",
-        "serve"
-    ]
+    "servers": {
+        "gitignore": {
+            "type": "stdio",
+            "command": "gitignore",
+            "args": ["serve"]
+        }
+    }
 }
