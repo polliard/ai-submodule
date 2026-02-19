@@ -1,4 +1,4 @@
-.PHONY: help lint-md lint-md-fix setup sync-copilot
+.PHONY: help lint-md lint-md-fix setup sync-copilot release
 
 # Default target - show help
 help:
@@ -8,6 +8,7 @@ help:
 	@echo "  lint-md     - Check markdown files for issues"
 	@echo "  lint-md-fix - Check and auto-fix markdown issues"
 	@echo "  sync-copilot - Merge instructions.md into copilot-instructions.md"
+	@echo "  release     - Infer bump, update .symver, commit, and tag"
 
 # Setup git hooks (idempotent - checks if already configured)
 setup:
@@ -33,4 +34,7 @@ sync-copilot:
 	python3 .githooks/merge-instructions.py instructions.md .github/copilot-instructions.md > .github/copilot-instructions.md.tmp
 	mv .github/copilot-instructions.md.tmp .github/copilot-instructions.md
 	@echo "copilot-instructions.md merged."
+
+release:
+	./scripts/release/infer-and-tag.sh
 
