@@ -79,10 +79,14 @@ echo "Changes since last tag:"
 git log $diff_range --oneline || true
 
 echo "Proposed bump: $proposed"
-read -rp "Select bump [major/minor/patch] (default: $proposed): " choice
+read -rp "Select bump [major/minor/patch/none] (default: $proposed): " choice
 choice=${choice:-$proposed}
 case "$choice" in
   major|minor|patch) ;;
+  none)
+    echo "No version bump requested; exiting without changes."
+    exit 0
+    ;;
   *) die "Invalid choice: $choice" ;;
 esac
 
