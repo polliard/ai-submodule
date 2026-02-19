@@ -236,6 +236,31 @@ Each persona and panel follows a consistent structural template:
 - `tools.yaml` — Central registry mapping every tool to install
   commands, categories, and consuming personas
 
+### Future Directions
+
+Planned evolution paths based on industry trends:
+
+- **Machine-readable metadata** — YAML frontmatter on persona
+  files for automated indexing, selection, and validation
+- **Trigger-based activation** — File pattern and keyword
+  triggers for automatic persona/panel recommendation
+- **Phased panel processes** — Multi-phase review where Phase 1
+  findings inform Phase 2 specialist routing
+- **Confidence scores** — Per-finding confidence levels to
+  improve panel consolidation signal-to-noise
+- **Finding deduplication** — Explicit protocol for merging
+  semantically overlapping findings across panel participants
+- **Persona composability** — Mixin patterns to combine
+  evaluation criteria from multiple personas (e.g.,
+  security-aware code review)
+- **Output schema validation** — JSON Schema definitions for
+  persona output formats enabling automated quality checks
+- **Effectiveness benchmarks** — Sample inputs with expected
+  outputs to measure and compare persona quality over time
+- **Agent delegation** — Allow panel participants to request
+  specialist input from other personas mid-review (inspired
+  by CrewAI task delegation and OpenAI Swarm handoffs)
+
 ### External Sources
 
 Resources consulted during persona and panel development.
@@ -338,3 +363,78 @@ Resources consulted during persona and panel development.
 - [The Twelve-Factor App](https://12factor.net/)
   — Cloud-native application design principles. Informed
   Backend Engineer and DevOps Engineer evaluation criteria.
+- [C4 Model](https://c4model.com/)
+  — Software architecture visualization at four
+  abstraction levels (Context, Container, Component,
+  Code). Referenced by Architect and Systems Architect
+  for diagram standards.
+- [Pact Contract Testing](https://pact.io/)
+  — Consumer-driven contract testing framework.
+  Referenced by API Designer and Test Engineer for
+  contract verification criteria.
+
+**Multi-Agent Frameworks:**
+
+- [CrewAI Documentation](https://docs.crewai.com/)
+  — Multi-agent orchestration with role/goal/backstory
+  patterns and task delegation. Primary reference for
+  multi-persona review patterns.
+- [Microsoft AutoGen](https://microsoft.github.io/autogen/)
+  — Multi-agent conversation patterns with group chat
+  and dynamic speaker selection. Informed panel
+  moderation and routing patterns.
+- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
+  — State graph agent orchestration with checkpointing
+  and human-in-the-loop. Alternative architecture for
+  phased panel processes.
+- [PydanticAI Documentation](https://ai.pydantic.dev/)
+  — Typed agent output with structured validation.
+  Reference for output format standardization.
+- [Fabric Patterns](https://github.com/danielmiessler/fabric)
+  — Community library of reusable AI analysis patterns.
+  Complementary task-oriented approach to role-oriented
+  personas.
+- [OpenAI Swarm](https://github.com/openai/swarm)
+  — Lightweight agent handoff patterns for multi-agent
+  delegation workflows.
+
+**AI Governance and Risk:**
+
+- [NIST AI Risk Management Framework](https://www.nist.gov/artificial-intelligence/ai-risk-management-framework)
+  — Federal AI risk governance standard. Foundational
+  for AI Governance panel risk assessment criteria.
+- [EU AI Act](https://artificialintelligenceact.eu/)
+  — EU regulation on AI system classification, risk
+  levels, and compliance requirements. Relevant to
+  Compliance Officer for AI-integrated systems.
+- [ISO/IEC 42001](https://www.iso.org/standard/81230.html)
+  — AI management system standard for organizational
+  AI governance. Informed AI Governance panel structure.
+- [OWASP AI Security and Privacy Guide](https://owasp.org/www-project-ai-security-and-privacy-guide/)
+  — Comprehensive AI security lifecycle beyond
+  LLM-specific risks. Extends Security Auditor AI
+  evaluation criteria.
+
+**Engineering Metrics and Practices:**
+
+- [DORA Metrics](https://dora.dev/)
+  — Deployment frequency, lead time, MTTR, and change
+  failure rate. Informed DevOps Engineer, Release
+  Engineer, and SRE evaluation criteria.
+- [FinOps Foundation](https://www.finops.org/)
+  — Cloud financial operations framework. Foundational
+  for Cost Optimizer persona.
+- [Team Topologies](https://teamtopologies.com/)
+  — Team interaction patterns and cognitive load
+  management. Informed Platform Engineer and Tech Lead
+  organizational awareness criteria.
+
+**Software Supply Chain:**
+
+- [OpenSSF GUAC](https://guac.sh/)
+  — Graph for Understanding Artifact Composition.
+  Emerging supply chain visibility tool for Supply
+  Chain Engineer.
+- [in-toto Framework](https://in-toto.io/)
+  — Software supply chain layout and verification.
+  Complements SLSA for Supply Chain Engineer.
