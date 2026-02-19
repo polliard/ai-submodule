@@ -1,27 +1,17 @@
 #!/bin/bash
 # Pre-commit hook: Merge instructions.md into copilot-instructions.md
-# Section-level merge: base sections updated, project sections preserved
+# Delegates merge logic to `make sync-copilot`; handles only git-specific concerns.
 
 set -e
 
 INSTRUCTIONS="instructions.md"
 COPILOT_INSTRUCTIONS=".github/copilot-instructions.md"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Only run if instructions.md is being committed
 if git diff --cached --name-only | grep -q "^${INSTRUCTIONS}$"; then
     echo "Merging instructions.md -> copilot-instructions.md..."
 
-    if [ ! -f "$COPILOT_INSTRUCTIONS" ]; then
-        # First sync: copy base and append empty project section
-        cp "$INSTRUCTIONS" "$COPILOT_INSTRUCTIONS"
-        printf '\n---\n\n## Project-Specific Instructions\n' >> "$COPILOT_INSTRUCTIONS"
-    else
-        python3 "$SCRIPT_DIR/merge-instructions.py" \
-            "$INSTRUCTIONS" "$COPILOT_INSTRUCTIONS" \
-            > "${COPILOT_INSTRUCTIONS}.tmp"
-        mv "${COPILOT_INSTRUCTIONS}.tmp" "$COPILOT_INSTRUCTIONS"
-    fi
+    make sync-copilot
 
     git add "$COPILOT_INSTRUCTIONS"
     echo "copilot-instructions.md merged and staged."
