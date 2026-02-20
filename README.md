@@ -20,21 +20,18 @@ AI governance framework for autonomous software delivery. Provides personas, pan
 
   personas/                    AI persona definitions (Markdown)
     architecture/              System design (3 personas)
-    code_quality/              Code review (3 personas)
-    compliance_governance/     Security, regulatory, accessibility (3 personas)
+    quality/                   Code review (3 personas)
+    compliance/                Security, regulatory, accessibility (3 personas)
     documentation/             Content creation and review (2 personas)
-    domain_specific/           Frontend, backend, data, ML, mobile (5 personas)
+    domain/                    Frontend, backend, data, ML, mobile (5 personas)
     engineering/               Testing, performance, debugging (6 personas)
-    operations_reliability/    SRE, DevOps, infrastructure (6 personas)
-    process_people/            Leadership, product, mentoring (4 personas)
-    special_purpose/           Legacy, incidents, migrations (4 personas)
+    operations/                SRE, DevOps, infrastructure (6 personas)
+    leadership/                Technical leadership, product, mentoring (4 personas)
+    specialist/                Legacy, incidents, migrations (4 personas)
     governance/                Governance Auditor, Policy Evaluator (2 personas)
     agentic/                   Code Manager, Coder (2 personas)
-    round_tables/              Multi-persona review panels (12 panels)
+    panels/                    Multi-persona review panels (13 panels incl. Copilot)
     index.md                   Persona reference grid
-
-  panels/                      Formal review panels
-    copilot-review.md          GitHub Copilot integration as a governance panel
 
   prompts/                     Reusable prompt templates
     workflows/                 Multi-phase orchestration (8 workflows)

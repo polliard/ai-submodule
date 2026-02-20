@@ -111,4 +111,4 @@ One addition: the new `copilot-review.md` in `panels/` (not `personas/panels/`) 
 
 ## Decision
 
-These renames are proposed, not executed. They should be reviewed and approved before implementation. If approved, they should be executed as a single atomic commit with updated references in `personas/index.md` and `config.yaml`.
+All renames have been executed as a single atomic commit. References in `personas/index.md` and `README.md` have been updated.
