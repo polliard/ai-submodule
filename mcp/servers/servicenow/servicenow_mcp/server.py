@@ -5,6 +5,7 @@ Implements Model Context Protocol over stdio using web scraping.
 """
 
 import json
+import os
 import sys
 from typing import Any, Dict, List, Optional
 
@@ -14,6 +15,22 @@ from .scraper import ServiceNowScraper, ServiceNowScraperError
 PROTOCOL_VERSION = "2024-11-05"
 SERVER_NAME = "servicenow"
 SERVER_VERSION = "0.1.0"
+
+
+# Prompt definitions for configuration
+PROMPTS = [
+    {
+        "name": "configure_servicenow",
+        "description": "Configure ServiceNow instance. SSO login will be handled via browser.",
+        "arguments": [
+            {
+                "name": "instance",
+                "description": "ServiceNow instance URL (e.g., mycompany.service-now.com)",
+                "required": True
+            }
+        ]
+    }
+]
 
 
 # Tool definitions
@@ -212,13 +229,32 @@ TOOLS = [
                 },
                 "limit": {
                     "type": "integer",
-                    "description": "Maximum results (default: 20)"
+                    "description": "Maximum results (default: 50)"
                 }
             },
             "required": ["query"]
         }
+    },
+    {
+        "name": "snow_configure",
+        "description": "Configure ServiceNow instance. Call this before other snow_* tools. SSO login is handled via browser - a window will open for you to authenticate.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "instance": {
+                    "type": "string",
+                    "description": "ServiceNow instance URL (e.g., mycompany.service-now.com)"
+                }
+            },
+            "required": ["instance"]
+        }
     }
 ]
+
+
+class CredentialsNotConfiguredError(Exception):
+    """Raised when ServiceNow credentials are not configured."""
+    pass
 
 
 class MCPServer:
@@ -227,11 +263,28 @@ class MCPServer:
     def __init__(self):
         self.scraper: Optional[ServiceNowScraper] = None
         self._initialized = False
+        # Runtime instance config (override env var)
+        self._instance: Optional[str] = None
+
+    def _get_instance(self) -> str:
+        """Get instance from runtime config or environment."""
+        return self._instance or os.environ.get("SERVICENOW_INSTANCE", "")
+
+    def _check_instance(self):
+        """Check if instance is configured, raise helpful error if not."""
+        instance = self._get_instance()
+        if not instance:
+            raise CredentialsNotConfiguredError(
+                "ServiceNow instance not configured. "
+                "Use the 'snow_configure' tool to set the instance URL."
+            )
 
     def _get_scraper(self) -> ServiceNowScraper:
         """Get or create scraper instance."""
+        self._check_instance()
+
         if self.scraper is None:
-            self.scraper = ServiceNowScraper()
+            self.scraper = ServiceNowScraper(instance=self._get_instance())
         return self.scraper
 
     def handle_initialize(self, params: Dict) -> Dict:
@@ -240,7 +293,8 @@ class MCPServer:
         return {
             "protocolVersion": PROTOCOL_VERSION,
             "capabilities": {
-                "tools": {"listChanged": True}
+                "tools": {"listChanged": True},
+                "prompts": {"listChanged": True}
             },
             "serverInfo": {
                 "name": SERVER_NAME,
@@ -272,8 +326,77 @@ class MCPServer:
                 "isError": True
             }
 
+    def handle_prompts_list(self, params: Dict) -> Dict:
+        """Handle prompts/list request."""
+        return {"prompts": PROMPTS}
+
+    def handle_prompts_get(self, params: Dict) -> Dict:
+        """Handle prompts/get request."""
+        name = params.get("name", "")
+        arguments = params.get("arguments", {})
+
+        # Find the prompt
+        prompt = None
+        for p in PROMPTS:
+            if p["name"] == name:
+                prompt = p
+                break
+
+        if not prompt:
+            raise ValueError(f"Unknown prompt: {name}")
+
+        if name == "configure_servicenow":
+            # Generate a message that guides the AI to configure instance
+            instance = arguments.get("instance", "")
+
+            messages = []
+
+            if instance:
+                # Instance provided - return instruction to call the tool
+                messages.append({
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": f"Configure ServiceNow connection to {instance}."
+                    }
+                })
+                messages.append({
+                    "role": "assistant",
+                    "content": {
+                        "type": "text",
+                        "text": f"I'll configure the ServiceNow connection. Call snow_configure with instance='{instance}'. SSO login will be handled via browser - a window will open for you to authenticate."
+                    }
+                })
+            else:
+                # Prompt for instance
+                messages.append({
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": "I need to configure my ServiceNow connection."
+                    }
+                })
+                messages.append({
+                    "role": "assistant",
+                    "content": {
+                        "type": "text",
+                        "text": "To configure ServiceNow, I'll need your instance URL (e.g., mycompany.service-now.com). SSO login will be handled via browser."
+                    }
+                })
+
+            return {
+                "description": prompt.get("description", ""),
+                "messages": messages
+            }
+
+        raise ValueError(f"Prompt implementation not found: {name}")
+
     def _execute_tool(self, name: str, args: Dict) -> Any:
         """Execute a tool by name."""
+        # snow_configure doesn't need scraper
+        if name == "snow_configure":
+            return self._configure_credentials(args)
+
         scraper = self._get_scraper()
 
         if name == "snow_incident_query":
@@ -314,10 +437,25 @@ class MCPServer:
         elif name == "snow_kb_search":
             return scraper.search_knowledge(
                 args["query"],
-                args.get("limit", 20)
+                args.get("limit", 50)
             )
         else:
             raise ValueError(f"Unknown tool: {name}")
+
+    def _configure_credentials(self, args: Dict) -> Dict:
+        """Configure ServiceNow instance at runtime."""
+        self._instance = args["instance"]
+
+        # Close existing scraper so it reconnects with new instance
+        if self.scraper:
+            self.scraper.close()
+            self.scraper = None
+
+        return {
+            "status": "configured",
+            "instance": self._instance,
+            "message": f"ServiceNow instance configured: {self._instance}. SSO login will occur on first tool use - a browser window will open for authentication."
+        }
 
     def _incident_query(self, scraper: ServiceNowScraper, args: Dict) -> List[Dict]:
         """Build and execute incident query."""
@@ -371,6 +509,10 @@ class MCPServer:
                 result = self.handle_tools_list(params)
             elif method == "tools/call":
                 result = self.handle_tools_call(params)
+            elif method == "prompts/list":
+                result = self.handle_prompts_list(params)
+            elif method == "prompts/get":
+                result = self.handle_prompts_get(params)
             else:
                 return {
                     "jsonrpc": "2.0",

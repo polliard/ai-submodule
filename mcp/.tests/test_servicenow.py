@@ -3,7 +3,8 @@ Tests for servicenow MCP server.
 
 Run with: pytest test_servicenow.py -v
 
-Requires environment variables:
+Protocol tests run without credentials.
+Integration tests require environment variables:
     SERVICENOW_INSTANCE - ServiceNow instance URL
     SERVICENOW_USERNAME - ServiceNow username
     SERVICENOW_PASSWORD - ServiceNow password
@@ -15,28 +16,31 @@ import pytest
 from mcp_client import MCPClient, MCPError
 
 
-pytestmark = [
-    pytest.mark.requires_server("servicenow"),
-    pytest.mark.requires_env("SERVICENOW_INSTANCE", "SERVICENOW_USERNAME", "SERVICENOW_PASSWORD"),
-]
-
-
+# Protocol tests only need the binary, not credentials
+@pytest.mark.requires_server("servicenow")
 class TestServiceNowProtocol:
-    """Test MCP protocol compliance."""
+    """Test MCP protocol compliance (no credentials needed)."""
 
-    def test_initialize(self, servicenow_client):
+    @pytest.fixture
+    def client(self):
+        """Create servicenow client without credentials."""
+        client = MCPClient(["servicenow-mcp", "serve"])
+        yield client
+        client.close()
+
+    def test_initialize(self, client):
         """Server responds to initialize with correct info."""
-        result = servicenow_client.initialize()
+        result = client.initialize()
 
         assert "protocolVersion" in result
         assert "serverInfo" in result
         assert result["serverInfo"]["name"] == "servicenow"
         assert "capabilities" in result
 
-    def test_tools_list(self, servicenow_client):
+    def test_tools_list(self, client):
         """Server returns list of available tools."""
-        servicenow_client.initialize()
-        tools = servicenow_client.list_tools()
+        client.initialize()
+        tools = client.list_tools()
 
         assert isinstance(tools, list)
         assert len(tools) > 0
@@ -47,10 +51,10 @@ class TestServiceNowProtocol:
             assert "description" in tool
             assert tool["name"].startswith("snow_")
 
-    def test_expected_tools_present(self, servicenow_client):
+    def test_expected_tools_present(self, client):
         """All expected tools are available."""
-        servicenow_client.initialize()
-        tools = servicenow_client.list_tools()
+        client.initialize()
+        tools = client.list_tools()
         tool_names = {t["name"] for t in tools}
 
         expected_tools = {
@@ -69,15 +73,63 @@ class TestServiceNowProtocol:
         for expected in expected_tools:
             assert expected in tool_names, f"Missing tool: {expected}"
 
-    def test_tool_has_input_schema(self, servicenow_client):
+    def test_tool_has_input_schema(self, client):
         """Each tool has an inputSchema."""
-        servicenow_client.initialize()
-        tools = servicenow_client.list_tools()
+        client.initialize()
+        tools = client.list_tools()
 
         for tool in tools:
             assert "inputSchema" in tool, f"Tool {tool['name']} missing inputSchema"
             schema = tool["inputSchema"]
             assert schema.get("type") == "object"
+
+    def test_prompts_list(self, client):
+        """Server responds to prompts/list."""
+        client.initialize()
+        result = client._send("prompts/list", {})
+
+        assert "prompts" in result
+        prompts = result["prompts"]
+        assert isinstance(prompts, list)
+        assert len(prompts) > 0
+
+        # Check configure_servicenow prompt exists
+        prompt_names = {p["name"] for p in prompts}
+        assert "configure_servicenow" in prompt_names
+
+    def test_prompts_get_configure(self, client):
+        """Server responds to prompts/get for configure_servicenow."""
+        client.initialize()
+        result = client._send("prompts/get", {
+            "name": "configure_servicenow",
+            "arguments": {}
+        })
+
+        assert "messages" in result
+        messages = result["messages"]
+        assert isinstance(messages, list)
+        assert len(messages) > 0
+
+    def test_prompts_get_with_args(self, client):
+        """Server responds to prompts/get with instance argument."""
+        client.initialize()
+        result = client._send("prompts/get", {
+            "name": "configure_servicenow",
+            "arguments": {
+                "instance": "test.service-now.com"
+            }
+        })
+
+        assert "messages" in result
+        messages = result["messages"]
+        assert len(messages) >= 2
+
+    def test_snow_configure_tool_present(self, client):
+        """snow_configure tool is listed."""
+        client.initialize()
+        tools = client.list_tools()
+        tool_names = {t["name"] for t in tools}
+        assert "snow_configure" in tool_names
 
 
 class TestServiceNowCMDB:
