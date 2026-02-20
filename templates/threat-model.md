@@ -159,6 +159,7 @@ graph LR
 {Repeat pattern...}
 
 > **Agentic systems MUST include attack paths for**:
+>
 > - Prompt injection → tool abuse chain
 > - Bulk data exfiltration via unrestricted queries
 > - Session/credential theft and replay
@@ -170,6 +171,7 @@ graph LR
 ## 5. Infrastructure Engineer: Configuration Assessment
 
 > Assess infrastructure hardening. Include findings for:
+>
 > - Transport authentication
 > - Session/credential storage
 > - Network isolation
@@ -377,6 +379,7 @@ graph TD
 ```
 
 > **Agentic systems MUST include attack trees for**:
+>
 > 1. Data exfiltration via agent tools
 > 2. Account/session compromise
 > 3. Denial of service / resource exhaustion

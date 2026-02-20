@@ -34,6 +34,7 @@ All reviewers analyze the **actual source code** — not abstract descriptions.
 ### Phase 1: Parallel Independent Analysis (All 5 Tracks Simultaneously)
 
 All 5 tracks execute **at the same time**. Each Sub-Moderator coordinates their reviewers to produce:
+
 - **Threats found** (STRIDE-classified, with severity and likelihood)
 - **Specific file and line references** for every finding
 - **Concrete attack narratives** — not hypotheticals, but step-by-step exploits you could actually execute
@@ -45,6 +46,7 @@ Each Sub-Moderator validates findings within their track against the **Risk Vali
 ### Phase 2: Sub-Moderator Aggregation (Per-Track)
 
 Each Sub-Moderator independently:
+
 1. Deduplicates findings within their track
 2. Assigns preliminary severity ratings with justification
 3. Identifies findings that span multiple tracks (cross-cutting concerns)
@@ -54,6 +56,7 @@ Each Sub-Moderator independently:
 ### Phase 3: Overall Moderator Integration
 
 The **Overall Moderator** receives all 5 track summaries simultaneously and:
+
 1. **Cross-references** all tracks — flags duplicates, contradictions, and coverage gaps
 2. **Challenges weak findings** via sub-moderators: "Could an attacker actually exploit this? Under what conditions?"
 3. **Escalates convergent findings** where multiple tracks independently identified the same issue
@@ -76,6 +79,7 @@ The Overall Moderator drives **5 rounds** of cross-track hardening:
 ### Phase 5: Final Report Assembly
 
 The Overall Moderator produces the final report by:
+
 - Deduplicating across all 5 tracks with authoritative severity based on cross-track consensus
 - Building cross-cutting concern narratives (e.g., "3 of 5 tracks flagged content integrity")
 - Constructing compound attack trees from individual findings across tracks
@@ -85,12 +89,15 @@ The Overall Moderator produces the final report by:
 ## Output Requirements
 
 ### Template
+
 Use the template at `~/.ai/templates/threat-model.md` as the structural foundation.
 
 ### Diagrams
+
 **ALL diagrams MUST use Mermaid syntax.** No ASCII art, no PlantUML, no images.
 
 Required diagrams:
+
 1. **Data Flow Diagram** — `graph LR` with color-coded trust boundary subgraphs
 2. **STRIDE Mindmap** — `mindmap` showing all 6 categories with subcategories
 3. **Attack Trees** — `graph TD` for each primary attack goal
@@ -148,6 +155,7 @@ Every finding MUST meet these criteria or be rejected:
 ### Detection Artifacts
 
 Include in appendices:
+
 - **Sigma detection rules** for sensitive resource access, bulk extraction, credential anomalies
 - **Purple team exercises** with ATT&CK technique, procedure, and expected detection
 - **Incident response procedures** — session revocation, agent containment, forensic reconstruction
