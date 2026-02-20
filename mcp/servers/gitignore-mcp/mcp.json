@@ -3,7 +3,9 @@
         "gitignore": {
             "type": "stdio",
             "command": "gitignore",
-            "args": ["serve"]
+            "args": [
+                "serve"
+            ]
         }
     }
 }

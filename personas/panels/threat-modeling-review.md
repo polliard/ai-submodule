@@ -26,6 +26,10 @@ Systematic identification, classification, and prioritization of threats against
 - **[Compliance Officer](../compliance_governance/compliance-officer.md)** - Regulatory impact of identified threats,
   risk acceptance criteria
 
+## General Guidelines
+
+- Leverage MITRE 17
+
 ## Process
 
 1. **Bootstrap tooling** — For each participant persona, execute the Tool Setup procedure from their persona file.

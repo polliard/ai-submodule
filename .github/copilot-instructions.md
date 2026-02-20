@@ -51,6 +51,15 @@ Five core behaviors:
 - Before modifying code, read `project.yaml` and understand the
   project structure, key directories, and tech stack.
 
+## Protected Files
+
+The following files are managed by enterprise policy and must never be
+modified, deleted, or recreated by AI assistants:
+
+- `.github/workflows/jm-compliance.yml` — Enterprise JM Compliance
+  workflow. Changes are blocked by an enterprise push ruleset and will
+  cause pipeline failures.
+
 ## Security
 
 - Never hardcode secrets, tokens, or credentials. Use environment
@@ -202,6 +211,12 @@ represent one logical change in one domain.
   - fix the code in a background thread using a moderator agent to manage
   communications.
   - Once complete, push and repeast until all issues are fixed.
+- After pushing to a PR, check for Copilot review comments using
+  `gh api repos/{owner}/{repo}/pulls/{number}/comments`. For each
+  Copilot recommendation:
+  - Create a GitHub issue with the appropriate priority and labels.
+  - Fix the issue in the current branch.
+  - Commit, push, and close the issue.
 
 ### Semantic Versioning
 
@@ -361,4 +376,5 @@ Load these when relevant — they extend or override these instructions:
 - `mcp/README.md` — MCP server install steps and available tools
 
 <!-- SYNC:INSTRUCTIONS END -->
+
 
