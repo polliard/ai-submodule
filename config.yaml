@@ -20,6 +20,12 @@ symlinks:
     targets:
       - .vscode/mcp.json
 
+# Claude Code slash commands (symlinked to ~/.claude/commands/)
+# These are Claude Code-specific — no cross-tool equivalent exists.
+commands:
+  - source: commands/threat-panel.md
+    target: ~/.claude/commands/threat-panel.md
+
 # Gitignore patterns for .ai/
 gitignore:
   - context.md

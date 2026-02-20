@@ -1,0 +1,18 @@
+#!/bin/bash
+# Pre-commit hook: Merge instructions.md into copilot-instructions.md
+# Delegates merge logic to `make sync-copilot`; handles only git-specific concerns.
+
+set -e
+
+INSTRUCTIONS="instructions.md"
+COPILOT_INSTRUCTIONS=".github/copilot-instructions.md"
+
+# Only run if instructions.md is being committed
+if git diff --cached --name-only | grep -q "^${INSTRUCTIONS}$"; then
+    echo "Merging instructions.md -> copilot-instructions.md..."
+
+    make sync-copilot
+
+    git add "$COPILOT_INSTRUCTIONS"
+    echo "copilot-instructions.md merged and staged."
+fi

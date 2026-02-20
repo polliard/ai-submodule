@@ -13,7 +13,7 @@ Decompose a task into an implementation plan before writing code.
 
 ## Output Format
 
-```
+```text
 ## Goal
 <one sentence>
 
@@ -34,4 +34,5 @@ Decompose a task into an implementation plan before writing code.
 ```
 
 ## When to Use
+
 Before any change that touches more than 2 files or involves architectural decisions.

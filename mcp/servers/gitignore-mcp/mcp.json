@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "gitignore": {
+            "type": "stdio",
+            "command": "gitignore",
+            "args": [
+                "serve"
+            ]
+        }
+    }
+}

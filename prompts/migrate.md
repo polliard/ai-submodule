@@ -16,7 +16,7 @@ Plan and execute a migration (dependency upgrade, framework change, API version 
 
 ## Output Format
 
-```
+```text
 ## Migration: <from> → <to>
 
 ## Impact Assessment
@@ -42,4 +42,5 @@ Plan and execute a migration (dependency upgrade, framework change, API version 
 ```
 
 ## When to Use
+
 Before any dependency upgrade, framework migration, API version change, or schema migration.

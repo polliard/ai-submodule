@@ -40,7 +40,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-1]: Requirements Spec`**
 
-```
+```text
 ## Problem Statement
 <What user problem does this solve?>
 
@@ -96,7 +96,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-2]: Design & Plan`**
 
-```
+```text
 ## Approach
 <High-level description of the design>
 
@@ -123,7 +123,8 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Stop.** Present `[FEAT-2]` for review.
 
-**Approval criteria:** Design aligns with requirements. Implementation steps are clear and ordered. Risks are acknowledged with mitigations.
+**Approval criteria:** Design aligns with requirements. Implementation steps are clear and ordered. Risks are
+  acknowledged with mitigations.
 
 - **Approved** → proceed to Phase 3
 - **Revise** → address feedback, re-present `[FEAT-2]`
@@ -150,7 +151,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-3]: Implementation Summary`**
 
-```
+```text
 ## Changes Made
 - `path/to/file` — <description>
 - ...
@@ -185,7 +186,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-4]: Test Report`**
 
-```
+```text
 ## Tests Written
 - <test file> — <what it covers>
 - ...
@@ -206,7 +207,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 ## Phase 5: Review
 
-> **Invoke round table:** `personas/round_tables/code-review.md`
+> **Invoke panel:** `personas/panels/code-review.md`
 
 ### Input
 
@@ -227,7 +228,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-5]: Review Verdict`**
 
-```
+```text
 ## Verdict
 <Approved / Changes Requested>
 
@@ -270,7 +271,7 @@ End-to-end delivery of a new feature, from requirements gathering through commit
 
 **Artifact `[FEAT-6]: Commit Reference`**
 
-```
+```text
 ## Commit
 <hash> — <commit message summary>
 

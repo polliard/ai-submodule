@@ -41,7 +41,7 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Artifact `[API-1]: API Requirements`**
 
-```
+```text
 ## Purpose
 <What this API enables>
 
@@ -72,7 +72,8 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Stop.** Present `[API-1]` for review.
 
-**Approval criteria:** All consumer use cases are captured. Operations map to real needs. Non-functional requirements are defined.
+**Approval criteria:** All consumer use cases are captured. Operations map to real needs. Non-functional requirements
+  are defined.
 
 - **Approved** → proceed to Phase 2
 - **Revise** → address feedback, re-present `[API-1]`
@@ -100,7 +101,7 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Artifact `[API-2]: API Contract`**
 
-```
+```text
 ## Base Path
 <e.g., /api/v2/resources>
 
@@ -112,32 +113,41 @@ Designing or evolving an API, from requirements through implementation and consu
 **Request:**
 ```json
 <request body schema>
-```
+```text
+
 **Response (200):**
+
 ```json
 <response body schema>
-```
+```text
+
 **Errors:**
+
 - <status code> — <when this occurs>
 - ...
 
 ### <METHOD> <path>
+
 ...
 
 ## Common Patterns
+
 - **Pagination:** <approach>
 - **Filtering:** <approach>
 - **Error format:** <standard error shape>
 
 ## Breaking Changes
+
 <None, or list of breaking changes with migration path>
+
 ```
 
 ### GATE
 
 **Stop.** Present `[API-2]` for review.
 
-**Approval criteria:** Endpoints cover all operations from `[API-1]`. Schemas are complete. Error cases are handled. Naming is consistent.
+**Approval criteria:** Endpoints cover all operations from `[API-1]`. Schemas are complete. Error cases are handled.
+  Naming is consistent.
 
 - **Approved** → proceed to Phase 3
 - **Revise** → address feedback, re-present `[API-2]`
@@ -146,7 +156,7 @@ Designing or evolving an API, from requirements through implementation and consu
 
 ## Phase 3: Consumer Review
 
-> **Invoke round table:** `personas/round_tables/api-design-review.md`
+> **Invoke panel:** `personas/panels/api-design-review.md`
 
 ### Input
 
@@ -165,24 +175,31 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Artifact `[API-3]: Consumer Review Feedback`**
 
-```
+```text
+
 ## Use Case Coverage
+
 - <Use case 1> — <Covered / Gap identified>
 - ...
 
 ## Ergonomic Issues
+
 - <Issue and suggestion>
 - ...
 
 ## Design Concerns
+
 - [severity] <concern>
 - ...
 
 ## Verdict
+
 <Approved / Changes Requested>
 
 ## Required Changes (if any)
+
 - <Change>
+
 ```
 
 ### GATE
@@ -218,20 +235,26 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Artifact `[API-4]: Implementation Summary`**
 
-```
+```text
+
 ## Files Created/Modified
+
 - `path/to/file` — <description>
 - ...
 
 ## Endpoint Implementation Status
+
 - <METHOD> <path> — <Implemented / Partial>
 - ...
 
 ## Test Results
+
 <Pass/fail summary>
 
 ## Deviations from Contract
+
 <None, or deviations with justification>
+
 ```
 
 ---
@@ -259,26 +282,32 @@ Designing or evolving an API, from requirements through implementation and consu
 
 **Artifact `[API-5]: API Documentation`**
 
-```
+```text
+
 ## Documentation Location
+
 <path or URL>
 
 ## Contents
+
 - Getting Started / Authentication
 - Endpoint Reference (all endpoints with examples)
 - Error Handling Guide
 - Migration Guide (if evolving existing API)
 
 ## Code Examples Included
+
 - <language> — <which endpoints>
 - ...
+
 ```
 
 ### GATE
 
 **Stop.** Present `[API-5]` for review.
 
-**Approval criteria:** Documentation covers all endpoints. Examples are accurate and runnable. Consumer perspective is maintained throughout.
+**Approval criteria:** Documentation covers all endpoints. Examples are accurate and runnable. Consumer perspective is
+  maintained throughout.
 
 - **Approved** → documentation is complete
 - **Revise** → address feedback, re-present `[API-5]`

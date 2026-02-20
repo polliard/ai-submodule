@@ -4,13 +4,14 @@ Generate a commit message and PR description for staged changes.
 
 ## Commit Message Format
 
-```
+```text
 <type>(<scope>): <subject>
 
 <body>
 ```
 
 ### Types
+
 - `feat` — new functionality
 - `fix` — bug fix
 - `refactor` — restructuring without behavior change
@@ -20,6 +21,7 @@ Generate a commit message and PR description for staged changes.
 - `perf` — performance improvement
 
 ### Rules
+
 - Subject line: imperative mood, lowercase, no period, under 72 characters
 - Body: explain **why**, not what (the diff shows what)
 - Reference ticket/issue numbers when applicable
@@ -27,7 +29,7 @@ Generate a commit message and PR description for staged changes.
 
 ## PR Description Format
 
-```
+```text
 ## Summary
 <1-3 bullet points describing the change>
 
@@ -42,4 +44,5 @@ Generate a commit message and PR description for staged changes.
 ```
 
 ## When to Use
+
 Before committing, to generate a well-structured message from the current diff.

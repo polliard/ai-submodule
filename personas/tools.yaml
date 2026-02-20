@@ -1,0 +1,1240 @@
+# =============================================================================
+# Persona Framework — Tool Manifest
+# =============================================================================
+#
+# Central registry of every tool referenced across the persona framework.
+# Used by tool-setup.md bootstrap procedures and panel reviews.
+#
+# Versions should be pinned when updating this manifest in CI or lockfile
+# contexts. The install commands below use latest-at-time-of-install by
+# default; add explicit version specifiers (e.g., pip install semgrep==1.56.0)
+# when reproducibility matters.
+#
+# Categories:
+#   base           — Shared across many personas; install once per session
+#   cli            — Command-line tools installable via package manager or pip/npm
+#   gui            — Graphical or platform-native tools requiring manual setup
+#   infrastructure — Cloud, orchestration, and IaC tooling
+#   manual         — Commercial, platform-locked, or requires interactive setup
+#
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# BASE — Shared tools used across multiple personas
+# ---------------------------------------------------------------------------
+base:
+
+  - name: jq
+    description: Parse JSON logs, API responses, and structured data
+    install:
+      macos: brew install jq
+      linux: apt install -y jq
+    personas:
+      - debugger
+      - observability-engineer
+      - ux-engineer
+      - product-manager
+      - interviewer
+      - business-analyst
+      - api-consumer
+      - incident-commander
+      - data-engineer
+      - privacy-engineer
+
+  - name: semgrep
+    description: Static analysis with custom rules for security, correctness, and pattern detection
+    install:
+      pip: pip install semgrep
+    personas:
+      - code-reviewer
+      - adversarial-reviewer
+      - refactor-specialist
+      - security-auditor
+      - backend-engineer
+      - privacy-engineer
+      - release-engineer
+
+  - name: k6
+    description: Load testing and performance benchmarking
+    install:
+      macos: brew install k6
+      linux: snap install k6
+    personas:
+      - sre
+      - performance-engineer
+      - failure-engineer
+      - backend-engineer
+      - migration-specialist
+
+  - name: cloc
+    description: Count lines of code and quantify codebase metrics
+    install:
+      macos: brew install cloc
+      linux: apt install -y cloc
+    personas:
+      - architect
+      - code-reviewer
+      - minimalist-engineer
+      - code-archaeologist
+      - tech-lead
+      - platform-engineer
+
+  - name: trivy
+    description: Vulnerability scanning for containers, filesystems, and dependencies
+    install:
+      macos: brew install trivy
+      linux: apt install -y trivy
+    personas:
+      - devops-engineer
+      - infrastructure-engineer
+      - security-auditor
+      - compliance-officer
+      - supply-chain-engineer
+
+  - name: madge
+    description: JavaScript/TypeScript dependency graph visualization
+    install:
+      npx: npx madge
+      npm: npm install -g madge
+    personas:
+      - architect
+      - systems-architect
+      - minimalist-engineer
+      - refactor-specialist
+      - code-archaeologist
+      - tech-lead
+
+  - name: lighthouse
+    description: Web performance, accessibility, and best practices auditing
+    install:
+      npm: npm install -g lighthouse
+      npx: npx lighthouse
+    personas:
+      - performance-engineer
+      - frontend-engineer
+      - accessibility-engineer
+
+  - name: mermaid-cli
+    description: Diagram generation from text (flow, sequence, architecture)
+    install:
+      npm: npm install -g @mermaid-js/mermaid-cli
+      npx: npx @mermaid-js/mermaid-cli
+    personas:
+      - documentation-writer
+      - product-manager
+      - incident-commander
+      - mentor
+      - interviewer
+      - business-analyst
+      - release-engineer
+
+# ---------------------------------------------------------------------------
+# CLI — Language-specific linters, formatters, and analysis tools
+# ---------------------------------------------------------------------------
+cli:
+
+  # -- Linting and formatting --
+
+  - name: eslint
+    description: JavaScript/TypeScript linting with pluggable rule sets
+    install:
+      npm: npm install eslint
+    personas:
+      - code-reviewer
+      - frontend-engineer
+
+  - name: pylint
+    description: Python static analysis and convention enforcement
+    install:
+      pip: pip install pylint
+    personas:
+      - code-reviewer
+
+  - name: prettier
+    description: Opinionated code formatter for JavaScript, TypeScript, CSS, and more
+    install:
+      npm: npm install prettier
+    personas:
+      - code-reviewer
+
+  - name: black
+    description: Uncompromising Python code formatter
+    install:
+      pip: pip install black
+    personas:
+      - code-reviewer
+
+  - name: shellcheck
+    description: Lint shell scripts for correctness, quoting issues, and unsafe patterns
+    install:
+      macos: brew install shellcheck
+      linux: apt install -y shellcheck
+    personas:
+      - code-reviewer
+
+  - name: stylelint
+    description: CSS/SCSS linter for convention violations and rendering issues
+    install:
+      npm: npm install stylelint
+    personas:
+      - frontend-engineer
+
+  - name: sonarscanner
+    description: Code quality metrics including complexity, duplication, and maintainability
+    install:
+      macos: brew install sonar-scanner
+    notes: Requires a running SonarQube or SonarCloud instance for full analysis
+    personas:
+      - code-reviewer
+
+  # -- Supply chain security --
+
+  - name: syft
+    description: Generate Software Bills of Materials (SBOMs) from container images, filesystems, and archives
+    install:
+      macos: brew install syft
+      linux: curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s
+    personas:
+      - supply-chain-engineer
+
+  - name: grype
+    description: Scan SBOMs and container images for known vulnerabilities with severity classification
+    install:
+      macos: brew install grype
+      linux: curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s
+    personas:
+      - supply-chain-engineer
+
+  - name: cosign
+    description: Verify container image signatures and attestations for supply chain provenance
+    install:
+      macos: brew install cosign
+      linux: go install github.com/sigstore/cosign/v2/cmd/cosign@latest
+    personas:
+      - supply-chain-engineer
+
+  - name: scorecard
+    description: Evaluate dependency repositories against OpenSSF Scorecard security criteria
+    install:
+      macos: brew install scorecard
+      linux: go install github.com/ossf/scorecard/v5/cmd/scorecard@latest
+    personas:
+      - supply-chain-engineer
+
+  # -- Privacy --
+
+  - name: presidio
+    description: Automated PII detection and classification in data payloads and text
+    install:
+      pip: pip install presidio-analyzer
+    personas:
+      - privacy-engineer
+
+  # -- Security scanning --
+
+  - name: detect-secrets
+    description: Scan for hardcoded secrets, tokens, and credentials in source code
+    install:
+      pip: pip install detect-secrets
+    personas:
+      - code-reviewer
+      - devops-engineer
+      - security-auditor
+      - privacy-engineer
+
+  - name: pip-audit
+    description: Audit Python dependency trees for known vulnerabilities
+    install:
+      pip: pip install pip-audit
+    personas:
+      - code-reviewer
+      - security-auditor
+      - supply-chain-engineer
+
+  - name: bandit
+    description: Python-specific security vulnerability scanner
+    install:
+      pip: pip install bandit
+    personas:
+      - security-auditor
+
+  # -- Testing and mutation --
+
+  - name: pytest
+    description: Python test framework with rich plugin ecosystem
+    install:
+      pip: pip install pytest
+    personas:
+      - test-engineer
+
+  - name: jest
+    description: JavaScript testing framework with built-in mocking and coverage
+    install:
+      npm: npm install jest
+    personas:
+      - test-engineer
+
+  - name: coverage-py
+    description: Measure Python code coverage to identify untested paths
+    install:
+      pip: pip install coverage
+    personas:
+      - test-engineer
+
+  - name: nyc
+    description: JavaScript code coverage tool (Istanbul CLI)
+    install:
+      npm: npm install nyc
+    personas:
+      - test-engineer
+
+  - name: mutmut
+    description: Python mutation testing to verify test suite effectiveness
+    install:
+      pip: pip install mutmut
+    personas:
+      - adversarial-reviewer
+      - test-engineer
+
+  - name: stryker
+    description: JavaScript/TypeScript mutation testing framework
+    install:
+      npm: npm install -g stryker-cli
+    personas:
+      - adversarial-reviewer
+      - test-engineer
+
+  - name: hypothesis
+    description: Property-based testing and adversarial input generation for Python
+    install:
+      pip: pip install hypothesis
+    personas:
+      - adversarial-reviewer
+      - test-engineer
+
+  # -- Profiling and benchmarking --
+
+  - name: py-spy
+    description: Low-overhead sampling profiler for Python applications
+    install:
+      pip: pip install py-spy
+    personas:
+      - performance-engineer
+
+  - name: hyperfine
+    description: Statistical benchmarking tool for CLI commands and scripts
+    install:
+      macos: brew install hyperfine
+      linux: apt install -y hyperfine
+    personas:
+      - performance-engineer
+
+  - name: flamegraph
+    description: Generate flame graphs from system-level profiling data
+    install:
+      macos: brew install flamegraph
+    notes: Often used with perf (Linux) or dtrace (macOS) as the data source
+    personas:
+      - performance-engineer
+
+  # -- API design and contract --
+
+  - name: spectral
+    description: Lint OpenAPI and AsyncAPI specifications against design rules
+    install:
+      npm: npm install -g @stoplight/spectral-cli
+    personas:
+      - api-designer
+      - api-consumer
+
+  - name: swagger-cli
+    description: Validate and bundle OpenAPI definitions
+    install:
+      npm: npm install -g swagger-cli
+    deprecated: true
+    notes: DEPRECATED — use @redocly/cli or Spectral instead. Do not install during bootstrap; listed for migration reference only.
+    personas:
+      - api-designer
+
+  - name: prism
+    description: Mock API server from OpenAPI specs for contract testing
+    install:
+      npm: npm install -g @stoplight/prism-cli
+    personas:
+      - api-designer
+      - api-consumer
+
+  - name: openapi-generator
+    description: Generate client SDKs from OpenAPI specifications
+    install:
+      npm: npm install -g @openapitools/openapi-generator-cli
+    personas:
+      - api-designer
+
+  - name: httpie
+    description: Human-readable HTTP client for API testing and debugging
+    install:
+      macos: brew install httpie
+      linux: apt install -y httpie
+      pip: pip install httpie
+    personas:
+      - api-consumer
+      - backend-engineer
+
+  - name: newman
+    description: Run Postman collections as automated API test suites
+    install:
+      npm: npm install -g newman
+    personas:
+      - api-consumer
+
+  # -- Dependency and dead code analysis --
+
+  - name: depcheck
+    description: Find unused dependencies in Node.js projects
+    install:
+      npm: npm install -g depcheck
+    personas:
+      - minimalist-engineer
+
+  - name: vulture
+    description: Detect dead Python code, unused functions, and unreachable branches
+    install:
+      pip: pip install vulture
+    personas:
+      - minimalist-engineer
+      - code-archaeologist
+
+  # -- Refactoring --
+
+  - name: rope
+    description: Automated Python refactoring (renames, extractions, moves)
+    install:
+      pip: pip install rope
+    personas:
+      - refactor-specialist
+
+  - name: jscodeshift
+    description: JavaScript/TypeScript codemod toolkit for large-scale transforms
+    install:
+      npm: npm install -g jscodeshift
+    personas:
+      - refactor-specialist
+
+  # -- Visualization --
+
+  - name: graphviz
+    description: Render architecture diagrams, data flow maps, and dependency graphs
+    install:
+      macos: brew install graphviz
+      linux: apt install -y graphviz
+    personas:
+      - architect
+      - systems-architect
+
+  - name: pydeps
+    description: Visualize Python module dependency trees
+    install:
+      pip: pip install pydeps
+    notes: Requires Graphviz to be installed for rendering
+    personas:
+      - architect
+      - systems-architect
+      - code-archaeologist
+      - tech-lead
+
+  - name: plantuml
+    description: Generate UML diagrams for use case modeling and system documentation
+    install:
+      macos: brew install plantuml
+      linux: apt install -y plantuml
+    notes: Requires Java runtime
+    personas:
+      - business-analyst
+
+  - name: gource
+    description: Visualize repository commit history as an animated tree
+    install:
+      macos: brew install gource
+      linux: apt install -y gource
+    personas:
+      - code-archaeologist
+
+  # -- Documentation --
+
+  - name: markdownlint
+    description: Lint markdown files for formatting, structure, and broken links
+    install:
+      npm: npm install -g markdownlint-cli
+    personas:
+      - documentation-reviewer
+      - documentation-writer
+      - ux-engineer
+
+  - name: vale
+    description: Enforce writing style guides for consistent terminology and tone
+    install:
+      macos: brew install vale
+      linux: snap install vale
+    personas:
+      - documentation-reviewer
+      - documentation-writer
+
+  - name: linkchecker
+    description: Validate hyperlinks in documentation to catch broken references
+    install:
+      pip: pip install linkchecker
+    personas:
+      - documentation-reviewer
+
+  - name: doctoc
+    description: Generate and validate tables of contents for markdown documents
+    install:
+      npm: npm install -g doctoc
+    personas:
+      - documentation-reviewer
+
+  # -- Data engineering --
+
+  - name: dbt
+    description: Review data transformation layers, test coverage, and model dependencies
+    install:
+      pip: pip install dbt-core
+    personas:
+      - data-engineer
+
+  # -- Data and database --
+
+  - name: pgcli
+    description: Interactive PostgreSQL CLI with autocompletion for schema inspection
+    install:
+      pip: pip install pgcli
+    personas:
+      - data-architect
+      - dba
+
+  - name: eralchemy
+    description: Generate entity-relationship diagrams from live database schemas
+    install:
+      pip: pip install eralchemy
+    notes: Requires Graphviz for rendering
+    personas:
+      - data-architect
+
+  - name: alembic
+    description: SQLAlchemy-based schema migration with version tracking and rollback
+    install:
+      pip: pip install alembic
+    personas:
+      - data-architect
+      - migration-specialist
+      - data-engineer
+
+  - name: flyway
+    description: Database migration tool with version tracking and rollback
+    install:
+      macos: brew install flyway
+    notes: Also available as a Docker image (flyway/flyway)
+    personas:
+      - data-architect
+      - migration-specialist
+
+  - name: schemaspy
+    description: Generate comprehensive schema documentation with relationships
+    install: {}
+    notes: Requires Java; typically run via Docker (schemaspy/schemaspy)
+    category_override: manual
+    personas:
+      - data-architect
+
+  - name: pgbadger
+    description: Analyze PostgreSQL query logs to identify slow queries
+    install:
+      macos: brew install pgbadger
+      linux: apt install -y pgbadger
+    personas:
+      - backend-engineer
+      - dba
+
+  - name: data-diff
+    description: Validate row-level data integrity between source and target databases
+    install:
+      pip: pip install data-diff
+    personas:
+      - migration-specialist
+
+  - name: colordiff
+    description: Colorized diff output for configuration and file comparison
+    install:
+      macos: brew install colordiff
+      linux: apt install -y colordiff
+    personas:
+      - migration-specialist
+
+  - name: csvkit
+    description: Analyze and transform CSV data exports from the command line
+    install:
+      pip: pip install csvkit
+    personas:
+      - product-manager
+      - business-analyst
+
+  # -- ML and data science --
+
+  - name: mlflow
+    description: Track experiments, compare runs, and manage model versioning
+    install:
+      pip: pip install mlflow
+    personas:
+      - ml-engineer
+
+  - name: dvc
+    description: Version control datasets and model artifacts alongside code
+    install:
+      pip: pip install dvc
+    personas:
+      - ml-engineer
+      - data-engineer
+
+  - name: wandb
+    description: Visualize training metrics, compare experiments, and detect anomalies
+    install:
+      pip: pip install wandb
+    notes: Requires a Weights & Biases account for full functionality
+    personas:
+      - ml-engineer
+
+  - name: great-expectations
+    description: Automated data quality validation with schema and distribution assertions
+    install:
+      pip: pip install great_expectations
+    personas:
+      - ml-engineer
+      - data-engineer
+
+  - name: shap
+    description: Model interpretability, feature importance, and bias analysis
+    install:
+      pip: pip install shap
+    personas:
+      - ml-engineer
+
+  # -- Frontend and E2E --
+
+  - name: webpack-bundle-analyzer
+    description: Analyze JavaScript bundle composition and identify oversized dependencies
+    install:
+      npm: npm install webpack-bundle-analyzer
+    personas:
+      - frontend-engineer
+
+  - name: playwright
+    description: End-to-end browser testing across Chromium, Firefox, and WebKit
+    install:
+      npm: npm install playwright
+    personas:
+      - frontend-engineer
+
+  - name: cypress
+    description: End-to-end browser testing with interactive test runner
+    install:
+      npm: npm install cypress
+    personas:
+      - frontend-engineer
+
+  - name: axe-core
+    description: Automated WCAG accessibility checks for rendered pages and components
+    install:
+      npm: npm install @axe-core/cli
+    personas:
+      - accessibility-engineer
+
+  - name: pa11y
+    description: Test pages against WCAG 2.1 standards and generate violation reports
+    install:
+      npm: npm install -g pa11y
+    personas:
+      - accessibility-engineer
+
+  # -- Offensive security --
+
+  - name: nmap
+    description: Network topology discovery, port scanning, and service detection
+    install:
+      macos: brew install nmap
+      linux: apt install -y nmap
+    personas:
+      - infrastructure-engineer
+      - red-team-engineer
+
+  - name: nuclei
+    description: Template-based vulnerability scanner for discovered services
+    install:
+      macos: brew install nuclei
+      linux: go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+    personas:
+      - red-team-engineer
+
+  - name: sqlmap
+    description: Automated SQL injection detection and exploitation testing
+    install:
+      pip: pip install sqlmap
+    notes: Use only in authorized testing environments
+    personas:
+      - red-team-engineer
+
+  - name: ffuf
+    description: Web fuzzer for paths, parameters, and headers
+    install:
+      macos: brew install ffuf
+      linux: go install github.com/ffuf/ffuf/v2@latest
+    personas:
+      - red-team-engineer
+
+  # -- Defensive security --
+
+  - name: pysigma
+    description: Author and convert detection rules across SIEM platforms
+    install:
+      pip: pip install pySigma
+    personas:
+      - blue-team-engineer
+      - purple-team-engineer
+
+  - name: yara
+    description: Pattern-matching rules for malware detection and threat indicators
+    install:
+      macos: brew install yara
+      linux: apt install -y yara
+    personas:
+      - blue-team-engineer
+
+  - name: suricata
+    description: Network intrusion detection and threat signature analysis
+    install:
+      macos: brew install suricata
+      linux: apt install -y suricata
+    personas:
+      - blue-team-engineer
+
+  - name: osquery
+    description: Query endpoint state for threat hunting and forensic investigation
+    install:
+      macos: brew install osquery
+      linux: apt install -y osquery
+    personas:
+      - blue-team-engineer
+
+  # -- Process and workflow --
+
+  - name: github-cli
+    description: Manage PRs, issues, and repository health from the command line
+    install:
+      macos: brew install gh
+      linux: apt install -y gh
+    personas:
+      - tech-lead
+      - product-manager
+      - platform-engineer
+      - release-engineer
+
+  - name: semantic-release
+    description: Validate semantic versioning compliance and automate release notes
+    install:
+      npx: npx semantic-release
+      npm: npm install -g semantic-release
+    personas:
+      - release-engineer
+
+  - name: adr-tools
+    description: Create and manage architecture decision records
+    install:
+      npm: npm install -g adr
+    personas:
+      - tech-lead
+
+  - name: tldr
+    description: Simplified command references for CLI tool discoverability
+    install:
+      npm: npm install -g tldr
+    personas:
+      - ux-engineer
+      - mentor
+
+  - name: jupyter
+    description: Interactive code walkthroughs with live execution for learning
+    install:
+      pip: pip install jupyter
+    personas:
+      - documentation-writer
+      - mentor
+
+  - name: asciinema
+    description: Record terminal sessions as shareable demonstrations
+    install:
+      macos: brew install asciinema
+      linux: apt install -y asciinema
+    personas:
+      - documentation-writer
+      - mentor
+
+# ---------------------------------------------------------------------------
+# GUI — Tools requiring graphical interface or manual download
+# ---------------------------------------------------------------------------
+gui:
+
+  - name: xcode-instruments
+    description: Profile iOS performance, memory, energy, and rendering
+    install:
+      macos: Included with Xcode (xcode-select --install)
+    notes: macOS only; requires Xcode installation
+    personas:
+      - mobile-engineer
+
+  - name: android-studio-profiler
+    description: Analyze CPU, memory, network, and energy usage on Android
+    install: {}
+    notes: Included with Android Studio; download from developer.android.com
+    personas:
+      - mobile-engineer
+
+  - name: flipper
+    description: Debug mobile apps with network, layout, and database inspection
+    install:
+      macos: brew install --cask flipper
+    notes: Desktop application; primarily used for React Native and native mobile debugging
+    personas:
+      - mobile-engineer
+
+  - name: color-contrast-analyzer
+    description: Validate WCAG color contrast ratios for text and interactive elements
+    install: {}
+    notes: Available as browser extensions (Chrome, Firefox) or standalone desktop tools
+    personas:
+      - accessibility-engineer
+
+  - name: voiceover
+    description: macOS/iOS screen reader for accessibility testing
+    install:
+      macos: Built-in (System Settings > Accessibility > VoiceOver)
+    notes: macOS/iOS only; use NVDA (free) or JAWS on Windows
+    personas:
+      - accessibility-engineer
+
+  - name: wireshark
+    description: Network protocol analyzer for packet capture and traffic inspection
+    install:
+      macos: brew install --cask wireshark
+      linux: apt install -y wireshark
+    notes: GUI application; use tcpdump for CLI-only environments
+    personas:
+      - debugger
+
+  - name: draw-io-cli
+    description: Build business process diagrams and data flow maps
+    install: {}
+    notes: Available as desktop app (draw.io) or VS Code extension; CLI via draw.io-export npm package
+    personas:
+      - business-analyst
+
+  - name: storybook
+    description: Component development and documentation environment for UI
+    install:
+      npm: npx storybook init
+    notes: Requires project-specific setup; not a standalone install
+    personas:
+      - frontend-engineer
+      - accessibility-engineer
+
+# ---------------------------------------------------------------------------
+# INFRASTRUCTURE — Cloud CLIs, orchestration, and IaC tooling
+# ---------------------------------------------------------------------------
+infrastructure:
+
+  - name: terraform
+    description: Provision, plan, and detect drift in infrastructure-as-code
+    install:
+      macos: brew install terraform
+      linux: apt install -y terraform
+    personas:
+      - systems-architect
+      - devops-engineer
+      - infrastructure-engineer
+      - platform-engineer
+
+  - name: kubectl
+    description: Inspect Kubernetes cluster state, pod health, and service topology
+    install:
+      macos: brew install kubectl
+      linux: apt install -y kubectl
+    personas:
+      - systems-architect
+      - sre
+      - cost-optimizer
+      - platform-engineer
+
+  - name: aws-cli
+    description: Inspect and manage AWS cloud resources, IAM, and networking
+    install:
+      macos: brew install awscli
+      pip: pip install awscli
+    personas:
+      - infrastructure-engineer
+      - cost-optimizer
+
+  - name: azure-cli
+    description: Manage Azure cloud resources, IAM, and services
+    install:
+      macos: brew install azure-cli
+      pip: pip install azure-cli
+    personas:
+      - infrastructure-engineer
+
+  - name: gcloud
+    description: Google Cloud SDK for resource management and configuration
+    install:
+      macos: brew install google-cloud-sdk
+    notes: Also available via https://cloud.google.com/sdk/docs/install
+    personas:
+      - infrastructure-engineer
+
+  - name: docker
+    description: Container runtime for building, running, and orchestrating services
+    install:
+      macos: brew install --cask docker
+      linux: apt install -y docker.io
+    personas:
+      - backend-engineer
+      - interviewer
+      - devops-engineer
+
+  - name: hadolint
+    description: Lint Dockerfiles for best practices, security, and reproducibility
+    install:
+      macos: brew install hadolint
+      linux: apt install -y hadolint
+    personas:
+      - devops-engineer
+      - platform-engineer
+
+  - name: actionlint
+    description: Validate GitHub Actions workflow syntax and configuration
+    install:
+      macos: brew install actionlint
+    personas:
+      - devops-engineer
+      - platform-engineer
+
+  - name: promtool
+    description: Validate Prometheus alerting rules, recording rules, and configuration
+    install:
+      macos: brew install prometheus
+      linux: apt install -y prometheus
+    notes: Installed as part of the Prometheus package; use promtool subcommand
+    personas:
+      - sre
+      - observability-engineer
+
+  - name: grafana-cli
+    description: Review dashboards, validate metric queries, and assess monitoring coverage
+    install:
+      macos: brew install grafana
+      linux: apt install -y grafana
+    notes: CLI is part of the Grafana server package
+    personas:
+      - sre
+
+  - name: sloth
+    description: Generate SLO-based Prometheus alerting rules from SLO definitions
+    install:
+      macos: brew install sloth
+    personas:
+      - sre
+
+  - name: testssl
+    description: Validate TLS configuration, certificate chains, and cipher suites
+    install:
+      macos: brew install testssl
+      linux: apt install -y testssl.sh
+    personas:
+      - infrastructure-engineer
+
+  - name: infracost
+    description: Estimate cloud cost impact of infrastructure-as-code changes
+    install:
+      macos: brew install infracost
+    personas:
+      - cost-optimizer
+
+  - name: kubecost
+    description: Analyze per-namespace and per-workload Kubernetes cost allocation
+    install:
+      macos: helm install kubecost
+    notes: Typically deployed in-cluster via Helm; not a local CLI tool
+    personas:
+      - cost-optimizer
+
+  - name: cloudquery
+    description: Query cloud resource inventory to identify idle and underutilized assets
+    install:
+      macos: brew install cloudquery
+    personas:
+      - cost-optimizer
+
+  - name: otel-cli
+    description: Test and validate OpenTelemetry pipeline configuration
+    install:
+      macos: brew install open-telemetry/opentelemetry-cli/otel-cli
+    personas:
+      - observability-engineer
+
+  - name: fastlane
+    description: Automate mobile builds, signing, and deployment for iOS and Android
+    install:
+      macos: brew install fastlane
+    notes: Primarily macOS; requires Xcode for iOS builds
+    personas:
+      - mobile-engineer
+
+  - name: detox
+    description: End-to-end mobile testing across platforms and device configurations
+    install:
+      npm: npm install -g detox-cli
+    notes: Requires platform-specific build tools (Xcode, Android SDK)
+    personas:
+      - mobile-engineer
+
+  # -- Compliance and policy --
+
+  - name: opa
+    description: Evaluate policy-as-code rules against infrastructure and app configs
+    install:
+      macos: brew install opa
+      linux: apt install -y opa
+    personas:
+      - compliance-officer
+
+  - name: regula
+    description: Check IaC templates against CIS, NIST, and PCI-DSS compliance benchmarks
+    install:
+      macos: brew install regula
+    personas:
+      - compliance-officer
+
+  - name: chef-inspec
+    description: Audit infrastructure state against compliance profiles
+    install:
+      macos: brew install inspec
+    notes: Requires acceptance of EULA; commercial features need a license
+    personas:
+      - compliance-officer
+
+  # -- Chaos engineering --
+
+  - name: chaostoolkit
+    description: Define and execute chaos experiments to validate failure handling
+    install:
+      pip: pip install chaostoolkit
+    personas:
+      - failure-engineer
+
+  - name: toxiproxy
+    description: Simulate network failures, latency injection, and bandwidth constraints
+    install:
+      macos: brew install toxiproxy
+    personas:
+      - failure-engineer
+
+  - name: litmus
+    description: Kubernetes-native chaos experiments targeting pods, nodes, and network
+    install: {}
+    notes: Deployed in-cluster via Helm or kubectl; not a local CLI tool
+    personas:
+      - failure-engineer
+
+# ---------------------------------------------------------------------------
+# MANUAL — Require interactive setup, commercial license, or special access
+# ---------------------------------------------------------------------------
+manual:
+
+  - name: owasp-zap
+    description: Dynamic application security testing against live endpoints
+    install:
+      macos: brew install --cask owasp-zap
+    notes: GUI application; also available as Docker image (owasp/zap2docker-stable)
+    personas:
+      - security-auditor
+
+  - name: burp-suite
+    description: Web traffic interception proxy for security testing
+    install: {}
+    notes: Commercial tool; Community Edition available from portswigger.net
+    personas:
+      - red-team-engineer
+
+  - name: metasploit
+    description: Exploitation framework for proof-of-concept vulnerability validation
+    install:
+      macos: brew install --cask metasploit
+    notes: Requires careful authorization; use only in sanctioned test environments
+    personas:
+      - red-team-engineer
+
+  - name: pdb
+    description: Python interactive debugger (built-in)
+    install:
+      pip: Included with Python standard library
+    notes: No installation required; invoke with python -m pdb or breakpoint()
+    personas:
+      - debugger
+
+  - name: lldb
+    description: LLVM debugger for C/C++/Swift/Objective-C
+    install:
+      macos: Included with Xcode Command Line Tools
+    notes: macOS default debugger; on Linux use gdb instead
+    personas:
+      - debugger
+
+  - name: gdb
+    description: GNU debugger for C/C++ and other compiled languages
+    install:
+      linux: apt install -y gdb
+    notes: Not available on modern macOS without code signing; use lldb on macOS
+    personas:
+      - debugger
+
+  - name: dtrace
+    description: Dynamic tracing framework for kernel and application profiling
+    install:
+      macos: Built-in (requires SIP configuration for full access)
+      linux: Use strace (apt install -y strace) as alternative
+    notes: macOS built-in; Linux equivalent is strace or bpftrace
+    personas:
+      - debugger
+
+  - name: tcpdump
+    description: Command-line packet capture and network traffic analysis
+    install:
+      macos: Built-in
+      linux: apt install -y tcpdump
+    notes: CLI alternative to Wireshark; typically pre-installed on Linux
+    personas:
+      - debugger
+
+  - name: afl-fuzz
+    description: Coverage-guided fuzzer for discovering crash-inducing inputs
+    install:
+      macos: brew install afl-fuzz
+      linux: apt install -y afl
+    notes: Requires compilation instrumentation; primarily for C/C++ targets
+    personas:
+      - adversarial-reviewer
+
+  - name: elastic-siem
+    description: Log correlation, detection rule tuning, and alert fidelity analysis
+    install: {}
+    notes: Deployed as Elastic Stack (Elasticsearch + Kibana); not a local CLI tool
+    personas:
+      - blue-team-engineer
+
+  - name: atomic-red-team
+    description: Execute MITRE ATT&CK techniques for detection validation
+    install: {}
+    notes: PowerShell-based; install via Install-Module -Name invoke-atomicredteam
+    personas:
+      - purple-team-engineer
+
+  - name: caldera
+    description: Automated adversary emulation campaigns mapped to ATT&CK
+    install: {}
+    notes: Deployed as a server; clone from github.com/mitre/caldera
+    personas:
+      - purple-team-engineer
+
+  - name: attack-navigator
+    description: Map MITRE ATT&CK TTP coverage and identify detection gaps
+    install: {}
+    notes: Web application at mitre-attack.github.io/attack-navigator; no local install
+    personas:
+      - purple-team-engineer
+
+  - name: vectr
+    description: Track purple team exercises and measure detection metrics over time
+    install: {}
+    notes: Deployed as a server; download from vectr.io
+    personas:
+      - purple-team-engineer
+
+  - name: oscal-tools
+    description: Generate and validate NIST-standard compliance documentation
+    install: {}
+    notes: Multiple implementations available; see pages.nist.gov/OSCAL
+    personas:
+      - compliance-officer
+
+  - name: logcli
+    description: Query and analyze Grafana Loki log streams
+    install:
+      macos: brew install grafana/grafana/logcli
+    notes: Requires a running Loki instance
+    personas:
+      - observability-engineer
+
+  - name: jaeger
+    description: Distributed tracing backend for cross-service span analysis
+    install: {}
+    notes: Deployed as a service; available as Docker image (jaegertracing/all-in-one)
+    personas:
+      - observability-engineer
+
+  - name: pgdiff
+    description: Compare database schemas to verify structural parity after migration
+    install: {}
+    notes: Multiple implementations available; also consider migra (pip install migra)
+    personas:
+      - migration-specialist
+
+  - name: pagerduty-cli
+    description: Manage incident escalation, on-call routing, and responder coordination
+    install:
+      npm: npm install -g pagerduty-cli
+    notes: Requires PagerDuty API token and account access
+    personas:
+      - incident-commander
+
+  - name: statuspage-cli
+    description: Draft and publish status updates during incidents
+    install: {}
+    notes: Vendor-specific; requires Atlassian Statuspage account and API access
+    personas:
+      - incident-commander
+
+  - name: slack-cli
+    description: Coordinate responder communication channels during incidents
+    install: {}
+    notes: Requires Slack workspace admin access and API tokens
+    personas:
+      - incident-commander
+
+  - name: tc
+    description: Linux traffic control for OS-level network fault injection
+    install:
+      linux: Built-in (iproute2 package)
+    notes: Linux only; no macOS equivalent. Part of the iproute2 package
+    personas:
+      - failure-engineer
+
+  - name: github-codespaces
+    description: Provision isolated cloud development environments
+    install: {}
+    notes: Requires GitHub account; managed via github.com or GitHub CLI (gh cs)
+    personas:
+      - interviewer
+
+  - name: nvda
+    description: Windows screen reader for accessibility testing
+    install: {}
+    notes: Windows only; free download from nvaccess.org
+    personas:
+      - accessibility-engineer
