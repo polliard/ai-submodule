@@ -76,7 +76,21 @@ Quick reference for all available personas and when to use them.
 | Migration Specialist | `special_purpose/migration-specialist.md` | Data/system migrations — integrity, rollback, parallel running |
 | API Consumer | `special_purpose/api-consumer.md` | API evaluation — from the consumer's perspective, DX friction |
 
-## Round Tables
+## Governance
+
+| Persona | File | Use When |
+|---------|------|----------|
+| Governance Auditor | `governance/governance-auditor.md` | Auditing the governance pipeline — manifest completeness, policy consistency, override legitimacy |
+| Policy Evaluator | `governance/policy-evaluator.md` | Deterministic policy evaluation — applying rules to structured emissions, producing merge decisions |
+
+## Agentic
+
+| Persona | File | Use When |
+|---------|------|----------|
+| Code Manager | `agentic/code-manager.md` | Pipeline orchestration — intent validation, panel coordination, merge decision workflow |
+| Coder | `agentic/coder.md` | Code execution — branch creation, plan writing, implementation, test authoring |
+
+## Panels (Round Tables)
 
 Multi-perspective reviews where several personas collaborate. See `round_tables/` for full details.
 
@@ -94,3 +108,4 @@ Multi-perspective reviews where several personas collaborate. See `round_tables/
 | Technical Debt Review | `round_tables/technical-debt-review.md` | Refactor Specialist, Systems Architect, Test Engineer, Tech Lead, Minimalist Engineer |
 | Migration Review | `round_tables/migration-review.md` | Migration Specialist, Data Architect, SRE, Failure Engineer, Tech Lead |
 | Incident Post-Mortem | `round_tables/incident-post-mortem.md` | Incident Commander, SRE, Systems Architect, Failure Engineer, Observability Engineer |
+| Copilot Review | `../panels/copilot-review.md` | GitHub Copilot as a formal review panel — feedback parsing, severity classification, confidence scoring |
