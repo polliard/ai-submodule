@@ -1,4 +1,4 @@
-# Round Table: Data Design Review
+# Panel: Data Design Review
 
 ## Purpose
 Evaluate data architecture, schema design, and data management.

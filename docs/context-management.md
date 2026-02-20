@@ -51,7 +51,7 @@ Content loaded and unloaded as the agent moves through workflow phases. Previous
 |---------|--------|-------------|
 | Workflow phase definition | `prompts/workflows/{workflow}.md` (single phase) | Phase entry |
 | Phase-specific prompt | `prompts/{prompt}.md` | When the phase invokes it |
-| Round table definition | `personas/round_tables/{panel}.md` | Panel invocation |
+| Panel definition | `personas/panels/{panel}.md` | Panel invocation |
 | Panel persona details | Individual persona files | Panel invocation |
 
 **Total Tier 2 budget: ~3,000 tokens**
@@ -104,7 +104,7 @@ Personas are already well-decomposed (one file per persona). Optimization:
 
 1. **Header extraction**: For Tier 1 loading, extract only `## Role` and `## Evaluate For` (~100 tokens per persona vs. ~400 for the full file)
 2. **Full load on invocation**: Load the complete persona only when it is actively executing a review
-3. **Round table optimization**: Load only the moderator pattern and persona names; load individual personas as they speak
+3. **Panel optimization**: Load only the moderator pattern and persona names; load individual personas as they speak
 
 ### Workflow Phase Decomposition
 
@@ -137,7 +137,7 @@ No shared mutable state between agents. Results are aggregated by the Code Manag
 
 ### Panel Parallelism
 
-Round table panels can execute personas in parallel:
+Panels can execute personas in parallel:
 
 ```
 Code Review Panel

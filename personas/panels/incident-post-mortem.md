@@ -1,4 +1,4 @@
-# Round Table: Incident Post-Mortem
+# Panel: Incident Post-Mortem
 
 ## Purpose
 Analyze incident for root cause and systemic improvements.

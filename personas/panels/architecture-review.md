@@ -1,4 +1,4 @@
-# Round Table: Architecture Review
+# Panel: Architecture Review
 
 ## Purpose
 Evaluate system design decisions from multiple architectural perspectives.

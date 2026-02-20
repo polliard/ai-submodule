@@ -10,7 +10,7 @@
 | `schemas/` | JSON Schema enforcement artifacts | panel-output, run-manifest schemas |
 | `policy/` | Deterministic policy profiles | default, fin_pii_high, infrastructure_critical |
 | `manifests/` | Append-only audit trail | Run manifests (one per merge decision) |
-| `panels/` | Formal review panel definitions | copilot-review.md |
+| `personas/panels/` | Formal review panel definitions | copilot-review.md |
 | `personas/governance/` | Governance-specific personas | Governance Auditor, Policy Evaluator |
 | `personas/agentic/` | Autonomous agent personas | Code Manager, Coder |
 
@@ -31,7 +31,7 @@
 | `policy/fin_pii_high.yaml` | Enforcement | Financial/PII compliance profile |
 | `policy/infrastructure_critical.yaml` | Enforcement | Infrastructure stability profile |
 | `policy/README.md` | Cognitive | Policy framework documentation |
-| `panels/copilot-review.md` | Cognitive | Copilot as formal governance panel |
+| `personas/panels/copilot-review.md` | Cognitive | Copilot as formal governance panel |
 | `personas/governance/governance-auditor.md` | Cognitive | Pipeline audit persona |
 | `personas/governance/policy-evaluator.md` | Cognitive | Deterministic policy application persona |
 | `personas/agentic/code-manager.md` | Cognitive | Orchestration persona |
@@ -130,7 +130,7 @@ git commit -m "Update .ai submodule URL after rename"
 | 2 | Artifact classification | `docs/artifact-classification.md` | Complete |
 | 3 | Structured emission schema | `schemas/panel-output.schema.json` | Complete |
 | 4 | Policy framework | `policy/` (3 profiles + README) | Complete |
-| 5 | Copilot panel design | `panels/copilot-review.md` | Complete |
+| 5 | Copilot panel design | `personas/panels/copilot-review.md` | Complete |
 | 6 | Manifest schema | `schemas/run-manifest.schema.json` | Complete |
 | 7 | CI gating blueprint | `docs/ci-gating-blueprint.md` | Complete |
 | 8 | Runtime feedback architecture | `docs/runtime-feedback-architecture.md` | Complete |

@@ -36,12 +36,12 @@
 
 The Dark Factory Governance Model defines the formal architecture for transitioning from Phase 3 (agentic orchestration with human gates) to Phase 4 (policy-bound autonomy with deterministic enforcement). This document establishes five governance layers that collectively control what enters the system, how the system reasons, what the system produces, how the system behaves in production, and how the system evolves.
 
-The model is designed to operate within the existing `.ai/` submodule infrastructure. It preserves the cognitive flexibility of the current Markdown-based persona and round table system while introducing deterministic enforcement through structured emissions, policy evaluation, and versioned manifests. The goal is a system where the default path for well-understood work is autonomous execution with auditable decisions, and the exception path is human escalation with structured rationale.
+The model is designed to operate within the existing `.ai/` submodule infrastructure. It preserves the cognitive flexibility of the current Markdown-based persona and panel system while introducing deterministic enforcement through structured emissions, policy evaluation, and versioned manifests. The goal is a system where the default path for well-understood work is autonomous execution with auditable decisions, and the exception path is human escalation with structured rationale.
 
 ### Design Principles
 
 1. **Deterministic enforcement over implicit trust.** Every decision that affects code, configuration, or production must be traceable to a policy evaluation with a recorded outcome.
-2. **Cognitive flexibility preserved.** Markdown personas and round tables remain the reasoning substrate. Governance does not replace reasoning; it constrains and audits it.
+2. **Cognitive flexibility preserved.** Markdown personas and panels remain the reasoning substrate. Governance does not replace reasoning; it constrains and audits it.
 3. **Structured emissions as the governance interface.** The boundary between cognitive (Markdown) and enforcement (JSON/YAML) artifacts is the structured emission. Governance layers consume structured data, not prose.
 4. **Rationale is non-negotiable.** Every decision at every layer must produce a documented rationale. Decisions without rationale are governance failures.
 5. **Backward compatibility by default.** All governance changes must be additive. Breaking changes require explicit migration plans and version bumps.
@@ -53,7 +53,7 @@ The model is designed to operate within the existing `.ai/` submodule infrastruc
 This governance model applies to all repositories that consume the `.ai/` submodule. It governs:
 
 - All Design Intent (DI) submissions and feature requests
-- All persona and round table activations
+- All persona and panel activations
 - All code changes, test executions, and artifact emissions
 - All production runtime monitoring and incident response
 - All changes to the governance model itself
@@ -73,8 +73,8 @@ It does NOT govern:
 | **Dark Factory** | An autonomous software delivery system where agentic processes handle the full lifecycle from intent to production, with policy-bound constraints replacing manual gates. |
 | **Design Intent (DI)** | A structured request that describes a desired change to the system. The atomic unit of work intake. |
 | **Persona** | A Markdown-defined cognitive role that constrains the reasoning approach of an agentic process. Defined in `personas/`. |
-| **Round Table** | A multi-persona review panel where several personas evaluate an artifact from different perspectives. Defined in `personas/round_tables/`. |
-| **Panel** | Synonym for round table when used in the governance context. Panels produce structured emissions. |
+| **Panel** | A multi-persona review panel where several personas evaluate an artifact from different perspectives. Defined in `personas/panels/`. |
+| **Panel** (governance context) | Panels produce structured emissions. The term "panel" is used in both the multi-persona review definition above and in the governance context. |
 | **Structured Emission** | A JSON object conforming to `panel-output.schema.json` that accompanies the Markdown reasoning output of a panel. The machine-readable governance interface. |
 | **Cognitive Artifact** | A Markdown document produced by persona reasoning. Human-readable, not machine-evaluated for governance decisions. |
 | **Enforcement Artifact** | A JSON or YAML document conforming to a defined schema. Machine-evaluated for governance decisions. |
@@ -98,16 +98,16 @@ The governance model operates on the following existing components:
 
 | Category | Count | Directory |
 |----------|-------|-----------|
-| Code Quality | 3 | `personas/code_quality/` |
+| Code Quality | 3 | `personas/quality/` |
 | Architecture | 3 | `personas/architecture/` |
 | Engineering | 6 | `personas/engineering/` |
-| Operations & Reliability | 6 | `personas/operations_reliability/` |
-| Domain Specific | 5 | `personas/domain_specific/` |
-| Compliance & Governance | 3 | `personas/compliance_governance/` |
-| Process & People | 4 | `personas/process_people/` |
-| Special Purpose | 4 | `personas/special_purpose/` |
+| Operations & Reliability | 6 | `personas/operations/` |
+| Domain Specific | 5 | `personas/domain/` |
+| Compliance & Governance | 3 | `personas/compliance/` |
+| Process & People | 4 | `personas/leadership/` |
+| Special Purpose | 4 | `personas/specialist/` |
 
-**Round Tables (12 multi-persona panels):**
+**Panels (12 multi-persona panels):**
 
 | Panel | Participants | Primary Governance Layer |
 |-------|-------------|------------------------|
@@ -299,7 +299,7 @@ Cognitive Governance controls how the system thinks. It ensures that the correct
 | `plan_id` | string | yes | Unique identifier linked to `intent_id` |
 | `workflow_selected` | string | yes | Workflow identifier (e.g., `feature-implementation`) |
 | `phase_sequence` | array[object] | yes | Ordered list of phases with persona assignments |
-| `panel_assignments` | array[object] | yes | Which round tables are invoked and at which gates |
+| `panel_assignments` | array[object] | yes | Which panels are invoked and at which gates |
 | `persona_activation_set` | array[string] | yes | Full list of personas that will be activated |
 | `required_artifacts` | array[string] | yes | Artifact identifiers that must be produced |
 | `gate_definitions` | array[object] | yes | Decision points with approval criteria |
@@ -321,7 +321,7 @@ Cognitive Governance controls how the system thinks. It ensures that the correct
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `panel_name` | string | Round table identifier |
+| `panel_name` | string | Panel identifier |
 | `panel_path` | string | Path to panel definition |
 | `invocation_point` | string | Workflow phase where panel is invoked |
 | `required_participants` | array[string] | Minimum persona set |
@@ -340,7 +340,7 @@ The panel graph defines the mandatory routing rules for intent types. It specifi
 
 **Secondary:** Workflow definitions in `prompts/workflows/`
 
-Workflow files define the canonical phase sequence, including which personas are adopted and which round tables are invoked. Deviations from the defined workflow are governance violations.
+Workflow files define the canonical phase sequence, including which personas are adopted and which panels are invoked. Deviations from the defined workflow are governance violations.
 
 **Panel Graph Configuration Schema:**
 
@@ -451,7 +451,7 @@ Execution Governance controls what the system does. It ensures that code changes
 |-----------|--------|--------|
 | Code Changes | Coder persona execution | Git diff, file modifications |
 | Test Results | Test execution (CI or local) | Test framework output (parsed) |
-| Panel Outputs | Round table execution | Markdown reasoning + structured emission (JSON) |
+| Panel Outputs | Panel execution | Markdown reasoning + structured emission (JSON) |
 | Cognitive Artifacts | Workflow phase outputs | Markdown documents (FEAT-N, BUG-N, etc.) |
 | Policy Profile | `policy/` directory | YAML policy configuration |
 | Emission Schema | `schemas/panel-output.schema.json` | JSON Schema |
@@ -572,7 +572,7 @@ DEFAULT: decision = "human_review_required"
                v
     +----------+----------+
     | Panel Execution      |
-    | (Round Tables)       |
+    | (Panels)             |
     +----------+----------+
                |
        +-------+-------+
@@ -1116,7 +1116,7 @@ The Coder cannot:
 
 ### 11.3 Panel Participants
 
-Each round table panel consists of specialist personas that produce both Markdown reasoning and structured emissions. Panel participants operate within Layer 3 (Execution Governance) and have the authority to:
+Each panel consists of specialist personas that produce both Markdown reasoning and structured emissions. Panel participants operate within Layer 3 (Execution Governance) and have the authority to:
 
 - Produce findings with severity ratings
 - Recommend approval, changes, or rejection
@@ -1340,7 +1340,7 @@ This governance model is additive to the existing system. The following guarante
 | Existing Component | Guarantee |
 |-------------------|-----------|
 | Markdown personas | Unchanged. Personas continue to function as cognitive roles. Governance adds structured emission requirements to panels, not to individual personas. |
-| Round tables | Unchanged in format. Governance adds the requirement to produce structured emissions alongside Markdown reasoning. |
+| Panels | Unchanged in format. Governance adds the requirement to produce structured emissions alongside Markdown reasoning. |
 | Workflow definitions | Unchanged in structure. Governance adds panel graph routing as a configuration layer above workflows. |
 | Artifact naming (`[PREFIX-N]`) | Unchanged. Governance consumes these as cognitive artifacts. |
 | Decision gates | Preserved. Governance adds the possibility of automated gate passage when policy conditions are met. Manual gates remain the fallback. |
@@ -1439,7 +1439,7 @@ Each step can be adopted independently. Steps 1-4 are additive with zero risk. S
 +---------------------+--------------------------------------------------+
 |                     |                                                  |
 | L3: Execution       | Coder (implementation)                           |
-|                     | All panel participants (12 round tables)          |
+|                     | All panel participants (12 panels)                |
 |                     | Test Engineer (test validation)                  |
 |                     | Policy Engine (automated, not a persona)          |
 |                     |                                                  |
@@ -1535,7 +1535,7 @@ FEATURE REQUEST ENTERS SYSTEM
 | Directory | Artifact Type | Description |
 |-----------|--------------|-------------|
 | `personas/` | Cognitive | Persona definitions (Markdown) |
-| `personas/round_tables/` | Cognitive | Panel definitions (Markdown) |
+| `personas/panels/` | Cognitive | Panel definitions (Markdown) |
 | `prompts/` | Cognitive | Prompt templates (Markdown) |
 | `prompts/workflows/` | Cognitive | Workflow definitions (Markdown) |
 | `templates/` | Cognitive | Language-specific scaffolding |

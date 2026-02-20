@@ -24,7 +24,7 @@ All artifacts in the `.ai/` system fall into three categories. Each category has
 | Directory | Contents | Loading Strategy |
 |-----------|----------|-----------------|
 | `personas/` | Role definitions for AI agents | Load only activated personas per `project.yaml` |
-| `personas/round_tables/` | Multi-persona review panel definitions | Load only when panel is invoked |
+| `personas/panels/` | Multi-persona review panel definitions | Load only when panel is invoked |
 | `prompts/` | Single-task prompt templates | Load on-demand per workflow phase |
 | `prompts/workflows/` | Multi-phase orchestration workflows | Load one phase at a time |
 | `templates/` | Language-specific conventions | Load once at session start based on project language |
@@ -115,7 +115,7 @@ To minimize context window usage and prevent instruction loss during context res
 
 1. **Base context** (always loaded): `instructions.md` + active `project.yaml` — kept under 1,000 tokens combined
 2. **Task context** (loaded JIT): Only the personas, prompts, and workflow phases relevant to the current task
-3. **Panel context** (loaded per-panel): Only the round table definition and its constituent persona definitions
+3. **Panel context** (loaded per-panel): Only the panel definition and its constituent persona definitions
 4. **Policy context** (never loaded into AI context): Evaluated programmatically, not by the AI model
 5. **Audit context** (write-only): Generated as output, never loaded as input except for replay
 

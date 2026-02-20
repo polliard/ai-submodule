@@ -94,7 +94,7 @@
         "properties": {
           "persona": {
             "type": "string",
-            "description": "Persona identifier (e.g., 'code_quality/code-reviewer')."
+            "description": "Persona identifier (e.g., 'quality/style-reviewer')."
           },
           "verdict": {
             "type": "string",

@@ -1,4 +1,4 @@
-# Round Table: Performance Review
+# Panel: Performance Review
 
 ## Purpose
 Comprehensive performance analysis from multiple perspectives.

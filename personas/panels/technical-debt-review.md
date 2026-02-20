@@ -1,4 +1,4 @@
-# Round Table: Technical Debt Review
+# Panel: Technical Debt Review
 
 ## Purpose
 Assess and prioritize technical debt for strategic remediation.

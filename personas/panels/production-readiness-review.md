@@ -1,4 +1,4 @@
-# Round Table: Production Readiness Review
+# Panel: Production Readiness Review
 
 ## Purpose
 

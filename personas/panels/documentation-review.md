@@ -1,4 +1,4 @@
-# Round Table: Documentation Review
+# Panel: Documentation Review
 
 ## Purpose
 Evaluate documentation completeness, accuracy, and usability.

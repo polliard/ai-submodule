@@ -1,4 +1,4 @@
-# Round Table: Security Review
+# Panel: Security Review
 
 ## Purpose
 Comprehensive security assessment from multiple threat perspectives.

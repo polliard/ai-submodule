@@ -1,4 +1,4 @@
-# Round Table: Migration Review
+# Panel: Migration Review
 
 ## Purpose
 Evaluate migration plan safety, completeness, and risk mitigation.

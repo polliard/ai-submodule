@@ -1,4 +1,4 @@
-# Round Table: API Design Review
+# Panel: API Design Review
 
 ## Purpose
 Evaluate API design from provider and consumer perspectives.

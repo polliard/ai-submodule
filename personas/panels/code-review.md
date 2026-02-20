@@ -1,4 +1,4 @@
-# Round Table: Code Review
+# Panel: Code Review
 
 ## Purpose
 Comprehensive code evaluation from multiple engineering perspectives.

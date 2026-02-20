@@ -1,4 +1,4 @@
-# Round Table: Testing Strategy Review
+# Panel: Testing Strategy Review
 
 ## Purpose
 Evaluate test coverage, quality, and testing approach comprehensively.

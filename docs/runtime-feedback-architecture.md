@@ -690,94 +690,94 @@ The DI Generator proposes panels based on signal category. The mapping is define
 ```yaml
 signal_panel_mapping:
   error:
-    primary: "round_tables/code-review.md"
+    primary: "panels/code-review.md"
     secondary:
-      - "round_tables/production-readiness-review.md"
+      - "panels/production-readiness-review.md"
     personas_required:
       - "engineering/debugger.md"
-      - "operations_reliability/sre.md"
-      - "operations_reliability/failure-engineer.md"
+      - "operations/sre.md"
+      - "operations/failure-engineer.md"
 
   latency:
-    primary: "round_tables/performance-review.md"
+    primary: "panels/performance-review.md"
     secondary:
-      - "round_tables/architecture-review.md"
+      - "panels/architecture-review.md"
     personas_required:
       - "engineering/performance-engineer.md"
-      - "operations_reliability/sre.md"
-      - "domain_specific/backend-engineer.md"
+      - "operations/sre.md"
+      - "domain/backend-engineer.md"
 
   security:
-    primary: "round_tables/security-review.md"
+    primary: "panels/security-review.md"
     secondary:
-      - "round_tables/code-review.md"
+      - "panels/code-review.md"
     personas_required:
-      - "compliance_governance/security-auditor.md"
-      - "operations_reliability/infrastructure-engineer.md"
-      - "compliance_governance/compliance-officer.md"
+      - "compliance/security-auditor.md"
+      - "operations/infrastructure-engineer.md"
+      - "compliance/compliance-officer.md"
 
   sla_violation:
-    primary: "round_tables/production-readiness-review.md"
+    primary: "panels/production-readiness-review.md"
     secondary:
-      - "round_tables/performance-review.md"
+      - "panels/performance-review.md"
     personas_required:
-      - "operations_reliability/sre.md"
-      - "operations_reliability/observability-engineer.md"
-      - "operations_reliability/failure-engineer.md"
+      - "operations/sre.md"
+      - "operations/observability-engineer.md"
+      - "operations/failure-engineer.md"
 
   configuration_drift:
-    primary: "round_tables/architecture-review.md"
+    primary: "panels/architecture-review.md"
     secondary:
-      - "round_tables/security-review.md"
+      - "panels/security-review.md"
     personas_required:
-      - "operations_reliability/devops-engineer.md"
-      - "operations_reliability/infrastructure-engineer.md"
-      - "compliance_governance/compliance-officer.md"
+      - "operations/devops-engineer.md"
+      - "operations/infrastructure-engineer.md"
+      - "compliance/compliance-officer.md"
 
   dependency_failure:
-    primary: "round_tables/architecture-review.md"
+    primary: "panels/architecture-review.md"
     secondary:
-      - "round_tables/production-readiness-review.md"
+      - "panels/production-readiness-review.md"
     personas_required:
       - "architecture/systems-architect.md"
-      - "operations_reliability/failure-engineer.md"
-      - "operations_reliability/sre.md"
+      - "operations/failure-engineer.md"
+      - "operations/sre.md"
 
   data_integrity:
-    primary: "round_tables/data-design-review.md"
+    primary: "panels/data-design-review.md"
     secondary:
-      - "round_tables/security-review.md"
+      - "panels/security-review.md"
     personas_required:
-      - "domain_specific/data-architect.md"
-      - "compliance_governance/compliance-officer.md"
+      - "domain/data-architect.md"
+      - "compliance/compliance-officer.md"
       - "engineering/debugger.md"
 
   compliance_violation:
-    primary: "round_tables/security-review.md"
+    primary: "panels/security-review.md"
     secondary: []
     personas_required:
-      - "compliance_governance/compliance-officer.md"
-      - "compliance_governance/security-auditor.md"
-      - "compliance_governance/accessibility-engineer.md"
+      - "compliance/compliance-officer.md"
+      - "compliance/security-auditor.md"
+      - "compliance/accessibility-engineer.md"
     force_human_review: true
 
   resource_exhaustion:
-    primary: "round_tables/performance-review.md"
+    primary: "panels/performance-review.md"
     secondary:
-      - "round_tables/production-readiness-review.md"
+      - "panels/production-readiness-review.md"
     personas_required:
-      - "operations_reliability/sre.md"
-      - "operations_reliability/infrastructure-engineer.md"
-      - "operations_reliability/cost-optimizer.md"
+      - "operations/sre.md"
+      - "operations/infrastructure-engineer.md"
+      - "operations/cost-optimizer.md"
 
   capacity:
-    primary: "round_tables/production-readiness-review.md"
+    primary: "panels/production-readiness-review.md"
     secondary:
-      - "round_tables/architecture-review.md"
+      - "panels/architecture-review.md"
     personas_required:
-      - "operations_reliability/sre.md"
-      - "operations_reliability/infrastructure-engineer.md"
-      - "operations_reliability/cost-optimizer.md"
+      - "operations/sre.md"
+      - "operations/infrastructure-engineer.md"
+      - "operations/cost-optimizer.md"
 ```
 
 ### Diff-Based Re-execution
@@ -1456,7 +1456,7 @@ The following files are defined or referenced by this architecture. Files marked
 | `policy/component-registry.yaml` | New | Component criticality and ownership |
 | `schemas/panel-output.schema.json` | Defined in Phase 4 | Structured panel emission schema |
 | `schemas/run-manifest.schema.json` | Defined in Phase 4 | Merge manifest schema |
-| `personas/round_tables/*.md` | Existing | Panel definitions consumed by re-execution |
-| `personas/operations_reliability/*.md` | Existing | Personas involved in runtime review |
-| `personas/compliance_governance/*.md` | Existing | Personas involved in compliance drift |
+| `personas/panels/*.md` | Existing | Panel definitions consumed by re-execution |
+| `personas/operations/*.md` | Existing | Personas involved in runtime review |
+| `personas/compliance/*.md` | Existing | Personas involved in compliance drift |
 | `prompts/workflows/incident-response.md` | Existing | Incident response workflow (input to DI Generator) |
