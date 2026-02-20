@@ -134,6 +134,13 @@ Cursor Composer):
 - Use `go vet` and `staticcheck` for static analysis.
 - Keep module paths consistent with repository structure.
 
+### C#/DotNet
+
+- Always use Xunit for testing.
+- Always use playwright for UAT testing.
+- Always document the code
+- Always generate HTML documentation
+
 ### Dependencies
 
 When adding dependencies to any language:
@@ -183,6 +190,18 @@ For JM best practices, check repositories at
 Before staging, run `git status --porcelain`, analyze paths, and group
 changes by top-level directory and change intent. Each commit must
 represent one logical change in one domain.
+
+### Push
+
+- After committing the code, always ask to push
+- When pushing code, always check the CI state in the background
+- if it fails
+  - log a issue
+  - create a branch with the issue number inside the users network-id and the
+  type of issue it found.  Example itsfwcp/bug/issue-number
+  - fix the code in a background thread using a moderator agent to manage
+  communications.
+  - Once complete, push and repeast until all issues are fixed.
 
 ### Semantic Versioning
 
@@ -287,8 +306,9 @@ Follow the same activation protocol.
 
 ### Output Requirements
 
-- Store reports in `docs/panel-reports/` organized by panel type and
-  date.
+- Store panel reports in `.panels/` organized by panel type and date.
+  This directory is gitignored — generated output, not source.
+- Store plans in `.plans/`. This directory is gitignored.
 - Create GitHub issues for actionable findings:
   - Severity label matching the finding: `critical`, `high`, `medium`,
     or `low`.
@@ -296,8 +316,22 @@ Follow the same activation protocol.
     link to the report.
   - Add relevant labels (e.g., `security`, `performance`,
     `technical-debt`).
-- Exclude `docs/panel-reports/` from git staging — generated output,
-  not source.
+
+### Gitignore Management
+
+Manage `.gitignore` using `~/bin/gitignore`. Before running, check the
+existing `.gitignore` in the target path to avoid duplicates.
+
+```bash
+# Check current .gitignore first
+cat .gitignore
+# Then add patterns
+~/bin/gitignore ignore .panels/
+~/bin/gitignore ignore .plans/
+```
+
+Both `.panels/` and `.plans/` must be present in every project
+`.gitignore`. Verify before committing.
 
 ### Shared Policies
 
@@ -327,7 +361,4 @@ Load these when relevant — they extend or override these instructions:
 - `mcp/README.md` — MCP server install steps and available tools
 
 <!-- SYNC:INSTRUCTIONS END -->
-
-
-
 

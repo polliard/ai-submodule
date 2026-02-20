@@ -51,4 +51,5 @@ reasoned-instructions.md
 
 # Generated outputs
 .cursor/rules/
-docs/panel-reports/
+.panels/
+.plans/

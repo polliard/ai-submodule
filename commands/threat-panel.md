@@ -61,7 +61,7 @@ Follow the 5-phase parallel process from the prompt:
 
 ## Output
 
-Write the final report to `threat-model.md` in the target repository root
-(or current working directory).
+Write the final report to `.panels/threat-modeling-review/` in the target
+repository root (or current working directory).
 
 All diagrams MUST use Mermaid syntax. No ASCII art.
