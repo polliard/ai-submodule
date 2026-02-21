@@ -66,6 +66,7 @@ Quick reference for all available personas and when to use them.
 | Product Manager | `leadership/product-manager.md` | Requirements — acceptance criteria, scope, success metrics |
 | Mentor | `leadership/mentor.md` | Teaching — concept explanation, guided examples, learning progression |
 | Interviewer | `leadership/interviewer.md` | Hiring — skill assessment, evidence-based evaluation |
+| Agile Coach | `leadership/agile-coach.md` | Agile process — story quality, DoD, sprint health, continuous improvement |
 
 ## Specialist
 
